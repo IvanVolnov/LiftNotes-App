@@ -1,11 +1,11 @@
 import Image from 'next/image';
-import styles from './page.module.css';
 import ButtonUsage from '@/components/ButtonUsage';
+import SignIn from './sign-in/route';
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <ButtonUsage>sdfdsf</ButtonUsage>
+    <main>
+      <SignIn />
     </main>
   );
 }
