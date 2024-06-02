@@ -1,11 +1,10 @@
-import Image from 'next/image';
-import ButtonUsage from '@/components/ButtonUsage';
 import SignIn from './sign-in/route';
+import { Container } from '@mui/material';
 
 export default function Home() {
   return (
-    <main>
+    <Container>
       <SignIn />
-    </main>
+    </Container>
   );
 }

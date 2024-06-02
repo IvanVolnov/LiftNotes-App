@@ -1,5 +1,5 @@
 import { Roboto } from 'next/font/google';
-import { createTheme } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
 
 export const roboto = Roboto({
@@ -9,14 +9,14 @@ export const roboto = Roboto({
   fallback: ['Helvetica', 'Arial', 'sans-serif'],
 });
 
-const theme = createTheme({
+let theme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
       main: '#28d291',
     },
     secondary: {
-      main: '#28196B',
+      main: '#0D0B22',
     },
     error: {
       main: red.A400,
@@ -26,5 +26,7 @@ const theme = createTheme({
     fontFamily: roboto.style.fontFamily,
   },
 });
+
+theme = responsiveFontSizes(theme);
 
 export default theme;
