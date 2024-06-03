@@ -1,31 +1,9 @@
-'use client';
-import {
-  Button,
-  Link,
-  Stack,
-  TextField,
-  Typography,
-  InputLabel,
-  InputAdornment,
-  IconButton,
-  FormControl,
-  FilledInput,
-} from '@mui/material';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { useState } from 'react';
+import NextButton from '@/components/UI/NextButton';
+import { Stack, TextField, Typography } from '@mui/material';
+
+import PasswordInput from '@/components/UI/PasswordInput';
 
 export default function SignIn() {
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
-
   return (
     <Stack
       direction='column'
@@ -34,7 +12,7 @@ export default function SignIn() {
       spacing={4}
       p={5}
       sx={{
-        maxWidth: '400px',
+        minWidth: 'min(98vw, 25rem)',
         bgcolor: '#090C0B',
         borderRadius: '10px',
         position: 'relative',
@@ -59,40 +37,28 @@ export default function SignIn() {
       <Typography variant='h4' sx={{ alignSelf: 'start' }}>
         Login
       </Typography>
-      <TextField id='email' type='email' label='Email' variant='filled' />
-      <FormControl sx={{ m: 1, width: '25ch' }} variant='filled'>
-        <InputLabel htmlFor='filled-adornment-password'>Password</InputLabel>
-        <FilledInput
-          id='filled-adornment-password'
-          type={showPassword ? 'text' : 'password'}
-          endAdornment={
-            <InputAdornment position='end'>
-              <IconButton
-                aria-label='toggle password visibility'
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge='end'
-              >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-      </FormControl>
-      <Button size='large' variant='contained'>
+      <TextField
+        id='email'
+        type='email'
+        label='Email'
+        variant='filled'
+        sx={{ width: '100%' }}
+      />
+      <PasswordInput />
+      <NextButton size='large' variant='contained'>
         Login to your account
-      </Button>
-      <Stack direction='row' spacing={1}>
+      </NextButton>
+      <Stack direction='row' spacing={1} alignItems='center'>
         <Typography variant='body1'>Don’t have an account?</Typography>
-        <Link href='/registration' underline='hover'>
+        <NextButton href='/registration' size='small'>
           REGISTER
-        </Link>
+        </NextButton>
       </Stack>
-      <Stack direction='row' spacing={1}>
+      <Stack direction='row' spacing={1} alignItems='center'>
         <Typography variant='body1'>Want to try it first?</Typography>
-        <Link href='/demo' underline='hover'>
+        <NextButton href='/demo' size='small'>
           VIEW DEMO
-        </Link>
+        </NextButton>
       </Stack>
     </Stack>
   );
