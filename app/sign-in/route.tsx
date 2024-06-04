@@ -2,6 +2,7 @@ import NextButton from '@/components/UI/NextButton';
 import { Stack, TextField, Typography } from '@mui/material';
 
 import PasswordInput from '@/components/UI/PasswordInput';
+import DarkModeSwicher from '@/components/DarkModeSwicher';
 
 export default function SignIn() {
   return (
@@ -12,8 +13,8 @@ export default function SignIn() {
       spacing={4}
       p={5}
       sx={{
+        mt: { xs: '5vh', sm: '15vh' },
         minWidth: 'min(98vw, 25rem)',
-        bgcolor: '#090C0B',
         borderRadius: '10px',
         position: 'relative',
         '&:before': {
@@ -60,6 +61,7 @@ export default function SignIn() {
           VIEW DEMO
         </NextButton>
       </Stack>
+      <DarkModeSwicher />
     </Stack>
   );
 }

@@ -9,7 +9,7 @@ export const roboto = Roboto({
   fallback: ['Helvetica', 'Arial', 'sans-serif'],
 });
 
-let theme = createTheme({
+let darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
@@ -27,6 +27,24 @@ let theme = createTheme({
   },
 });
 
-theme = responsiveFontSizes(theme);
+darkTheme = responsiveFontSizes(darkTheme);
 
-export default theme;
+let lightTheme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: '#28d291',
+    },
+    secondary: {
+      main: '#A394E6',
+    },
+    error: {
+      main: red.A400,
+    },
+  },
+  typography: {
+    fontFamily: roboto.style.fontFamily,
+  },
+});
+
+export { darkTheme, lightTheme };

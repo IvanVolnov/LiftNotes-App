@@ -2,7 +2,7 @@
 import createCache from '@emotion/cache';
 import { useServerInsertedHTML } from 'next/navigation';
 import { CacheProvider, ThemeProvider } from '@emotion/react';
-import theme from './theme';
+import { darkTheme, lightTheme } from './theme';
 import React from 'react';
 
 // This implementation is from emotion-js
@@ -55,7 +55,7 @@ export default function ThemeRegistry({
 
   return (
     <CacheProvider value={cache}>
-      <ThemeProvider theme={theme}>{children}</ThemeProvider>
+      <ThemeProvider theme={darkTheme}>{children}</ThemeProvider>
     </CacheProvider>
   );
 }
