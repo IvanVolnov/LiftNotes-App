@@ -4,6 +4,7 @@ import './globals.css';
 import ThemeRegistry from './theme/ThemeRegistry';
 import { CssBaseline } from '@mui/material';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
+import { ColorModeProvider } from './context/ColorModeContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,12 +20,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <ThemeRegistry>
-        <CssBaseline />
-        <body className={inter.className}>
-          <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
-        </body>
-      </ThemeRegistry>
+      <ColorModeProvider>
+        <ThemeRegistry>
+          <CssBaseline />
+          <body className={inter.className}>
+            <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+          </body>
+        </ThemeRegistry>
+      </ColorModeProvider>
     </html>
   );
 }

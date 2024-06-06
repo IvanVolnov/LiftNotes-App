@@ -1,30 +1,22 @@
 'use client';
+import { useColorModeContext } from '@/app/context/ColorModeContext';
 import { DarkMode } from '@mui/icons-material';
 import { FormControl, FormControlLabel, Switch } from '@mui/material';
-import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/router';
 
 export default function DarkModeSwicher() {
-  // const router = useRouter();
-  const params = useSearchParams();
-  const currentMode = params.get('mode');
-  console.log(currentMode);
-
-  // router.push(`?theme=dark`);
-  function switchHandler() {
-    // router.replace('?mode=light', { scroll: false });
-  }
+  const { colorMode, toggleColorMode } = useColorModeContext();
 
   return (
     <>
+      <h1>{colorMode}</h1>
       <FormControl component='fieldset'>
         <FormControlLabel
           value='dark mode'
           control={<Switch color='primary' />}
           label={<DarkMode sx={{ position: 'relative', top: '0.2rem' }} />}
           labelPlacement='start'
-          onClick={switchHandler}
+          onClick={toggleColorMode}
+          defaultChecked={colorMode === 'dark'}
         />
       </FormControl>
     </>

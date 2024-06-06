@@ -4,6 +4,7 @@ import { useServerInsertedHTML } from 'next/navigation';
 import { CacheProvider, ThemeProvider } from '@emotion/react';
 import { darkTheme, lightTheme } from './theme';
 import React from 'react';
+import { useColorModeContext } from '../context/ColorModeContext';
 
 // This implementation is from emotion-js
 // https://github.com/emotion-js/emotion/issues/2928#issuecomment-1319747902
@@ -12,6 +13,7 @@ export default function ThemeRegistry({
 }: {
   children: React.ReactNode;
 }) {
+  const { colorMode } = useColorModeContext();
   const options = { key: 'mui' };
   const [{ cache, flush }] = React.useState(() => {
     const cache = createCache(options);
@@ -55,7 +57,9 @@ export default function ThemeRegistry({
 
   return (
     <CacheProvider value={cache}>
-      <ThemeProvider theme={darkTheme}>{children}</ThemeProvider>
+      <ThemeProvider theme={colorMode === 'dark' ? darkTheme : lightTheme}>
+        {children}
+      </ThemeProvider>
     </CacheProvider>
   );
 }
