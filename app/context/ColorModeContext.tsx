@@ -12,11 +12,13 @@ import {
 interface ColorModeContextProps {
   colorMode: string;
   toggleColorMode: () => void;
+  checkIfDarkMode: () => boolean;
 }
 
 const ColorModeContextDefaultValue: ColorModeContextProps = {
   colorMode: '',
   toggleColorMode: () => {},
+  checkIfDarkMode: () => false,
 };
 
 const ColorModeContext = createContext<ColorModeContextProps>(
@@ -35,13 +37,14 @@ export function ColorModeProvider({ children }: Props) {
   const [colorMode, setColorMode] = useState('');
 
   useEffect(() => {
-    const savedColorMode =
-      localStorage.getItem('colorMode') ||
-      window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light';
-    setColorMode(savedColorMode);
-    localStorage.setItem('colorMode', savedColorMode);
+    const browserColorScgeme = window.matchMedia('(prefers-color-scheme: dark)')
+      .matches
+      ? 'dark'
+      : 'light';
+    const storageColorMode = localStorage.getItem('colorMode');
+    const finalColorMode = storageColorMode || browserColorScgeme;
+    localStorage.setItem('colorMode', finalColorMode);
+    setColorMode(finalColorMode);
   }, []);
 
   function toggleColorMode() {
@@ -50,8 +53,15 @@ export function ColorModeProvider({ children }: Props) {
       ? localStorage.setItem('colorMode', 'light')
       : localStorage.setItem('colorMode', 'dark');
   }
+
+  function checkIfDarkMode() {
+    const result: boolean = colorMode === 'dark' ? true : false;
+    return result;
+  }
   return (
-    <ColorModeContext.Provider value={{ colorMode, toggleColorMode }}>
+    <ColorModeContext.Provider
+      value={{ colorMode, toggleColorMode, checkIfDarkMode }}
+    >
       {children}
     </ColorModeContext.Provider>
   );

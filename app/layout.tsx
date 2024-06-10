@@ -1,10 +1,13 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import './globals.css';
-import ThemeRegistry from './theme/ThemeRegistry';
-import { CssBaseline } from '@mui/material';
+// import './globals.css';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
-import { ColorModeProvider } from './context/ColorModeContext';
+import {
+  ColorModeProvider,
+  useColorModeContext,
+} from './context/ColorModeContext';
+import { darkTheme, lightTheme } from './theme/theme';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,12 +24,14 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <ColorModeProvider>
-        <ThemeRegistry>
-          <CssBaseline />
-          <body className={inter.className}>
-            <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
-          </body>
-        </ThemeRegistry>
+        <body className={inter.className}>
+          <AppRouterCacheProvider>
+            <ThemeProvider theme={darkTheme}>
+              <CssBaseline />
+              {children}
+            </ThemeProvider>
+          </AppRouterCacheProvider>
+        </body>
       </ColorModeProvider>
     </html>
   );

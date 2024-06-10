@@ -1,6 +1,8 @@
+'use client';
 import { Roboto } from 'next/font/google';
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import { red } from '@mui/material/colors';
+import { useColorModeContext } from '../context/ColorModeContext';
 
 export const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
@@ -46,5 +48,7 @@ let lightTheme = createTheme({
     fontFamily: roboto.style.fontFamily,
   },
 });
+
+lightTheme = responsiveFontSizes(lightTheme);
 
 export { darkTheme, lightTheme };

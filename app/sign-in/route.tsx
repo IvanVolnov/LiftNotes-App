@@ -1,8 +1,8 @@
-import NextButton from '@/components/UI/NextButton';
+import NextButton from '@/app/components/UI/NextButton';
 import { Stack, TextField, Typography } from '@mui/material';
 
-import PasswordInput from '@/components/UI/PasswordInput';
-import DarkModeSwicher from '@/components/DarkModeSwicher';
+import PasswordInput from '@/app/components/UI/PasswordInput';
+import DarkModeSwicher from '@/app/components/DarkModeSwicher';
 
 export default function SignIn() {
   return (
