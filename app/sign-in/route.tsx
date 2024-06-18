@@ -1,10 +1,13 @@
+'use client';
 import NextButton from '@/app/components/UI/NextButton';
-import { Stack, TextField, Typography } from '@mui/material';
+import { Button, Stack, TextField, Typography, useTheme } from '@mui/material';
 
 import PasswordInput from '@/app/components/UI/PasswordInput';
 import DarkModeSwicher from '@/app/components/DarkModeSwicher';
 
 export default function SignIn() {
+  const theme = useTheme();
+
   return (
     <Stack
       direction='column'
@@ -43,7 +46,7 @@ export default function SignIn() {
         type='email'
         label='Email'
         variant='filled'
-        sx={{ width: '100%' }}
+        fullWidth
       />
       <PasswordInput />
       <NextButton size='large' variant='contained'>
@@ -62,6 +65,9 @@ export default function SignIn() {
         </NextButton>
       </Stack>
       <DarkModeSwicher />
+      {/* <Button variant='outlined' color={theme.palette.ochre?.main}>
+        gegwr
+      </Button> */}
     </Stack>
   );
 }

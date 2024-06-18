@@ -5,9 +5,11 @@ import {
   useState,
   createContext,
   useContext,
-  Dispatch,
-  SetStateAction,
+  useMemo,
 } from 'react';
+
+import { ThemeProvider } from '@mui/material/styles';
+import { darkTheme, lightTheme } from '../theme/theme';
 
 interface ColorModeContextProps {
   colorMode: string;
@@ -37,32 +39,36 @@ export function ColorModeProvider({ children }: Props) {
   const [colorMode, setColorMode] = useState('');
 
   useEffect(() => {
-    const browserColorScgeme = window.matchMedia('(prefers-color-scheme: dark)')
+    const browserColorScheme = window.matchMedia('(prefers-color-scheme: dark)')
       .matches
       ? 'dark'
       : 'light';
     const storageColorMode = localStorage.getItem('colorMode');
-    const finalColorMode = storageColorMode || browserColorScgeme;
+    const finalColorMode = storageColorMode || browserColorScheme;
     localStorage.setItem('colorMode', finalColorMode);
     setColorMode(finalColorMode);
   }, []);
 
   function toggleColorMode() {
-    colorMode === 'dark' ? setColorMode('light') : setColorMode('dark');
-    colorMode === 'dark'
-      ? localStorage.setItem('colorMode', 'light')
-      : localStorage.setItem('colorMode', 'dark');
+    const newColorMode = colorMode === 'dark' ? 'light' : 'dark';
+    setColorMode(newColorMode);
+    localStorage.setItem('colorMode', newColorMode);
   }
 
   function checkIfDarkMode() {
-    const result: boolean = colorMode === 'dark' ? true : false;
-    return result;
+    return colorMode === 'dark';
   }
+
+  const theme = useMemo(
+    () => (colorMode === 'light' ? lightTheme : darkTheme),
+    [colorMode]
+  );
+
   return (
     <ColorModeContext.Provider
       value={{ colorMode, toggleColorMode, checkIfDarkMode }}
     >
-      {children}
+      <ThemeProvider theme={theme}>{children}</ThemeProvider>
     </ColorModeContext.Provider>
   );
 }

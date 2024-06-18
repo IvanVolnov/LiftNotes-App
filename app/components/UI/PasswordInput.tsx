@@ -21,7 +21,7 @@ export default function PasswordInput() {
   };
 
   return (
-    <FormControl sx={{ width: '100%' }} variant='filled'>
+    <FormControl fullWidth variant='filled'>
       <InputLabel htmlFor='filled-adornment-password'>Password</InputLabel>
       <FilledInput
         id='filled-adornment-password'

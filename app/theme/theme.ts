@@ -16,12 +16,23 @@ let darkTheme = createTheme({
     mode: 'dark',
     primary: {
       main: '#28d291',
+      dark: '#0D0B22',
     },
     secondary: {
-      main: '#0D0B22',
+      main: '#7B00C7',
+      contrastText: '#FFFFFF',
     },
     error: {
       main: red.A400,
+    },
+    background: {
+      default: '#010403',
+    },
+    ochre: {
+      main: '#E3D026',
+      light: '#E9DB5D',
+      dark: '#A29415',
+      contrastText: '#242105',
     },
   },
   typography: {
@@ -39,9 +50,19 @@ let lightTheme = createTheme({
     },
     secondary: {
       main: '#A394E6',
+      contrastText: '#0C130D',
     },
     error: {
       main: red.A400,
+    },
+    background: {
+      default: '#FFFFFF',
+    },
+    ochre: {
+      main: '#E3D026',
+      light: '#E9DB5D',
+      dark: '#A29415',
+      contrastText: '#242105',
     },
   },
   typography: {
