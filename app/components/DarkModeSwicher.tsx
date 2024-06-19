@@ -5,14 +5,12 @@ import { FormControl, FormControlLabel, Switch } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 export default function DarkModeSwicher() {
-  const { colorMode, toggleColorMode, checkIfDarkMode } = useColorModeContext();
+  const { toggleColorMode, checkIfDarkMode } = useColorModeContext();
 
   const checkIfDark = checkIfDarkMode();
 
   return (
     <>
-      {/* <p>context {colorMode}</p>
-      <p>localstorage {localStorage.getItem('colorMode')}</p> */}
       <FormControl component='fieldset'>
         <FormControlLabel
           value='dark mode'

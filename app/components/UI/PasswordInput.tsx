@@ -9,7 +9,11 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 
-export default function PasswordInput() {
+interface InputProps {
+  inputName: 'Password' | 'Confirm Password';
+}
+
+export default function PasswordInput({ inputName }: InputProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -22,9 +26,10 @@ export default function PasswordInput() {
 
   return (
     <FormControl fullWidth variant='filled'>
-      <InputLabel htmlFor='filled-adornment-password'>Password</InputLabel>
+      <InputLabel htmlFor='filled-adornment-password'>{inputName}</InputLabel>
       <FilledInput
         id='filled-adornment-password'
+        name={inputName}
         type={showPassword ? 'text' : 'password'}
         endAdornment={
           <InputAdornment position='end'>

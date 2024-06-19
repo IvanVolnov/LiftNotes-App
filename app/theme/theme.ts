@@ -1,8 +1,6 @@
 'use client';
 import { Roboto } from 'next/font/google';
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
-import { red } from '@mui/material/colors';
-import { useColorModeContext } from '../context/ColorModeContext';
 
 export const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
@@ -16,23 +14,22 @@ let darkTheme = createTheme({
     mode: 'dark',
     primary: {
       main: '#28d291',
-      dark: '#0D0B22',
     },
     secondary: {
       main: '#7B00C7',
       contrastText: '#FFFFFF',
     },
-    error: {
-      main: red.A400,
+    info: {
+      main: '#7B00C7',
+      contrastText: '#FFFFFF',
     },
     background: {
       default: '#010403',
     },
-    ochre: {
-      main: '#E3D026',
-      light: '#E9DB5D',
-      dark: '#A29415',
-      contrastText: '#242105',
+    third: {
+      main: '#0D0B22',
+      dark: '#4b4a62',
+      contrastText: '#FFFFFF',
     },
   },
   typography: {
@@ -50,19 +47,19 @@ let lightTheme = createTheme({
     },
     secondary: {
       main: '#A394E6',
-      contrastText: '#0C130D',
+      contrastText: '#000000',
     },
-    error: {
-      main: red.A400,
+    info: {
+      main: '#7B00C7',
+      contrastText: '#FFFFFF',
     },
     background: {
       default: '#FFFFFF',
     },
-    ochre: {
-      main: '#E3D026',
-      light: '#E9DB5D',
-      dark: '#A29415',
-      contrastText: '#242105',
+    third: {
+      main: '#D9D6F4',
+      dark: '#a9a0e5',
+      contrastText: '#000000',
     },
   },
   typography: {

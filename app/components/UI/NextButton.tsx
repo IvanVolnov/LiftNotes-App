@@ -31,6 +31,7 @@ export default function NextButton({
       variant={variant}
       size={size}
       href={href}
+      sx={{ textTransform: 'uppercase' }}
     >
       {children}
     </Button>

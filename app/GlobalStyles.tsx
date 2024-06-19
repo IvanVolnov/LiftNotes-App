@@ -14,7 +14,6 @@ const globalStyles = (
         color: theme.palette.text.primary,
         fontFamily: theme.typography.fontFamily,
       },
-      // ... You can add more global styles here
     })}
   />
 );
