@@ -1,10 +1,9 @@
-import { Container, Stack } from '@mui/material';
+import { Container, Stack, Typography } from '@mui/material';
+import NextButton from '../components/UI/NextButton';
 
 export default function AuthLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <Container
       sx={{
@@ -44,6 +43,10 @@ export default function AuthLayout({
         }}
       >
         {children}
+        <Stack direction='row' spacing={1} alignItems='center'>
+          <Typography variant='body1'>Want to try it first?</Typography>
+          <NextButton size='small'>view demo</NextButton>
+        </Stack>
       </Stack>
     </Container>
   );

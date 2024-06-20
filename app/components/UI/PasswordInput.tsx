@@ -24,12 +24,14 @@ export default function PasswordInput({ inputName }: InputProps) {
     event.preventDefault();
   };
 
+  const dataName: string = inputName.toLowerCase();
+
   return (
     <FormControl fullWidth variant='filled'>
       <InputLabel htmlFor='filled-adornment-password'>{inputName}</InputLabel>
       <FilledInput
         id='filled-adornment-password'
-        name={inputName}
+        name={dataName}
         type={showPassword ? 'text' : 'password'}
         endAdornment={
           <InputAdornment position='end'>

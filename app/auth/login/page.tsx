@@ -1,37 +1,49 @@
 import NextButton from '@/app/components/UI/NextButton';
-import { Stack, TextField, Typography } from '@mui/material';
+import { Button, Stack, TextField, Typography } from '@mui/material';
 
 import PasswordInput from '@/app/components/UI/PasswordInput';
-import DarkModeSwicher from '@/app/components/DarkModeSwicher';
+import { getSession, login } from '@/app/lib/lib';
 
-export default function Login() {
+export default async function Login() {
+  const session = await getSession();
+  async function loginHandler(formData: FormData) {
+    'use server';
+    await login(formData);
+  }
   return (
     <>
-      <Typography variant='h4' sx={{ alignSelf: 'start' }}>
-        Login
-      </Typography>
-      <TextField
-        id='email'
-        type='email'
-        label='Email'
-        variant='filled'
-        fullWidth
-      />
-      <PasswordInput inputName='Password' />
-      <NextButton size='large' variant='contained'>
-        Login to your account
-      </NextButton>
+      <Stack
+        component='form'
+        direction='column'
+        justifyContent='center'
+        alignItems='center'
+        spacing={4}
+        sx={{ width: '100%' }}
+        action={loginHandler}
+      >
+        <Typography variant='h4' sx={{ alignSelf: 'start' }}>
+          Login
+        </Typography>
+        <TextField
+          id='email'
+          type='email'
+          label='Email'
+          variant='filled'
+          name='email'
+          fullWidth
+        />
+        <PasswordInput inputName='Password' />
+        <Button size='large' variant='contained' type='submit'>
+          Login to your account
+        </Button>
+      </Stack>
       <Stack direction='row' spacing={1} alignItems='center'>
         <Typography variant='body1'>Don’t have an account?</Typography>
         <NextButton href='/auth/registration' size='small'>
           register
         </NextButton>
       </Stack>
-      <Stack direction='row' spacing={1} alignItems='center'>
-        <Typography variant='body1'>Want to try it first?</Typography>
-        <NextButton size='small'>view demo</NextButton>
-      </Stack>
-      <DarkModeSwicher />
+      <pre>{JSON.stringify(session, null, 2)}</pre>
     </>
   );
 }

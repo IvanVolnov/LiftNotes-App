@@ -15,6 +15,7 @@ interface MyProps {
     | 'error'
     | 'info'
     | 'warning';
+  type?: string;
 }
 
 export default function NextButton({
@@ -23,6 +24,7 @@ export default function NextButton({
   size = 'medium',
   href = '#',
   color = 'primary',
+  type = 'button',
 }: MyProps) {
   return (
     <Button
@@ -32,6 +34,7 @@ export default function NextButton({
       size={size}
       href={href}
       sx={{ textTransform: 'uppercase' }}
+      type={type}
     >
       {children}
     </Button>
