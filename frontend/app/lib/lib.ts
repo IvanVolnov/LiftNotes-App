@@ -2,7 +2,9 @@ import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
-const secretKey = process.env.LOGIN_SESSION_KEY;
+// const secretKey = process.env.LOGIN_SESSION_KEY;
+const secretKey = 'test-key124#';
+
 if (!secretKey) {
   throw new Error('Missing LOGIN_SESSION_KEY environment variable');
 }

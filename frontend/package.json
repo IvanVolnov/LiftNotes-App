@@ -1,5 +1,5 @@
 {
-  "name": "lift-notes-app",
+  "name": "lift-notes-app-frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -15,7 +15,8 @@
     "@mui/icons-material": "^5.15.17",
     "@mui/material": "^5.15.17",
     "@mui/material-nextjs": "^5.15.11",
-    "@vercel/postgres": "^0.8.0",
+    "@vercel/postgres": "^0.9.0",
+    "express": "^4.19.2",
     "jose": "^5.4.1",
     "next": "14.2.3",
     "react": "^18",
