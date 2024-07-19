@@ -2,13 +2,28 @@ import { Container } from '@mui/material';
 
 const getData = async () => {
   try {
-    const users = await fetch('http://localhost:5000/api/v1/users', {
+    const response = await fetch('http://localhost:5000/api/v1/users', {
       cache: 'no-cache',
     });
-    const data = await users.json();
+
+    if (!response.ok) {
+      console.error('Error fetching data:', response.statusText);
+      return [];
+    }
+
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      console.error('Expected JSON response but got:', contentType);
+      const text = await response.text();
+      console.error('Response body:', text);
+      return [];
+    }
+
+    const data = await response.json();
     return data.users;
   } catch (error) {
-    throw error;
+    console.error('Fetch error:', error);
+    return [];
   }
 };
 
