@@ -2,7 +2,7 @@ import { Container } from '@mui/material';
 
 const getData = async () => {
   try {
-    const response = await fetch('http://localhost:5000/api/v1/users', {
+    const response = await fetch(`${process.env.APP_API_URL}/api/v1/users`, {
       cache: 'no-cache',
     });
 
