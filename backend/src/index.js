@@ -10,6 +10,7 @@ app.get('/api/v1/users', (req, res) => {
     const users = [
       { id: 1, name: 'John Doe' },
       { id: 2, name: 'Jan Doerty' },
+      { id: 3, name: 'Doe Jonson' },
     ];
 
     return res.status(200).json({ users });
