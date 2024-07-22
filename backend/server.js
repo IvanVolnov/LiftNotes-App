@@ -5,6 +5,10 @@ const app = express();
 
 app.use(cors());
 
+app.get('/', (req, res) => {
+  res.send('hello, this is server for liftnores app');
+});
+
 app.get('/api/v1/users', (req, res) => {
   try {
     const users = [
