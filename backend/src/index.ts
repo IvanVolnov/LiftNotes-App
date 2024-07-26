@@ -3,13 +3,19 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { json } from 'body-parser';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
-app.use(cors());
 dotenv.config();
-
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const corsOptions = { credentials: true, origin: process.env.URL || '*' };
+const PORT = process.env.PORT || 5000;
+
+app.use(cors(corsOptions));
+app.use(json());
+app.use(cookieParser());
 
 app.get('/', (req, res) => {
   res.send('hello, this is server for liftnores app');
@@ -29,4 +35,4 @@ app.get('/api/v1/users', (req, res) => {
   }
 });
 
-app.listen(5000, () => console.log('App listening on port 5000!'));
+app.listen(PORT, () => console.log(`App listening on port ${PORT}!`));
