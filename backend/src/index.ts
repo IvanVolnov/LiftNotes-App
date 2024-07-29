@@ -44,7 +44,7 @@ app.get('/users', async (req: Request, res: Response) => {
   }
 });
 
-app.post('/users', async (request: Request, response: Response) => {
+app.post('/users/register', async (request: Request, response: Response) => {
   try {
     const userLogin = request.query.userLogin as string;
     const userEmail = request.query.userEmail as string;
