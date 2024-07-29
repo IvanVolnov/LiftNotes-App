@@ -4,7 +4,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "target": "ES2020",
-    // "noImplicitAny": true,
+    "noImplicitAny": true,
     "moduleResolution": "NodeNext",
     "skipLibCheck": true,
     "sourceMap": true,
