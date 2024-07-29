@@ -2,7 +2,7 @@ import { Container } from '@mui/material';
 
 const getData = async () => {
   try {
-    const response = await fetch(`${process.env.APP_API_URL}/api/v1/users`, {
+    const response = await fetch(`${process.env.APP_API_URL}/users`, {
       cache: 'no-cache',
     });
 
@@ -28,8 +28,11 @@ const getData = async () => {
 };
 
 type User = {
-  id: number;
-  name: string;
+  user_id: string;
+  login: string;
+  email: string;
+  password: string;
+  user_created_at: string;
 };
 
 export default async function Home() {
@@ -49,8 +52,8 @@ export default async function Home() {
       <section>
         <div>
           {data?.map((user) => (
-            <div key={user.id}>
-              <h1>{user.name}</h1>
+            <div key={user.user_id}>
+              <h1>{user.login}</h1>
             </div>
           ))}
         </div>
