@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import cookieParser from 'cookie-parser';
-import { sql } from '@vercel/postgres';
+import users from './routes/authRoutes.js';
 
 const app = express();
 
@@ -35,30 +35,6 @@ app.get('/api/v1/users', (req, res) => {
   }
 });
 
-app.get('/users', async (req: Request, res: Response) => {
-  try {
-    const users = await sql`SELECT * FROM users;`;
-    res.json({ users: users.rows });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-app.post('/users/register', async (request: Request, response: Response) => {
-  try {
-    const userLogin = request.query.userLogin as string;
-    const userEmail = request.query.userEmail as string;
-    const userPassword = request.query.userPassword as string;
-    if (!userLogin || !userEmail || !userPassword)
-      throw new Error('Pet and owner names required');
-    await sql`INSERT INTO users (login, email, password) 
-VALUES 
-(${userLogin}, ${userEmail}, ${userPassword});`;
-    const pets = await sql`SELECT * FROM users;`;
-    return response.status(200).json({ pets });
-  } catch (error) {
-    return response.status(500).json({ error });
-  }
-});
+app.use('/api/users', users);
 
 app.listen(PORT, () => console.log(`App listening on port ${PORT}!`));

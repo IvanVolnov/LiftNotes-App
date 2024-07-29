@@ -2,8 +2,8 @@ import { Container } from '@mui/material';
 
 const getData = async () => {
   try {
-    console.log('API URL:', process.env.APP_API_URL);
-    const response = await fetch(`${process.env.APP_API_URL}/users`, {
+    // console.log('API URL:', process.env.APP_API_URL);
+    const response = await fetch(`${process.env.APP_API_URL}/api/users`, {
       cache: 'no-cache',
     });
 
@@ -15,23 +15,22 @@ const getData = async () => {
     // );
 
     if (!response.ok) {
-      console.error('Error fetching data:', response.statusText);
-      return [];
+      if (!response.ok) {
+        throw new Error(`Error fetching data: ${response.statusText}`);
+      }
     }
 
     const contentType = response.headers.get('content-type');
     if (!contentType || !contentType.includes('application/json')) {
       console.error('Expected JSON response but got:', contentType);
       const text = await response.text();
-      console.error('Response body:', text);
-      return [];
+      throw new Error(`Response body:, ${text}`);
     }
 
     const data = await response.json();
     return data.users;
   } catch (error) {
-    console.error('Fetch error:', error);
-    return [];
+    throw new Error(`Fetch error:, ${error}`);
   }
 };
 
@@ -46,7 +45,6 @@ type User = {
 export default async function Home() {
   const data: User[] = await getData();
 
-  console.log('Data: ', data);
   return (
     <Container
       sx={{
