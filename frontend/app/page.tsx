@@ -2,16 +2,17 @@ import { Container } from '@mui/material';
 
 const getData = async () => {
   try {
-    // const response = await fetch(`${process.env.APP_API_URL}/users`, {
-    //   cache: 'no-cache',
-    // });
+    console.log('API URL:', process.env.APP_API_URL);
+    const response = await fetch(`${process.env.APP_API_URL}/users`, {
+      cache: 'no-cache',
+    });
 
-    const response = await fetch(
-      `https://lift-notes-app-production.up.railway.app/users`,
-      {
-        cache: 'no-cache',
-      }
-    );
+    // const response = await fetch(
+    //   `https://lift-notes-app-production.up.railway.app/users`,
+    //   {
+    //     cache: 'no-cache',
+    //   }
+    // );
 
     if (!response.ok) {
       console.error('Error fetching data:', response.statusText);
