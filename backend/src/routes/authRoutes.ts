@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import { sql } from '@vercel/postgres';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { jwtTokens } from '../utils/jwt-helpers.js';
 
 const users = express.Router();
 
@@ -54,6 +55,8 @@ users.post('/login', async (req: Request, res: Response) => {
     if (!validPassword) {
       return res.status(401).json('invalid email or password');
     }
+    // JWT
+    let tokens = jwtTokens(users.rows[0]);
 
     return res.status(200).json('Success');
   } catch (error) {
