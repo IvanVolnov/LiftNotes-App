@@ -5,8 +5,8 @@ import {
 } from '../config/config.js';
 
 interface Payload {
-  user_id: string;
-  login: string;
+  user_id?: string;
+  login?: string;
   email: string;
 }
 

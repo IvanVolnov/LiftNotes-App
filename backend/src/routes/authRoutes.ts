@@ -6,7 +6,8 @@ import { jwtTokens } from '../utils/jwt-helpers.js';
 
 const users = express.Router();
 
-interface User {
+export interface User {
+  user_id?: string;
   login?: string;
   email: string;
   password: string;
@@ -23,14 +24,13 @@ users.get('/', async (req: Request, res: Response) => {
 
 users.post('/register', async (req: Request, res: Response) => {
   try {
-    const { login, email, password }: User = req.body;
+    const { email, password }: User = req.body;
     const hashedPassword: string = await bcrypt.hash(password, 10);
 
-    if (!login || !email || !password)
-      throw new Error('login, email or password missing');
-    const newUser = await sql`INSERT INTO users (login, email, password) 
+    if (!email || !password) throw new Error('email or password missing');
+    const newUser = await sql`INSERT INTO users (email, password) 
 VALUES 
-(${login}, ${email}, ${hashedPassword}) RETURNING *;`;
+(${email}, ${hashedPassword}) RETURNING *;`;
     return res.status(200).json({ users: newUser.rows[0] });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -41,7 +41,8 @@ users.post('/login', async (req: Request, res: Response) => {
   try {
     const { email, password }: User = req.body;
 
-    const users = await sql`SELECT * FROM users WHERE email = ${email};`;
+    const users: { rows: User[] } =
+      await sql`SELECT * FROM users WHERE email = ${email};`;
 
     if (users.rows.length === 0) {
       return res.status(401).json('invalid email or password');
@@ -57,8 +58,8 @@ users.post('/login', async (req: Request, res: Response) => {
     }
     // JWT
     let tokens = jwtTokens(users.rows[0]);
-
-    return res.status(200).json('Success');
+    res.cookie('refresh_token', tokens.refreshToken, { httpOnly: true });
+    res.json(tokens);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
