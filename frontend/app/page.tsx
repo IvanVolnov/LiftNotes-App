@@ -1,9 +1,10 @@
 import { Container } from '@mui/material';
+import NextButton from './components/UI/NextButton';
 
 const getData = async () => {
   try {
     // console.log('API URL:', process.env.APP_API_URL);
-    const response = await fetch(`${process.env.APP_API_URL}/api/users`, {
+    const response = await fetch(`${process.env.APP_API_URL}/`, {
       cache: 'no-cache',
     });
 
@@ -28,23 +29,15 @@ const getData = async () => {
     }
 
     const data = await response.json();
-    return data.users;
+    return data;
   } catch (error) {
     throw new Error(`Fetch error:, ${error}`);
   }
 };
 
-type User = {
-  user_id: string;
-  login: string;
-  email: string;
-  password: string;
-  user_created_at: string;
-};
-
 export default async function Home() {
-  const data: User[] = await getData();
-
+  const data = await getData();
+  console.log(data);
   return (
     <Container
       sx={{
@@ -55,15 +48,14 @@ export default async function Home() {
       }}
     >
       <h1>Entry page</h1>
-      <section>
-        <div>
-          {data?.map((user) => (
-            <div key={user.user_id}>
-              <h1>{user.login}</h1>
-            </div>
-          ))}
-        </div>
-      </section>
+
+      <div>Message from server: {data.message}</div>
+      <NextButton href='/auth/registration' size='small'>
+        register
+      </NextButton>
+      <NextButton href='/auth/login' size='small'>
+        login
+      </NextButton>
     </Container>
   );
 }

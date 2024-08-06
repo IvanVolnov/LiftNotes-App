@@ -4,7 +4,7 @@ import { authenticateToken } from '../middleware/authorization.js';
 
 const workouts = express.Router();
 
-workouts.get('/', authenticateToken, async (req: Request, res: Response) => {
+workouts.post('/', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { user_id } = req.body;
     if (!user_id) {

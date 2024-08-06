@@ -19,7 +19,7 @@ app.use(json());
 app.use(cookieParser());
 
 app.get('/', async (req, res) => {
-  res.send(`hello, this is server for liftnores app`);
+  res.json({ message: `hello, this is server for liftnores app` });
 });
 
 app.use('/api/users', users);

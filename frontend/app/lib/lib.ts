@@ -1,48 +1,54 @@
-import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
+import { GetServerSidePropsContext } from 'next';
 
-// const secretKey = process.env.LOGIN_SESSION_KEY;
-const secretKey = 'test-key124#';
-
-if (!secretKey) {
-  throw new Error('Missing LOGIN_SESSION_KEY environment variable');
-}
-const key = new TextEncoder().encode(secretKey);
-const shortExpiration = 30 * 60 * 1000; // 30 minutes
-const longExpiration = 30 * 24 * 60 * 60 * 1000; // 60 days
-
-export async function encrypt(payload: any) {
-  return await new SignJWT(payload)
-    .setProtectedHeader({ alg: 'HS256' })
-    .setIssuedAt()
-    .setExpirationTime('30 min from now')
-    .sign(key);
-}
-
-export async function decrypt(input: string): Promise<any> {
-  const { payload } = await jwtVerify(input, key, {
-    algorithms: ['HS256'],
-  });
-  return payload;
+export interface User {
+  user_id?: string;
+  login?: string;
+  email: string;
+  password: string;
 }
 
 export async function login(formData: FormData) {
   // Verify credentials && get the user
-
   const user = {
     email: formData.get('email'),
-    password: formData.get('password'),
+    password: formData.get('password')?.toString().trim(),
   };
 
-  // Create the session
+  if (!user.password) {
+    throw new Error(`Invalid email or password`);
+  }
+  try {
+    const response = await fetch(`${process.env.APP_API_URL}/api/users/login`, {
+      cache: 'no-cache',
+      method: 'post',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+      credentials: 'include',
+      body: JSON.stringify(user),
+    });
 
-  const expires = new Date(Date.now() + shortExpiration);
-  const session = await encrypt({ user, expires });
+    if (!response.ok) {
+      throw new Error(`Error fetching data: ${response.statusText}`);
+    }
 
-  // Save the session in a cookie
-  cookies().set('session', session, { expires, httpOnly: true });
-  console.log(user, formData);
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      console.error('Expected JSON response but got:', contentType);
+      const text = await response.text();
+      throw new Error(`Response body:, ${text}`);
+    }
+
+    const data = await response.json();
+    cookies().set('accessToken', data.accessToken);
+    cookies().set('refreshToken', data.refreshToken);
+
+    return data;
+  } catch (error) {
+    throw new Error(`Fetch error:, ${error}`);
+  }
 }
 
 export async function logout() {
@@ -50,25 +56,19 @@ export async function logout() {
   cookies().set('session', '', { expires: new Date(0) });
 }
 
-export async function getSession() {
-  const session = cookies().get('session')?.value;
-  if (!session) return null;
-  return await decrypt(session);
-}
+// export async function updateSession(request: NextRequest) {
+//   const session = request.cookies.get('session')?.value;
+//   if (!session) return;
 
-export async function updateSession(request: NextRequest) {
-  const session = request.cookies.get('session')?.value;
-  if (!session) return;
-
-  // Refresh the session so it doesn't expire
-  const parsed = await decrypt(session);
-  parsed.expires = new Date(Date.now() + shortExpiration);
-  const res = NextResponse.next();
-  res.cookies.set({
-    name: 'session',
-    value: await encrypt(parsed),
-    httpOnly: true,
-    expires: parsed.expires,
-  });
-  return res;
-}
+//   // Refresh the session so it doesn't expire
+//   const parsed = await decrypt(session);
+//   parsed.expires = new Date(Date.now() + shortExpiration);
+//   const res = NextResponse.next();
+//   res.cookies.set({
+//     name: 'session',
+//     value: await encrypt(parsed),
+//     httpOnly: true,
+//     expires: parsed.expires,
+//   });
+//   return res;
+// }

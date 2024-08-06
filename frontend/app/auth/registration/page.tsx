@@ -32,7 +32,7 @@ export default async function Login() {
         </NextButton>
       </Stack>
       <Stack direction='row' spacing={1} alignItems='center'>
-        <Typography variant='body1'>Already have an account</Typography>
+        <Typography variant='body1'>Already have an account?</Typography>
         <NextButton href='/auth/login' size='small'>
           login
         </NextButton>

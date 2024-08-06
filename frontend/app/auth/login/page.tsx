@@ -2,13 +2,15 @@ import NextButton from '@/app/components/UI/NextButton';
 import { Button, Stack, TextField, Typography } from '@mui/material';
 
 import PasswordInput from '@/app/components/UI/PasswordInput';
-import { getSession, login } from '@/app/lib/lib';
+import { login } from '@/app/lib/lib';
+import { FormEvent } from 'react';
+import { redirect } from 'next/navigation';
 
 export default async function Login() {
-  const session = await getSession();
   async function loginHandler(formData: FormData) {
     'use server';
-    await login(formData);
+    const data = await login(formData);
+    redirect('/account/workouts');
   }
   return (
     <>
@@ -43,7 +45,6 @@ export default async function Login() {
           register
         </NextButton>
       </Stack>
-      <pre>{JSON.stringify(session, null, 2)}</pre>
     </>
   );
 }
