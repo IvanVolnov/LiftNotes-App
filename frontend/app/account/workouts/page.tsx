@@ -1,16 +1,13 @@
 import decodeJwtToken from '@/app/utils/decodeJwtToken';
 import { Container } from '@mui/material';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 const getData = async () => {
   const cookiesList = cookies();
   const accessToken = cookiesList.get('accessToken');
-  //   const userId = decodeJwtToken(
-  //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTI1NzBkMzctZDlkMy00NjRlLTljMDgtZjRhYTI3NDcyYWJiIiwibG9naW4iOm51bGwsImVtYWlsIjoiZGVtb2FjY291bnRAZGVtby5jb20iLCJpYXQiOjE3MjI5NjUzNTksImV4cCI6MTcyMjk2ODk1OX0.0gzzRGIjdpYSdq0tQn7WeQhckFmvjsH6yWmDETHt5Nw'
-  //   );
-
-  //   console.log(accessToken, userId);
-  const dummyBody = { user_id: '12570d37-d9d3-464e-9c08-f4aa27472abb' }; //hardcoded for now
+  if (!accessToken) redirect('/auth/login');
+  const { user_id } = decodeJwtToken(accessToken);
 
   try {
     const response = await fetch(`${process.env.APP_API_URL}/api/workouts`, {
@@ -20,7 +17,7 @@ const getData = async () => {
         Authorization: `Bearer ${accessToken?.value}`, // TODO add check if there is no token
         'Content-Type': 'application/json',
       }),
-      body: JSON.stringify(dummyBody),
+      body: JSON.stringify({ user_id }),
     });
 
     if (!response.ok) {

@@ -3,7 +3,6 @@ import { Button, Stack, TextField, Typography } from '@mui/material';
 
 import PasswordInput from '@/app/components/UI/PasswordInput';
 import { login } from '@/app/lib/lib';
-import { FormEvent } from 'react';
 import { redirect } from 'next/navigation';
 
 export default async function Login() {
