@@ -1,6 +1,5 @@
 import { cookies } from 'next/headers';
-import { NextRequest, NextResponse } from 'next/server';
-import { GetServerSidePropsContext } from 'next';
+import fetchApiData from '../helpers/fetchApiData';
 
 export interface User {
   user_id?: string;
@@ -10,45 +9,34 @@ export interface User {
 }
 
 export async function login(formData: FormData) {
-  // Verify credentials && get the user
+  const email = formData.get('email') as string | null;
+  const password = formData.get('password') as string | null;
+
   const user = {
-    email: formData.get('email'),
-    password: formData.get('password')?.toString().trim(),
+    email: email ? email.trim() : '',
+    password: password || '',
   };
 
-  if (!user.password) {
+  const emailValidationRegex =
+    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
+  console.log(user.email, emailValidationRegex.test(user.email));
+
+  if (!user.password || !emailValidationRegex.test(user.email)) {
     throw new Error(`Invalid email or password`);
   }
-  try {
-    const response = await fetch(`${process.env.APP_API_URL}/api/users/login`, {
-      cache: 'no-cache',
-      method: 'post',
-      headers: new Headers({
-        'Content-Type': 'application/json',
-      }),
-      credentials: 'include',
-      body: JSON.stringify(user),
-    });
 
-    if (!response.ok) {
-      throw new Error(`Error fetching data: ${response.statusText}`);
-    }
+  const data = await fetchApiData(
+    'users/login',
+    'post',
+    {
+      'Content-Type': 'application/json',
+    },
+    user
+  );
+  cookies().set('accessToken', data.accessToken);
+  cookies().set('refreshToken', data.refreshToken);
 
-    const contentType = response.headers.get('content-type');
-    if (!contentType || !contentType.includes('application/json')) {
-      console.error('Expected JSON response but got:', contentType);
-      const text = await response.text();
-      throw new Error(`Response body:, ${text}`);
-    }
-
-    const data = await response.json();
-    cookies().set('accessToken', data.accessToken);
-    cookies().set('refreshToken', data.refreshToken);
-
-    return data;
-  } catch (error) {
-    throw new Error(`Fetch error:, ${error}`);
-  }
+  return data;
 }
 
 export async function logout() {
