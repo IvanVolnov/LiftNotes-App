@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import fetchApiData from '../helpers/fetchApiData';
+import fetchApiData from '../utils/fetchApiData';
 
 export interface User {
   user_id?: string;
@@ -34,7 +34,7 @@ export async function login(formData: FormData) {
     user
   );
   cookies().set('accessToken', data.accessToken);
-  cookies().set('refreshToken', data.refreshToken);
+  // cookies().set('refreshToken', data.refreshToken);
 
   return data;
 }

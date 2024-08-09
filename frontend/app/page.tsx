@@ -3,17 +3,9 @@ import NextButton from './components/UI/NextButton';
 
 const getData = async () => {
   try {
-    // console.log('API URL:', process.env.APP_API_URL);
     const response = await fetch(`${process.env.APP_API_URL}/`, {
       cache: 'no-cache',
     });
-
-    // const response = await fetch(
-    //   `https://lift-notes-app-production.up.railway.app/users`,
-    //   {
-    //     cache: 'no-cache',
-    //   }
-    // );
 
     if (!response.ok) {
       if (!response.ok) {
@@ -37,7 +29,6 @@ const getData = async () => {
 
 export default async function Home() {
   const data = await getData();
-  console.log(data);
   return (
     <Container
       sx={{
