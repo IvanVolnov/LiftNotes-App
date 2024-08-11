@@ -8,7 +8,7 @@ import { redirect } from 'next/navigation';
 export default async function Login() {
   async function loginHandler(formData: FormData) {
     'use server';
-    const data = await login(formData);
+    await login(formData);
     redirect('/account/workouts');
   }
   return (

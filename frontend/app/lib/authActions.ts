@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers';
 import fetchApiData from '../utils/fetchApiData';
+import { validateEmail } from '../utils/validateFormData';
 
 export interface User {
   user_id?: string;
@@ -17,11 +18,7 @@ export async function login(formData: FormData) {
     password: password || '',
   };
 
-  const emailValidationRegex =
-    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
-  console.log(user.email, emailValidationRegex.test(user.email));
-
-  if (!user.password || !emailValidationRegex.test(user.email)) {
+  if (!user.password || !validateEmail(user.email)) {
     throw new Error(`Invalid email or password`);
   }
 
@@ -34,8 +31,49 @@ export async function login(formData: FormData) {
     user
   );
   cookies().set('accessToken', data.accessToken);
-  // cookies().set('refreshToken', data.refreshToken);
 
+  return data;
+}
+
+export async function register(formData: FormData) {
+  const email = formData.get('email') as string | null;
+  const password = formData.get('password') as string | null;
+  const confirmPassword = formData.get('confirmPassword') as string | null;
+
+  const errors = [];
+
+  const user = {
+    email: email ? email.trim() : '',
+    password: password || '',
+  };
+
+  if (user.password !== confirmPassword) {
+    errors.push(`Passwords do not match`);
+  }
+
+  if (!validateEmail(user.email)) {
+    errors.push(`Invalid email`);
+  }
+
+  const passwordStrongnessRegex = /^.{4,}$/;
+
+  if (!passwordStrongnessRegex.test(user.password)) {
+    errors.push('Password must be at least 4 characters long');
+  }
+
+  if (errors.length) {
+    throw new Error(`Register form validation error:\n ${errors.join('\n')}`);
+  }
+
+  const data = await fetchApiData(
+    'users/register',
+    'post',
+    {
+      'Content-Type': 'application/json',
+    },
+    user
+  );
+  console.log(data);
   return data;
 }
 

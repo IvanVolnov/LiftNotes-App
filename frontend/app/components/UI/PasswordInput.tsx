@@ -1,4 +1,5 @@
 'use client';
+import toCamelCase from '@/app/utils/toCamelCase';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import {
   FilledInput,
@@ -24,13 +25,15 @@ export default function PasswordInput({ inputName }: InputProps) {
     event.preventDefault();
   };
 
-  const dataName: string = inputName.toLowerCase();
+  const dataName: string = toCamelCase(inputName);
 
   return (
     <FormControl fullWidth variant='filled'>
-      <InputLabel htmlFor='filled-adornment-password'>{inputName}</InputLabel>
+      <InputLabel htmlFor={`filled-adornment-password ${inputName}`}>
+        {inputName}
+      </InputLabel>
       <FilledInput
-        id='filled-adornment-password'
+        id={`filled-adornment-password ${inputName}`}
         name={dataName}
         type={showPassword ? 'text' : 'password'}
         endAdornment={

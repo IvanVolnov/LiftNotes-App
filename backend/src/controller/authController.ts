@@ -46,11 +46,6 @@ export async function login(req: Request, res: Response) {
       return res.status(401).json('invalid email or password');
     }
     let tokens = jwtTokens(usersRequest.rows[0]);
-    // res.cookie('refresh_token', tokens.refreshToken, {
-    //   httpOnly: true,
-    //   sameSite: 'none',
-    //   secure: true,
-    // });
     res.json(tokens);
   } catch (error) {
     res.status(401).json({ error: error.message });

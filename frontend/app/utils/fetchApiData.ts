@@ -28,6 +28,6 @@ export default async function fetchApiData(
 
     return data;
   } catch (error) {
-    throw new Error(`Fetch error:, ${error}`);
+    throw new Error(`Fetch error at /api/${url}: ${error}`);
   }
 }
