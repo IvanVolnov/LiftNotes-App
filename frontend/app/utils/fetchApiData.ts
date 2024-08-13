@@ -14,14 +14,15 @@ export default async function fetchApiData(
     });
 
     if (!response.ok) {
-      throw new Error(`Error fetching data: ${response.statusText}`);
+      const error = await response.json();
+      throw new Error(`Error fetching data: ${error}`);
+      // return { message: `Error fetching data: ${error}` };
     }
 
     const contentType = response.headers.get('content-type');
     if (!contentType || !contentType.includes('application/json')) {
-      console.error('Expected JSON response but got:', contentType);
-      const text = await response.text();
-      throw new Error(`Response body:, ${text}`);
+      throw new Error(`Expected JSON response but got: ${contentType}`);
+      // return { message: `Expected JSON response but got: ${contentType}` };
     }
 
     const data = await response.json();
@@ -29,5 +30,6 @@ export default async function fetchApiData(
     return data;
   } catch (error) {
     throw new Error(`Fetch error at /api/${url}: ${error}`);
+    // return { message: `Fetch error at /api/${url}: ${error}` };
   }
 }

@@ -1,6 +1,8 @@
+'use server';
 import { cookies } from 'next/headers';
 import fetchApiData from '../utils/fetchApiData';
 import { validateEmail } from '../utils/validateFormData';
+import { redirect } from 'next/navigation';
 
 export interface User {
   user_id?: string;
@@ -9,7 +11,7 @@ export interface User {
   password: string;
 }
 
-export async function login(formData: FormData) {
+export async function login(prevState: any, formData: FormData) {
   const email = formData.get('email') as string | null;
   const password = formData.get('password') as string | null;
 
@@ -19,20 +21,23 @@ export async function login(formData: FormData) {
   };
 
   if (!user.password || !validateEmail(user.email)) {
-    throw new Error(`Invalid email or password`);
+    // throw new Error(`Invalid email or password`);
+    return { message: `Error: Invalid email or password` };
   }
-
-  const data = await fetchApiData(
-    'users/login',
-    'post',
-    {
-      'Content-Type': 'application/json',
-    },
-    user
-  );
-  cookies().set('accessToken', data.accessToken);
-
-  return data;
+  try {
+    const data = await fetchApiData(
+      'users/login',
+      'post',
+      {
+        'Content-Type': 'application/json',
+      },
+      user
+    );
+    cookies().set('accessToken', data.accessToken);
+  } catch (error) {
+    return { message: String(error) };
+  }
+  redirect('/account/workouts');
 }
 
 export async function register(formData: FormData) {
@@ -47,12 +52,12 @@ export async function register(formData: FormData) {
     password: password || '',
   };
 
-  if (user.password !== confirmPassword) {
-    errors.push(`Passwords do not match`);
-  }
-
   if (!validateEmail(user.email)) {
     errors.push(`Invalid email`);
+  }
+
+  if (user.password !== confirmPassword) {
+    errors.push(`Passwords do not match`);
   }
 
   const passwordStrongnessRegex = /^.{4,}$/;

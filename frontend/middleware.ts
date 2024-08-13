@@ -7,7 +7,6 @@ const protectedPrefix = '/account';
 const publicRoutes = ['/auth/login', '/auth/registration', '/'];
 
 export default async function middleware(req: NextRequest) {
-  console.log('middleware started');
   // 2. Check if the current route is protected or public
   const path = req.nextUrl.pathname;
   const isProtectedRoute = path.startsWith(protectedPrefix);

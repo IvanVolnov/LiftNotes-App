@@ -1,5 +1,4 @@
 import { decodeJwt } from 'jose';
-import { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 
 export default function decodeJwtToken(token: string | undefined = '') {
   try {
