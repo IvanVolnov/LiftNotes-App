@@ -1,10 +1,10 @@
 import { getWorkouts } from '../../lib/workoutsActions';
-import decodeJwtToken from '@/app/utils/decodeJwtToken';
 import { Container } from '@mui/material';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import decodeJwtToken from '@/app/utils/decodeJwtToken';
+import AccountMenu from '@/app/components/AccountMenu';
 
-interface Workout {
+export interface Workout {
   workout_id: string;
   workout_name: string;
   workout_description: string;
@@ -12,6 +12,9 @@ interface Workout {
 
 export default async function Workouts() {
   const data: Workout[] = await getWorkouts();
+  const cookie = cookies().get('accessToken')?.value || '';
+  const session = decodeJwtToken(cookie);
+  const email = session?.email as string;
 
   return (
     <Container
@@ -22,7 +25,7 @@ export default async function Workouts() {
         height: '100svh',
       }}
     >
-      <h1>Logged in!</h1>
+      <h1>Logged in! {email}</h1>
 
       <div>
         {data?.map((workout) => (
@@ -32,6 +35,7 @@ export default async function Workouts() {
           </div>
         ))}
       </div>
+      <AccountMenu />
     </Container>
   );
 }

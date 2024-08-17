@@ -1,21 +1,25 @@
+'use client';
 import NextButton from '@/app/components/UI/NextButton';
-import { Button, Stack, TextField, Typography } from '@mui/material';
-
+import { Stack, TextField, Typography } from '@mui/material';
 import PasswordInput from '@/app/components/UI/PasswordInput';
 import { register } from '@/app/lib/authActions';
-import { redirect } from 'next/navigation';
 import SubmitButton from '@/app/components/UI/SubmitButton';
+import { useFormState } from 'react-dom';
+import ErrorMessage from '@/app/components/UI/ErrorMessage';
+import { FormEvent } from 'react';
 
-export default async function Registration() {
-  async function registrationHandler(formData: FormData) {
-    'use server';
+const initialState = {
+  message: '',
+};
 
-    const data = await register(formData);
+export default function Registration() {
+  const [state, formAction] = useFormState(register, initialState);
 
-    redirect('/auth/login');
-  }
-
-  // add more user friendly errors
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    formAction(formData);
+  };
 
   return (
     <>
@@ -26,7 +30,7 @@ export default async function Registration() {
         alignItems='center'
         spacing={4}
         sx={{ width: '100%' }}
-        action={registrationHandler}
+        onSubmit={handleSubmit}
       >
         <Typography variant='h4' sx={{ alignSelf: 'start', maxWidth: '100%' }}>
           Registration
@@ -46,6 +50,7 @@ export default async function Registration() {
 
         <PasswordInput inputName='Password' />
         <PasswordInput inputName='Confirm Password' />
+        {state?.message && <ErrorMessage>{state?.message}</ErrorMessage>}
         <SubmitButton>Register new account</SubmitButton>
       </Stack>
       <Stack direction='row' spacing={1} alignItems='center'>
@@ -53,6 +58,10 @@ export default async function Registration() {
         <NextButton href='/auth/login' size='small'>
           login
         </NextButton>
+      </Stack>
+      <Stack direction='row' spacing={1} alignItems='center'>
+        <Typography variant='body1'>Want to try it first?</Typography>
+        <NextButton size='small'>view demo</NextButton>
       </Stack>
     </>
   );

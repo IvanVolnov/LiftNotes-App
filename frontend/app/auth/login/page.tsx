@@ -1,28 +1,18 @@
 'use client';
 import NextButton from '@/app/components/UI/NextButton';
-import { Button, Stack, TextField, Typography } from '@mui/material';
+import { Stack, TextField, Typography } from '@mui/material';
 
 import PasswordInput from '@/app/components/UI/PasswordInput';
 
 import { useFormState } from 'react-dom';
-// import loginHandler from './actions';
 import SubmitButton from '@/app/components/UI/SubmitButton';
 import { login } from '@/app/lib/authActions';
-import { redirect } from 'next/navigation';
 import { FormEvent, useActionState } from 'react';
+import ErrorMessage from '@/app/components/UI/ErrorMessage';
 
 const initialState = {
   message: '',
 };
-
-// async function loginHandler(prevState: any, formData: FormData) {
-//   try {
-//     await login(formData);
-//     redirect('/account/workouts');
-//   } catch (error) {
-//     return { message: error };
-//   }
-// }
 
 export default function Login() {
   const [state, formAction] = useFormState(login, initialState);
@@ -57,12 +47,16 @@ export default function Login() {
         <PasswordInput inputName='Password' />
         <SubmitButton>Login to your account</SubmitButton>
       </Stack>
-      {state && <p aria-live='polite'>{state?.message}</p>}
+      {state.message && <ErrorMessage>{state?.message}</ErrorMessage>}
       <Stack direction='row' spacing={1} alignItems='center'>
         <Typography variant='body1'>Don’t have an account?</Typography>
         <NextButton href='/auth/registration' size='small'>
           register
         </NextButton>
+      </Stack>
+      <Stack direction='row' spacing={1} alignItems='center'>
+        <Typography variant='body1'>Want to try it first?</Typography>
+        <NextButton size='small'>view demo</NextButton>
       </Stack>
     </>
   );

@@ -21,7 +21,6 @@ export async function login(prevState: any, formData: FormData) {
   };
 
   if (!user.password || !validateEmail(user.email)) {
-    // throw new Error(`Invalid email or password`);
     return { message: `Error: Invalid email or password` };
   }
   try {
@@ -40,7 +39,7 @@ export async function login(prevState: any, formData: FormData) {
   redirect('/account/workouts');
 }
 
-export async function register(formData: FormData) {
+export async function register(prevState: any, formData: FormData) {
   const email = formData.get('email') as string | null;
   const password = formData.get('password') as string | null;
   const confirmPassword = formData.get('confirmPassword') as string | null;
@@ -67,24 +66,31 @@ export async function register(formData: FormData) {
   }
 
   if (errors.length) {
-    throw new Error(`Register form validation error:\n ${errors.join('\n')}`);
+    return {
+      message: `Register form validation error:
+       ${errors.join('; ')}`,
+    };
   }
 
-  const data = await fetchApiData(
-    'users/register',
-    'post',
-    {
-      'Content-Type': 'application/json',
-    },
-    user
-  );
-  console.log(data);
-  return data;
+  try {
+    const data = await fetchApiData(
+      'users/register',
+      'post',
+      {
+        'Content-Type': 'application/json',
+      },
+      user
+    );
+  } catch (error) {
+    return { message: String(error) };
+  }
+
+  redirect('/auth/success');
 }
 
 export async function logout() {
-  // Destroy the session
-  cookies().set('session', '', { expires: new Date(0) });
+  cookies().delete('accessToken');
+  redirect('/');
 }
 
 // export async function updateSession(request: NextRequest) {

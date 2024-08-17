@@ -1,5 +1,4 @@
-import { Container, Stack, Typography } from '@mui/material';
-import NextButton from '../components/UI/NextButton';
+import { Container, Stack } from '@mui/material';
 
 export default function AuthLayout({
   children,
@@ -20,8 +19,9 @@ export default function AuthLayout({
         spacing={4}
         p={5}
         sx={{
-          mt: { xs: '5vh', sm: '15vh' },
+          mt: { xs: '5vh', sm: '10vh' },
           minWidth: 'min(98vw, 25rem)',
+          maxWidth: '25.00rem',
           borderRadius: '10px',
           position: 'relative',
           '&:before': {
@@ -43,10 +43,6 @@ export default function AuthLayout({
         }}
       >
         {children}
-        <Stack direction='row' spacing={1} alignItems='center'>
-          <Typography variant='body1'>Want to try it first?</Typography>
-          <NextButton size='small'>view demo</NextButton>
-        </Stack>
       </Stack>
     </Container>
   );
