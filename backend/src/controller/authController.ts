@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { sql } from '@vercel/postgres';
 import bcrypt from 'bcrypt';
 import { jwtTokens, jwtTokensPayload } from '../utils/jwt-helpers.js';
+import jwt from 'jsonwebtoken';
 
 export interface User {
   user_id?: string;
@@ -51,30 +52,26 @@ export async function login(req: Request, res: Response) {
   }
 }
 
-// export function updateRefreshToken(req: Request, res: Response) {
-//   try {
-//     const refreshToken: string = req.cookies.refresh_token;
-//     if (!refreshToken) {
-//       return res.status(401).json({ error: 'Refresh token is missing' });
-//     }
-//     jwt.verify(
-//       refreshToken,
-//       process.env.ACCESS_TOKEN_SECRET,
-//       (error, user) => {
-//         if (error) return res.status(403).json({ error: error.message });
-//         if (typeof user !== 'object' || user === null) {
-//           return res.status(500).json({ error: 'Invalid token payload' });
-//         }
-//         let tokens = jwtTokens(user as jwtTokensPayload);
-//         res.cookie('refresh_token', tokens.refreshToken, {
-//           httpOnly: true,
-//           sameSite: 'none',
-//           secure: true,
-//         });
-//         res.json(tokens);
-//       }
-//     );
-//   } catch (error) {
-//     res.status(401).json({ error: error.message });
-//   }
-// }
+export function updateToken(req: Request, res: Response) {
+  try {
+    const accessToken: string = req.body.access_token;
+    if (!accessToken) {
+      return res.status(401).json({ error: 'Access token is missing' });
+    }
+    jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (error, user) => {
+      if (error) return res.status(403).json({ error: error.message });
+      if (typeof user !== 'object' || user === null) {
+        return res.status(500).json({ error: 'Invalid token payload' });
+      }
+      let tokens = jwtTokens(user as jwtTokensPayload);
+      res.cookie('access_token', tokens.accessToken, {
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+      });
+      res.json(tokens);
+    });
+  } catch (error) {
+    res.status(401).json({ error: error.message });
+  }
+}

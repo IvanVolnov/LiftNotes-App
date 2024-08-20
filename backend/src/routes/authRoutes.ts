@@ -1,11 +1,7 @@
 import express, { Request, Response } from 'express';
 import { sql } from '@vercel/postgres';
 import { authenticateToken } from '../middleware/authorization.js';
-import {
-  login,
-  register,
-  // updateRefreshToken,
-} from '../controller/authController.js';
+import { login, register, updateToken } from '../controller/authController.js';
 
 const users = express.Router();
 
@@ -22,7 +18,7 @@ users.post('/register', register);
 
 users.post('/login', login);
 
-// users.get('/refresh_token', updateRefreshToken);
+users.post('/update_token', authenticateToken, updateToken);
 
 // users.delete('/refresh_token', (req: Request, res: Response) => {
 //   try {

@@ -21,25 +21,5 @@ export async function getWorkouts() {
     },
     { user_id: userId }
   );
-  // cookies().set('accessToken', data.accessToken);
   return data.workouts;
 }
-
-// export interface Workout {
-//   workout_id: string;
-//   workout_name: string;
-//   workout_description: string;
-// }
-
-// export async function getWorkouts(): Promise<Workout[]> {
-//   const res = await fetch('http://localhost:3000/api/workouts', {
-//     method: 'POST',
-//   });
-
-//   if (!res.ok) {
-//     throw new Error('Failed to fetch workouts');
-//   }
-
-//   const workouts: Workout[] = await res.json();
-//   return workouts;
-// }

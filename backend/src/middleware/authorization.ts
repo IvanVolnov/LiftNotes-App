@@ -18,7 +18,6 @@ export const authenticateToken: RequestHandler = (
 ) => {
   const authHeader = req.headers['authorization']; //Bearer TOKEN
   const token = authHeader && authHeader.split(' ')[1];
-  console.log(`old token: ${token}`);
   if (!token) {
     return res.status(401).json({ error: 'Authorization token is missing' });
   }
@@ -28,7 +27,6 @@ export const authenticateToken: RequestHandler = (
     (error, user) => {
       if (error) return res.status(403).json({ error: error.message });
       req.user = user as User;
-      res.locals.accessToken = jwtTokens(req.user).accessToken;
       next();
     }
   );
