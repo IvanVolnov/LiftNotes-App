@@ -2,7 +2,6 @@ import { getWorkouts } from '../../lib/workoutsActions';
 import { Container } from '@mui/material';
 import { cookies } from 'next/headers';
 import decodeJwtToken from '@/app/utils/decodeJwtToken';
-import AccountMenu from '@/app/components/AccountMenu';
 
 export interface Workout {
   workout_id: string;
@@ -35,7 +34,6 @@ export default async function Workouts() {
           </div>
         ))}
       </div>
-      <AccountMenu />
     </Container>
   );
 }

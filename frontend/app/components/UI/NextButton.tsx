@@ -14,7 +14,8 @@ interface MyProps {
     | 'success'
     | 'error'
     | 'info'
-    | 'warning';
+    | 'warning'
+    | 'third';
   type?: string;
 }
 

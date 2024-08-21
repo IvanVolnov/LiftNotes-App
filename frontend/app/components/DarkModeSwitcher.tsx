@@ -2,9 +2,8 @@
 import { useColorModeContext } from '@/app/context/ColorModeContext';
 import { DarkMode } from '@mui/icons-material';
 import { FormControl, FormControlLabel, Switch } from '@mui/material';
-import { useEffect, useState } from 'react';
 
-export default function DarkModeSwicher() {
+export default function DarkModeSwitcher() {
   const { toggleColorMode, checkIfDarkMode } = useColorModeContext();
 
   const checkIfDark = checkIfDarkMode();
