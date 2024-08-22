@@ -8,14 +8,14 @@ interface MyProps {
   size?: 'small' | 'medium' | 'large';
   href?: string;
   color?:
-    | 'inherit'
     | 'primary'
+    | 'inherit'
     | 'secondary'
     | 'success'
     | 'error'
     | 'info'
-    | 'warning'
-    | 'third';
+    | 'warning';
+
   type?: string;
 }
 

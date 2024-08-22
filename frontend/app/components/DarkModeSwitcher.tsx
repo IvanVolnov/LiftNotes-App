@@ -9,17 +9,15 @@ export default function DarkModeSwitcher() {
   const checkIfDark = checkIfDarkMode();
 
   return (
-    <>
-      <FormControl component='fieldset'>
-        <FormControlLabel
-          value='dark mode'
-          control={<Switch color='primary' checked={checkIfDark} />}
-          label={<DarkMode sx={{ position: 'relative', top: '0.2rem' }} />}
-          labelPlacement='start'
-          onClick={toggleColorMode}
-          defaultChecked
-        />
-      </FormControl>
-    </>
+    <FormControl component='fieldset'>
+      <FormControlLabel
+        value='dark mode'
+        control={<Switch color='primary' checked={checkIfDark} />}
+        label={<DarkMode sx={{ position: 'relative', top: '0.2rem' }} />}
+        labelPlacement='start'
+        onClick={toggleColorMode}
+        defaultChecked
+      />
+    </FormControl>
   );
 }

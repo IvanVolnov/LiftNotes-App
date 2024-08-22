@@ -17,22 +17,13 @@ import Link from 'next/link';
 import NextButton from './UI/NextButton';
 import { Stack } from '@mui/material';
 
-interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window?: () => Window;
-}
-
-const drawerWidth = 240;
+const drawerWidth = 200;
 const navItems = [
   { name: 'Workouts', href: '/account/workouts' },
   { name: 'Exercises', href: '/account/exercises' },
 ];
 
-export default function MenuBar(props: Props) {
-  const { window } = props;
+export default function MenuBar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -53,14 +44,13 @@ export default function MenuBar(props: Props) {
             </ListItemButton>
           </ListItem>
         ))}
+        <Divider />
       </List>
-      <Divider />
-      <DarkModeSwitcher />
+      <Box sx={{ marginRight: '1rem' }}>
+        <DarkModeSwitcher />
+      </Box>
     </Box>
   );
-
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
 
   return (
     <>
@@ -86,15 +76,16 @@ export default function MenuBar(props: Props) {
               </NextButton>
             ))}
           </Stack>
-          <Stack direction='row' sx={{ alignItems: 'center' }}>
-            <DarkModeSwitcher />
+          <Stack direction='row' spacing={2} sx={{ alignItems: 'center' }}>
+            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+              <DarkModeSwitcher />
+            </Box>
             <AccountMenu />
           </Stack>
         </Toolbar>
       </AppBar>
       <nav>
         <Drawer
-          container={container}
           variant='temporary'
           open={mobileOpen}
           onClose={handleDrawerToggle}

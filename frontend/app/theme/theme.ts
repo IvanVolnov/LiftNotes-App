@@ -26,9 +26,12 @@ let darkTheme = createTheme({
     background: {
       default: '#010403',
     },
-    third: {
+    contentBg: {
       main: '#0D0B22',
-      dark: '#4b4a62',
+      contrastText: '#FFFFFF',
+    },
+    secondaryBg: {
+      main: '#090C0B',
       contrastText: '#FFFFFF',
     },
   },
@@ -56,9 +59,12 @@ let lightTheme = createTheme({
     background: {
       default: '#FFFFFF',
     },
-    third: {
+    contentBg: {
       main: '#D9D6F4',
-      dark: '#a9a0e5',
+      contrastText: '#000000',
+    },
+    secondaryBg: {
+      main: '#F3F6F5',
       contrastText: '#000000',
     },
   },

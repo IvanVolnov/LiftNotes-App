@@ -1,7 +1,8 @@
 import { getWorkouts } from '../../lib/workoutsActions';
-import { Container } from '@mui/material';
+import { Button, Container, Typography } from '@mui/material';
 import { cookies } from 'next/headers';
 import decodeJwtToken from '@/app/utils/decodeJwtToken';
+import NextButton from '@/app/components/UI/NextButton';
 
 export interface Workout {
   workout_id: string;
@@ -16,16 +17,11 @@ export default async function Workouts() {
   const email = session?.email as string;
 
   return (
-    <Container
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        height: '100svh',
-      }}
-    >
-      <h1>Logged in! {email}</h1>
-
+    <>
+      <Typography variant='h2'>Workouts</Typography>
+      <NextButton variant='outlined' size='large'>
+        Add new workout
+      </NextButton>
       <div>
         {data?.map((workout) => (
           <div key={workout.workout_id}>
@@ -34,6 +30,7 @@ export default async function Workouts() {
           </div>
         ))}
       </div>
-    </Container>
+      <Button size='large'>Manage workouts</Button>
+    </>
   );
 }

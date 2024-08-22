@@ -2,16 +2,19 @@ import { PaletteColorOptions, PaletteColor } from '@mui/material/styles';
 
 declare module '@mui/material/styles' {
   interface Palette {
-    third?: PaletteColor;
+    contentBg?: PaletteColor;
+    secondaryBg?: PaletteColor;
   }
   interface PaletteOptions {
-    third?: PaletteColorOptions;
+    contentBg?: PaletteColorOptions;
+    secondaryBg?: PaletteColorOptions;
   }
 }
 
 // Update the Button's color options to include an color option
 declare module '@mui/material/Button' {
   interface ButtonPropsColorOverrides {
-    third: true;
+    contentBg: true;
+    secondaryBg: true;
   }
 }
