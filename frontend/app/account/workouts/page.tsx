@@ -1,8 +1,9 @@
 import { getWorkouts } from '../../lib/workoutsActions';
-import { Button, Container, Typography } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import { cookies } from 'next/headers';
 import decodeJwtToken from '@/app/utils/decodeJwtToken';
-import NextButton from '@/app/components/UI/NextButton';
+import ContentHeaderBtn from '@/app/components/UI/ContentHeaderBtn';
+import ContentFooterBtn from '@/app/components/UI/ContentFooterBtn';
 
 export interface Workout {
   workout_id: string;
@@ -10,6 +11,10 @@ export interface Workout {
   workout_description: string;
 }
 
+const test = async () => {
+  'use server';
+  console.log('click');
+};
 export default async function Workouts() {
   const data: Workout[] = await getWorkouts();
   const cookie = cookies().get('accessToken')?.value || '';
@@ -18,10 +23,19 @@ export default async function Workouts() {
 
   return (
     <>
-      <Typography variant='h2'>Workouts</Typography>
-      <NextButton variant='outlined' size='large'>
-        Add new workout
-      </NextButton>
+      <Stack
+        direction={{ xs: 'column', sm: 'row' }}
+        sx={{
+          alignItems: { xs: 'stretch', sm: 'center' },
+          justifyContent: { xs: 'center', sm: 'space-between' },
+        }}
+        spacing={2}
+      >
+        <Typography variant='h2'>Workouts</Typography>
+        <ContentHeaderBtn clickFunction={test}>
+          Add new workout
+        </ContentHeaderBtn>
+      </Stack>
       <div>
         {data?.map((workout) => (
           <div key={workout.workout_id}>
@@ -30,7 +44,7 @@ export default async function Workouts() {
           </div>
         ))}
       </div>
-      <Button size='large'>Manage workouts</Button>
+      <ContentFooterBtn>Manage workouts</ContentFooterBtn>
     </>
   );
 }

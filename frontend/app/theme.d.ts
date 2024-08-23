@@ -1,13 +1,26 @@
 import { PaletteColorOptions, PaletteColor } from '@mui/material/styles';
 
+// declare module '@mui/material/styles' {
+//   interface Palette {
+//     contentBg?: PaletteColor;
+//     secondaryBg?: PaletteColor;
+//   }
+//   interface PaletteOptions {
+//     contentBg?: PaletteColorOptions;
+//     secondaryBg?: PaletteColorOptions;
+//   }
+// }
+
+// Augment the palette to include a salmon color
 declare module '@mui/material/styles' {
   interface Palette {
-    contentBg?: PaletteColor;
-    secondaryBg?: PaletteColor;
+    contentBg: Palette['primary'];
+    secondaryBg: Palette['primary'];
   }
+
   interface PaletteOptions {
-    contentBg?: PaletteColorOptions;
-    secondaryBg?: PaletteColorOptions;
+    contentBg?: PaletteOptions['primary'];
+    secondaryBg?: PaletteOptions['primary'];
   }
 }
 

@@ -1,4 +1,4 @@
-import { Box, Container, Toolbar } from '@mui/material';
+import { Box, Container, Stack, Toolbar } from '@mui/material';
 import MenuBar from '../components/MenuBar';
 
 export default function AccountLayout({
@@ -16,18 +16,18 @@ export default function AccountLayout({
     >
       <MenuBar />
       <Toolbar />
-      <Box
+      <Stack
         component='main'
         mt={{ xs: 0, sm: 3 }}
         p={{ xs: 2, sm: 4 }}
         sx={{
           bgcolor: 'secondaryBg.main',
-          // maxWidth: '44.00rem',
+          minWidth: 'min(100vw, 44rem)',
           borderRadius: '0.63rem',
         }}
       >
         {children}
-      </Box>
+      </Stack>
     </Container>
   );
 }
