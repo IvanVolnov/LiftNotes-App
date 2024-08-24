@@ -8,7 +8,7 @@ interface CustomProps {
   header: string;
   text?: string;
   href?: string;
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }
 
 export default function ContentBlock({
@@ -18,7 +18,6 @@ export default function ContentBlock({
   href,
   searchParams,
 }: CustomProps) {
-  console.log(searchParams);
   return (
     <Card
       sx={{
