@@ -29,6 +29,7 @@ export default function NextButton({
 }: MyProps) {
   return (
     <Button
+      disableElevation
       color={color}
       component={Link}
       variant={variant}

@@ -1,9 +1,10 @@
 import { getWorkouts } from '../../lib/workoutsActions';
-import { Button, Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { cookies } from 'next/headers';
 import decodeJwtToken from '@/app/utils/decodeJwtToken';
 import ContentHeaderBtn from '@/app/components/UI/ContentHeaderBtn';
 import ContentFooterBtn from '@/app/components/UI/ContentFooterBtn';
+import ContentBlock from '@/app/components/UI/ContentBlock';
 
 export interface Workout {
   workout_id: string;
@@ -36,15 +37,25 @@ export default async function Workouts() {
           Add new workout
         </ContentHeaderBtn>
       </Stack>
-      <div>
-        {data?.map((workout) => (
-          <div key={workout.workout_id}>
-            <h1>{workout.workout_name}</h1>
-            <p>{workout.workout_description}</p>
-          </div>
-        ))}
-      </div>
-      <ContentFooterBtn>Manage workouts</ContentFooterBtn>
+      {data.length === 0 ? (
+        <Typography mt={4} variant='subtitle1'>
+          There are no workouts yet
+        </Typography>
+      ) : (
+        <>
+          <Stack mt={4} mb={{ xs: 3, sm: 5 }} spacing={2}>
+            {data?.map((workout) => (
+              <ContentBlock
+                key={workout.workout_id}
+                id={workout.workout_id}
+                header={workout.workout_name}
+                text={workout.workout_description}
+              />
+            ))}
+          </Stack>
+          <ContentFooterBtn>Manage workouts</ContentFooterBtn>
+        </>
+      )}
     </>
   );
 }

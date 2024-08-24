@@ -61,6 +61,7 @@ let lightTheme = createTheme({
     },
     contentBg: {
       main: '#D9D6F4',
+      dark: '#A394E6',
       contrastText: '#000000',
     },
     secondaryBg: {

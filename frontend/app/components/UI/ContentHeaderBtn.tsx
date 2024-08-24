@@ -33,6 +33,7 @@ export default function ContentHeaderBtn({
       sx={{ textTransform: 'uppercase' }}
       type={type}
       onClick={() => clickFunction?.()}
+      disableElevation
     >
       {children}
     </Button>
