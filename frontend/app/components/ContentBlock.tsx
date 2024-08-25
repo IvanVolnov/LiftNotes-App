@@ -1,23 +1,18 @@
 import { Card, CardContent, Typography } from '@mui/material';
 import { ReactNode } from 'react';
-import NextButton from './NextButton';
+import NextButton from './UI/NextButton';
+import ContentBlockMenu from './ContentBlockMenu';
 
 interface CustomProps {
   children?: ReactNode;
   id: string;
   header: string;
   text?: string;
-  href?: string;
+  mode: 'workout' | 'day' | 'excercise';
   searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-export default function ContentBlock({
-  id,
-  header,
-  text,
-  href,
-  searchParams,
-}: CustomProps) {
+export default function ContentBlock({ id, header, text, mode }: CustomProps) {
   return (
     <Card
       sx={{
@@ -35,13 +30,10 @@ export default function ContentBlock({
         <Typography variant='body2' color='text.secondary'>
           {text}
         </Typography>
-        <Typography variant='body2' color='text.secondary'>
-          gfhm
-        </Typography>
       </CardContent>
-      <NextButton variant='contained' href={href}>
+      <ContentBlockMenu id={id} mode={mode}>
         start
-      </NextButton>
+      </ContentBlockMenu>
     </Card>
   );
 }

@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 import decodeJwtToken from '@/app/utils/decodeJwtToken';
 import ContentHeaderBtn from '@/app/components/UI/ContentHeaderBtn';
 import ContentFooterBtn from '@/app/components/UI/ContentFooterBtn';
-import ContentBlock from '@/app/components/UI/ContentBlock';
+import ContentBlock from '../../components/ContentBlock';
 
 export interface Workout {
   workout_id: string;
@@ -50,6 +50,7 @@ export default async function Workouts() {
                 id={workout.workout_id}
                 header={workout.workout_name}
                 text={workout.workout_description}
+                mode='workout'
               />
             ))}
           </Stack>
