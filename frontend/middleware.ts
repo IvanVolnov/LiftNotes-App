@@ -48,7 +48,13 @@ export default async function middleware(req: NextRequest) {
       },
       { access_token: cookie }
     );
-    response.cookies.set('accessToken', data.accessToken);
+    const newSession = decodeJwtToken(data.accessToken);
+    const expirationDate = new Date((newSession?.exp || 0) * 1000);
+    console.log(newSession, expirationDate);
+    response.cookies.set('accessToken', data.accessToken, {
+      expires: expirationDate,
+      httpOnly: true,
+    });
   }
 
   // Redirect to /workouts if the user is authenticated

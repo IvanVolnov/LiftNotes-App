@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import fetchApiData from '../utils/fetchApiData';
 import { validateEmail } from '../utils/validateFormData';
 import { redirect } from 'next/navigation';
+import decodeJwtToken from '../utils/decodeJwtToken';
 
 export interface User {
   user_id?: string;
@@ -32,7 +33,14 @@ export async function login(prevState: any, formData: FormData) {
       },
       user
     );
-    cookies().set('accessToken', data.accessToken);
+
+    const newSession = decodeJwtToken(data.accessToken);
+    const expirationDate = new Date((newSession?.exp || 0) * 1000);
+
+    cookies().set('accessToken', data.accessToken, {
+      expires: expirationDate,
+      httpOnly: true,
+    });
   } catch (error) {
     return { message: String(error) };
   }
