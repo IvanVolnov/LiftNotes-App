@@ -32,7 +32,8 @@ export default async function middleware(req: NextRequest) {
   // check token expiration
   if (isTokenExpired) {
     response = NextResponse.redirect(new URL('/auth/login', req.nextUrl));
-    response.cookies.delete('accessToken');
+    // response.cookies.delete('accessToken');
+    response.cookies.set('accessToken', 'expired');
     return response;
   }
 
