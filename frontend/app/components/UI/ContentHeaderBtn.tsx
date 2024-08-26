@@ -4,6 +4,7 @@ import { Button } from '@mui/material';
 import { ReactNode } from 'react';
 import { useColorModeContext } from '@/app/context/ColorModeContext';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useModalContext } from '@/app/context/ModalContext';
 
 interface MyProps {
   children?: ReactNode;
@@ -18,7 +19,6 @@ export default function ContentHeaderBtn({
   size = 'large',
   href = '',
   type = 'button',
-  clickFunction,
 }: MyProps) {
   const { checkIfDarkMode } = useColorModeContext();
   const checkIfDark = checkIfDarkMode();
@@ -31,13 +31,10 @@ export default function ContentHeaderBtn({
   const deleteQueryParam = (key: string) => {
     const params = new URLSearchParams(searchParams);
     params.delete(key);
-
     router.push(`${currentPath}?${params.toString()}`);
   };
 
-  function addWorkout() {
-    console.log('add workout');
-  }
+  const { toggleModal } = useModalContext();
 
   return (
     <Button
@@ -48,7 +45,11 @@ export default function ContentHeaderBtn({
       href={href}
       sx={{ textTransform: 'uppercase' }}
       type={type}
-      onClick={edit ? () => deleteQueryParam('edit') : addWorkout}
+      onClick={
+        edit
+          ? () => deleteQueryParam('edit')
+          : () => toggleModal('workout', 'create')
+      }
       disableElevation
     >
       {edit ? 'exit management mode' : children}
