@@ -7,3 +7,8 @@ empty account:
   "email": "empty@demo.com",
   "password": "empty"
 }
+
+ALTER TABLE workouts
+ADD CONSTRAINT fk_user
+FOREIGN KEY (user_id) REFERENCES users(user_id)
+ON DELETE CASCADE;

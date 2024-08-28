@@ -1,24 +1,20 @@
 'use client';
-import Link from 'next/link';
 import { Button } from '@mui/material';
 import { ReactNode } from 'react';
 import { useColorModeContext } from '@/app/context/ColorModeContext';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useModalContext } from '@/app/context/ModalContext';
+import { Entity, useModalContext } from '@/app/context/ModalContext';
 
 interface MyProps {
   children?: ReactNode;
   size?: 'small' | 'medium' | 'large';
-  href?: string;
-  type?: string;
-  clickFunction?: () => void;
+  entity?: Entity;
 }
 
 export default function ContentHeaderBtn({
   children,
   size = 'large',
-  href = '',
-  type = 'button',
+  entity = null,
 }: MyProps) {
   const { checkIfDarkMode } = useColorModeContext();
   const checkIfDark = checkIfDarkMode();
@@ -39,16 +35,14 @@ export default function ContentHeaderBtn({
   return (
     <Button
       color={checkIfDark ? 'primary' : 'secondary'}
-      component={href ? Link : Button}
       variant='outlined'
       size={size}
-      href={href}
       sx={{ textTransform: 'uppercase' }}
-      type={type}
+      type='button'
       onClick={
         edit
           ? () => deleteQueryParam('edit')
-          : () => toggleModal('workout', 'create')
+          : () => toggleModal(entity, 'create')
       }
       disableElevation
     >

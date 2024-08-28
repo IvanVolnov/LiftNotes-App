@@ -1,7 +1,5 @@
 import { getWorkouts } from '../../lib/workoutsActions';
 import { Stack, Typography } from '@mui/material';
-import { cookies } from 'next/headers';
-import decodeJwtToken from '@/app/utils/decodeJwtToken';
 import ContentHeaderBtn from '@/app/components/UI/ContentHeaderBtn';
 import ContentFooterBtn from '@/app/components/UI/ContentFooterBtn';
 import ContentBlock from '../../components/ContentBlock';

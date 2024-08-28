@@ -8,7 +8,7 @@ interface AuthRequest extends Request {
 }
 
 interface AuthResponse extends Response {
-  token?: {};
+  user?: User;
 }
 
 export const authenticateToken: RequestHandler = (
@@ -27,6 +27,7 @@ export const authenticateToken: RequestHandler = (
     (error, user) => {
       if (error) return res.status(403).json({ error: error.message });
       req.user = user as User;
+      res.locals.user = user as User;
       next();
     }
   );

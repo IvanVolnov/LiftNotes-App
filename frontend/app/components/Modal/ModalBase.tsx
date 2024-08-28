@@ -9,6 +9,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import SubmitButton from '../UI/SubmitButton';
 import { useModalContext } from '@/app/context/ModalContext';
 import { Paper } from '@mui/material';
+import { createWorkout } from '@/app/lib/workoutsActions';
+import { revalidatePath } from 'next/cache';
+import { startTransition } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface CustomProps {
   isOpened: boolean;
@@ -16,6 +20,7 @@ interface CustomProps {
 
 export default function ModalBase({ isOpened }: CustomProps) {
   const { mode, toggleModal } = useModalContext();
+  const router = useRouter();
 
   const handleClose = () => {
     toggleModal();
@@ -31,9 +36,12 @@ export default function ModalBase({ isOpened }: CustomProps) {
           onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
-            const formJson = Object.fromEntries((formData as any).entries());
-
-            console.log(formJson);
+            createWorkout(formData);
+            startTransition(() => {
+              // Refresh the current route and fetch new data from the server without
+              // losing client-side browser or React state.
+              router.refresh();
+            });
             handleClose();
           },
         }}
@@ -60,6 +68,7 @@ export default function ModalBase({ isOpened }: CustomProps) {
             type='text'
             fullWidth
             variant='standard'
+            color='secondary'
           />
           <TextField
             autoFocus

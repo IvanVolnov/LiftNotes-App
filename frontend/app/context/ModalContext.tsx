@@ -2,9 +2,8 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
 import ModalBase from '../components/Modal/ModalBase';
 
-type Entity = null | 'workout' | 'day' | 'exercise';
-
-type Operation = null | 'create' | 'edit' | 'duplicate' | 'delete';
+export type Entity = null | 'workout' | 'day' | 'exercise';
+export type Operation = null | 'create' | 'edit' | 'duplicate' | 'delete';
 
 interface Mode {
   entity: Entity;
