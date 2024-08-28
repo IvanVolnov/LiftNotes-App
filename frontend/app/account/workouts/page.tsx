@@ -12,15 +12,8 @@ export interface Workout {
   workout_description: string;
 }
 
-const test = async () => {
-  'use server';
-  console.log('click');
-};
 export default async function Workouts() {
   const data: Workout[] = await getWorkouts();
-  const cookie = cookies().get('accessToken')?.value || '';
-  const session = decodeJwtToken(cookie);
-  const email = session?.email as string;
 
   return (
     <>
@@ -33,9 +26,7 @@ export default async function Workouts() {
         spacing={2}
       >
         <Typography variant='h2'>Workouts</Typography>
-        <ContentHeaderBtn clickFunction={test}>
-          Add new workout
-        </ContentHeaderBtn>
+        <ContentHeaderBtn>Add new workout</ContentHeaderBtn>
       </Stack>
       {data.length === 0 ? (
         <Typography mt={4} variant='subtitle1'>

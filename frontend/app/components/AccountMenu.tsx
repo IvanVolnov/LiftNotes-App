@@ -3,11 +3,7 @@ import {
   Avatar,
   Box,
   IconButton,
-  List,
-  ListItem,
-  ListItemButton,
   ListItemIcon,
-  ListItemText,
   Menu,
   MenuItem,
   Tooltip,
@@ -19,6 +15,7 @@ import { Logout } from '@mui/icons-material';
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };

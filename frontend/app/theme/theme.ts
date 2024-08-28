@@ -49,8 +49,8 @@ let lightTheme = createTheme({
       main: '#28d291',
     },
     secondary: {
-      main: '#A394E6',
-      contrastText: '#000000',
+      main: '#7B00C7',
+      contrastText: '#FFFFFF',
     },
     info: {
       main: '#7B00C7',

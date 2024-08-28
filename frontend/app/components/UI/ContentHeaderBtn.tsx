@@ -38,9 +38,9 @@ export default function ContentHeaderBtn({
 
   return (
     <Button
-      color={checkIfDark ? 'primary' : 'contentBg'}
+      color={checkIfDark ? 'primary' : 'secondary'}
       component={href ? Link : Button}
-      variant={checkIfDark ? 'outlined' : 'contained'}
+      variant='outlined'
       size={size}
       href={href}
       sx={{ textTransform: 'uppercase' }}
