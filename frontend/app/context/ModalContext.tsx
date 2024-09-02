@@ -2,12 +2,15 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
 import ModalBase from '../components/Modal/ModalBase';
 
-export type Entity = null | 'workout' | 'day' | 'exercise';
-export type Operation = null | 'create' | 'edit' | 'duplicate' | 'delete';
+export type Entity = 'workout' | 'day' | 'exercise';
+export type Operation = 'create' | 'edit' | 'duplicate' | 'delete';
 
 interface Mode {
   entity: Entity;
   operation: Operation;
+  id?: string;
+  name?: string;
+  description?: string;
 }
 
 interface ModalContextProps {
@@ -18,7 +21,7 @@ interface ModalContextProps {
 
 const ModalContextDefaultValue: ModalContextProps = {
   isOpened: false,
-  mode: { entity: null, operation: null },
+  mode: { entity: 'workout', operation: 'create' },
   toggleModal: () => {},
 };
 
@@ -37,8 +40,8 @@ interface Props {
 export function ModalProvider({ children }: Props) {
   const [isOpened, setIsOpened] = useState(false);
   const [mode, setMode] = useState<Mode>({
-    entity: null,
-    operation: null,
+    entity: 'workout',
+    operation: 'create',
   });
 
   function toggleModal(newEntity?: Entity, newOperation?: Operation) {

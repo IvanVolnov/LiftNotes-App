@@ -1,4 +1,4 @@
-import { getWorkouts } from '../../lib/workoutsActions';
+import { getWorkouts } from '../../lib/workoutsDaysActions';
 import { Stack, Typography } from '@mui/material';
 import ContentHeaderBtn from '@/app/components/UI/ContentHeaderBtn';
 import ContentFooterBtn from '@/app/components/UI/ContentFooterBtn';

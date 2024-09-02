@@ -1,14 +1,14 @@
 import { Card, CardContent, Typography } from '@mui/material';
 import { ReactNode } from 'react';
-import NextButton from './UI/NextButton';
 import ContentBlockMenu from './ContentBlockMenu';
+import { Entity } from '../context/ModalContext';
 
 interface CustomProps {
   children?: ReactNode;
   id: string;
   header: string;
   text?: string;
-  mode: 'workout' | 'day' | 'excercise';
+  mode: Entity;
   searchParams?: { [key: string]: string | string[] | undefined };
 }
 
@@ -31,7 +31,7 @@ export default function ContentBlock({ id, header, text, mode }: CustomProps) {
           {text}
         </Typography>
       </CardContent>
-      <ContentBlockMenu id={id} mode={mode}>
+      <ContentBlockMenu id={id} mode={mode} name={header} description={text}>
         start
       </ContentBlockMenu>
     </Card>
