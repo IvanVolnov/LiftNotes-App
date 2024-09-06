@@ -29,7 +29,11 @@ export default function ContentBlockMenu({
 
   return edit ? (
     <Stack direction='row' spacing={1}>
-      <IconButton aria-label='delete' size='medium'>
+      <IconButton
+        aria-label='delete'
+        size='medium'
+        onClick={() => toggleModal(mode, 'delete', { id, name, description })}
+      >
         <DeleteIcon />
       </IconButton>
       <IconButton aria-label='delete' size='medium'>
@@ -38,7 +42,7 @@ export default function ContentBlockMenu({
       <IconButton
         aria-label='delete'
         size='medium'
-        onClick={() => toggleModal(mode, 'edit')}
+        onClick={() => toggleModal(mode, 'edit', { id, name, description })}
       >
         <EditIcon />
       </IconButton>

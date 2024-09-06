@@ -5,7 +5,12 @@ import { Paper } from '@mui/material';
 import { startTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import WorkoutDayModal from './WorkoutDayModal';
-import { createWorkoutDay } from '@/app/lib/workoutsDaysActions';
+import {
+  createWorkoutDay,
+  deleteWorkoutDay,
+  editWorkoutDay,
+} from '@/app/lib/workoutsDaysActions';
+import DeleteConfirmModal from './DeleteConfirmModal';
 
 interface CustomProps {
   isOpened: boolean;
@@ -24,6 +29,20 @@ export default function ModalBase({ isOpened }: CustomProps) {
       (mode.entity === 'workout' || mode.entity === 'day')
     )
       createWorkoutDay(formData, mode.entity);
+
+    if (
+      mode.operation === 'edit' &&
+      mode.modeData &&
+      (mode.entity === 'workout' || mode.entity === 'day')
+    )
+      editWorkoutDay(formData, mode.entity, mode.modeData);
+
+    if (
+      mode.operation === 'delete' &&
+      mode.modeData &&
+      (mode.entity === 'workout' || mode.entity === 'day')
+    )
+      deleteWorkoutDay(mode.entity, mode.modeData);
 
     startTransition(() => {
       router.refresh();
@@ -52,7 +71,11 @@ export default function ModalBase({ isOpened }: CustomProps) {
           />
         )}
       >
-        {mode.entity === ('workout' || 'day') && <WorkoutDayModal />}
+        {(mode.operation === 'edit' || mode.operation === 'create') &&
+          (mode.entity === 'workout' || mode.entity === 'day') && (
+            <WorkoutDayModal />
+          )}
+        {mode.operation === 'delete' && <DeleteConfirmModal />}
       </Dialog>
     </>
   );

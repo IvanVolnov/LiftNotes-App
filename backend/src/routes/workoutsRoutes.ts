@@ -3,6 +3,8 @@ import { sql } from '@vercel/postgres';
 import { authenticateToken } from '../middleware/authorization.js';
 import {
   createWorkout,
+  deleteWorkout,
+  editWorkout,
   getWorkouts,
 } from '../controller/workoutsController.js';
 
@@ -18,9 +20,9 @@ workouts.post('/create', authenticateToken, createWorkout);
 // workouts.post('/copy', authenticateToken, copyWorkout);
 
 // edit workout
-// workouts.patch('/edit', authenticateToken, editWorkout);
+workouts.put('/edit', authenticateToken, editWorkout);
 
 // delete workout
-// workouts.patch('/delete', authenticateToken, deleteWorkout);
+workouts.delete('/delete', authenticateToken, deleteWorkout);
 
 export default workouts;

@@ -5,18 +5,26 @@ import ModalBase from '../components/Modal/ModalBase';
 export type Entity = 'workout' | 'day' | 'exercise';
 export type Operation = 'create' | 'edit' | 'duplicate' | 'delete';
 
-interface Mode {
-  entity: Entity;
-  operation: Operation;
+export interface ModeData {
   id?: string;
   name?: string;
   description?: string;
 }
 
+interface Mode {
+  entity: Entity;
+  operation: Operation;
+  modeData?: ModeData;
+}
+
 interface ModalContextProps {
   isOpened: boolean;
   mode: Mode;
-  toggleModal: (newEntity?: Entity, newOperation?: Operation) => void;
+  toggleModal: (
+    newEntity?: Entity,
+    newOperation?: Operation,
+    modeData?: ModeData
+  ) => void;
 }
 
 const ModalContextDefaultValue: ModalContextProps = {
@@ -44,10 +52,19 @@ export function ModalProvider({ children }: Props) {
     operation: 'create',
   });
 
-  function toggleModal(newEntity?: Entity, newOperation?: Operation) {
+  function toggleModal(
+    newEntity?: Entity,
+    newOperation?: Operation,
+    modeData?: ModeData
+  ) {
     setIsOpened((prev) => !prev);
     if (newEntity && newOperation) {
-      const newMode: Mode = { entity: newEntity, operation: newOperation };
+      const newMode: Mode = {
+        entity: newEntity,
+        operation: newOperation,
+        modeData,
+      };
+      console.log(newMode);
       setMode(newMode);
     }
   }

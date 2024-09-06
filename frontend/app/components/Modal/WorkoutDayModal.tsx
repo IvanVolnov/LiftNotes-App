@@ -1,21 +1,14 @@
 'use client';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import SubmitButton from '../UI/SubmitButton';
 import { useModalContext } from '@/app/context/ModalContext';
-import { useRouter } from 'next/navigation';
-
-// interface CustomProps {
-//   isOpened: boolean;
-// }
 
 export default function WorkoutDayModal() {
   const { mode, toggleModal } = useModalContext();
-  const router = useRouter();
 
   const handleClose = () => {
     toggleModal();
@@ -23,7 +16,10 @@ export default function WorkoutDayModal() {
 
   return (
     <>
-      <DialogTitle>Create Workout</DialogTitle>
+      <DialogTitle>
+        {`${mode.operation} 
+        ${mode.entity}`}
+      </DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
@@ -36,6 +32,7 @@ export default function WorkoutDayModal() {
           fullWidth
           variant='standard'
           color='primary'
+          defaultValue={mode.modeData?.name}
         />
         <TextField
           autoFocus
@@ -46,6 +43,7 @@ export default function WorkoutDayModal() {
           type='text'
           fullWidth
           variant='standard'
+          defaultValue={mode.modeData?.description}
         />
       </DialogContent>
       <DialogActions>

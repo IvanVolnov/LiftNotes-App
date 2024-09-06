@@ -5,5 +5,10 @@ export default function extractUserId() {
   const cookie = cookies().get('accessToken')?.value || '';
   const session = decodeJwtToken(cookie);
   const userId = session?.user_id;
+
+  if (!userId) {
+    throw new Error('Invalid or missing session token.');
+  }
+
   return { userId, cookie };
 }
