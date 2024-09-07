@@ -1,12 +1,14 @@
 'use client';
 import { ReactNode } from 'react';
 import NextButton from './UI/NextButton';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { IconButton, Stack } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import EditIcon from '@mui/icons-material/Edit';
 import { Entity, useModalContext } from '../context/ModalContext';
+import { createWorkoutDay } from '../lib/workoutsDaysActions';
+import { revalidatePath } from 'next/cache';
 
 interface CustomProps {
   children?: ReactNode;
@@ -27,6 +29,18 @@ export default function ContentBlockMenu({
 
   const { toggleModal } = useModalContext();
 
+  const router = useRouter();
+
+  function copyContent() {
+    if (mode === 'workout' || mode === 'day') {
+      const formData = new FormData();
+      formData.append('entityName', `${name} copy`);
+      formData.append('entityDescription', description || '');
+      createWorkoutDay(formData, mode);
+      router.refresh();
+    }
+  }
+
   return edit ? (
     <Stack direction='row' spacing={1}>
       <IconButton
@@ -36,11 +50,11 @@ export default function ContentBlockMenu({
       >
         <DeleteIcon />
       </IconButton>
-      <IconButton aria-label='delete' size='medium'>
+      <IconButton aria-label='copy' size='medium' onClick={() => copyContent()}>
         <ContentCopyIcon />
       </IconButton>
       <IconButton
-        aria-label='delete'
+        aria-label='edit'
         size='medium'
         onClick={() => toggleModal(mode, 'edit', { id, name, description })}
       >

@@ -12,6 +12,7 @@ export interface Workout {
 
 export default async function Workouts() {
   const data: Workout[] = await getWorkouts();
+  data.sort((a, b) => a.workout_id.localeCompare(b.workout_id));
 
   return (
     <>
