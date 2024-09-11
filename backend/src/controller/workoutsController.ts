@@ -11,7 +11,7 @@ export async function getWorkouts(req: Request, res: Response) {
         .json({ error: 'invalid api request: user id is missing' });
     }
     const userWorkouts =
-      await sql`SELECT * FROM workouts WHERE user_id = ${user_id};`;
+      await sql`SELECT * FROM workouts WHERE user_id = ${user_id} ORDER BY position;`;
     res.json({ workouts: userWorkouts.rows });
   } catch (error) {
     res.status(500).json({ error: error.message });

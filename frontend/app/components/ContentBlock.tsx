@@ -1,7 +1,8 @@
-import { Card, CardContent, Typography } from '@mui/material';
+import { Card, CardContent, Stack, Typography } from '@mui/material';
 import { ReactNode } from 'react';
 import ContentBlockMenu from './ContentBlockMenu';
 import { Entity } from '../context/ModalContext';
+import DragButton from './UI/DragButton';
 
 interface CustomProps {
   children?: ReactNode;
@@ -23,14 +24,17 @@ export default function ContentBlock({ id, header, text, mode }: CustomProps) {
         paddingRight: '1rem',
       }}
     >
-      <CardContent>
-        <Typography gutterBottom variant='h5' component='div'>
-          {header}
-        </Typography>
-        <Typography variant='body2' color='text.secondary'>
-          {text}
-        </Typography>
-      </CardContent>
+      <Stack direction='row'>
+        <DragButton />
+        <CardContent>
+          <Typography gutterBottom variant='h5' component='div'>
+            {header}
+          </Typography>
+          <Typography variant='body2' color='text.secondary'>
+            {text}
+          </Typography>
+        </CardContent>
+      </Stack>
       <ContentBlockMenu id={id} mode={mode} name={header} description={text}>
         start
       </ContentBlockMenu>

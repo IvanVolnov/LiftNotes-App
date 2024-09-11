@@ -8,7 +8,6 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import EditIcon from '@mui/icons-material/Edit';
 import { Entity, useModalContext } from '../context/ModalContext';
 import { createWorkoutDay } from '../lib/workoutsDaysActions';
-import { revalidatePath } from 'next/cache';
 
 interface CustomProps {
   children?: ReactNode;

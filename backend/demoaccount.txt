@@ -12,3 +12,6 @@ ALTER TABLE workouts
 ADD CONSTRAINT fk_user
 FOREIGN KEY (user_id) REFERENCES users(user_id)
 ON DELETE CASCADE;
+
+ALTER TABLE workouts
+ADD COLUMN position SMALLINT;
