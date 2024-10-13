@@ -6,6 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import SubmitButton from '../UI/SubmitButton';
 import { useModalContext } from '@/app/context/ModalContext';
+import { DialogContentText } from '@mui/material';
 
 export default function DeleteConfirmModal() {
   const { mode, toggleModal } = useModalContext();
@@ -16,11 +17,19 @@ export default function DeleteConfirmModal() {
 
   return (
     <>
-      <DialogTitle>Are you sure?</DialogTitle>
+      <DialogTitle>Delete {mode.entity}</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          Are you sure you want to delete this {mode.entity}?
+        </DialogContentText>
+        <DialogContentText>This action is irreversible.</DialogContentText>
+      </DialogContent>
 
       <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <SubmitButton>Submit</SubmitButton>
+        <Button color='error' onClick={handleClose}>
+          Cancel
+        </Button>
+        <SubmitButton color='error'>Delete</SubmitButton>
       </DialogActions>
     </>
   );
