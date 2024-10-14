@@ -2,7 +2,8 @@ import { getWorkouts } from '../../lib/workoutsDaysActions';
 import { Stack, Typography } from '@mui/material';
 import ContentHeaderBtn from '@/app/components/UI/ContentHeaderBtn';
 import ContentFooterBtn from '@/app/components/UI/ContentFooterBtn';
-import ContentBlock from '../../components/ContentBlock';
+import WorkoutsClient from '@/app/components/sortableList/ContentList';
+import ContentList from '@/app/components/sortableList/ContentList';
 
 export interface Workout {
   workout_id: string;
@@ -32,17 +33,7 @@ export default async function Workouts() {
         </Typography>
       ) : (
         <>
-          <Stack mt={4} mb={{ xs: 3, sm: 5 }} spacing={2}>
-            {data?.map((workout) => (
-              <ContentBlock
-                key={workout.workout_id}
-                id={workout.workout_id}
-                header={workout.workout_name}
-                text={workout.workout_description}
-                mode='workout'
-              />
-            ))}
-          </Stack>
+          <ContentList data={data} />
           <ContentFooterBtn>Manage workouts</ContentFooterBtn>
         </>
       )}

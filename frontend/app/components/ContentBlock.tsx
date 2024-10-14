@@ -3,6 +3,8 @@ import { ReactNode } from 'react';
 import ContentBlockMenu from './ContentBlockMenu';
 import { Entity } from '../context/ModalContext';
 import DragButton from './UI/DragButton';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface CustomProps {
   children?: ReactNode;
@@ -14,6 +16,9 @@ interface CustomProps {
 }
 
 export default function ContentBlock({ id, header, text, mode }: CustomProps) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id });
+
   return (
     <Card
       sx={{
@@ -22,10 +27,14 @@ export default function ContentBlock({ id, header, text, mode }: CustomProps) {
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingRight: '1rem',
+        transform: CSS.Transform.toString(transform),
+        transition,
       }}
+      ref={setNodeRef}
     >
       <Stack direction='row'>
-        <DragButton />
+        <DragButton attributes={attributes} listeners={listeners} />
+
         <CardContent>
           <Typography gutterBottom variant='h5' component='div'>
             {header}
