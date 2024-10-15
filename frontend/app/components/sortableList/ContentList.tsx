@@ -1,5 +1,13 @@
 'use client';
-import { DndContext, DragEndEvent } from '@dnd-kit/core';
+import {
+  DndContext,
+  DragEndEvent,
+  KeyboardSensor,
+  MouseSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
 import { arrayMove, SortableContext } from '@dnd-kit/sortable';
 import { Stack } from '@mui/material';
 import ContentBlock from '../ContentBlock';
@@ -14,6 +22,12 @@ interface CustomProps {
 export default function ContentList({ data }: CustomProps) {
   const [sortedData, setSortedData] = useState<Workout[]>(data);
 
+  const mouseSensor = useSensor(MouseSensor);
+  const touchSensor = useSensor(TouchSensor);
+  const keyboardSensor = useSensor(KeyboardSensor);
+
+  const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
+
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
     if (over && active.id !== over.id) {
@@ -25,11 +39,14 @@ export default function ContentList({ data }: CustomProps) {
         return arrayMove(items, oldIndex, newIndex);
       });
     }
-    console.log(active, over);
   }
 
   return (
-    <DndContext onDragEnd={handleDragEnd} modifiers={[restrictToVerticalAxis]}>
+    <DndContext
+      onDragEnd={handleDragEnd}
+      sensors={sensors}
+      modifiers={[restrictToVerticalAxis]}
+    >
       <SortableContext items={sortedData.map((workout) => workout.workout_id)}>
         <Stack mt={4} mb={{ xs: 3, sm: 5 }} spacing={2}>
           {sortedData?.map((workout) => (
