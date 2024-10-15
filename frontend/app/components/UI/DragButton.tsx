@@ -15,11 +15,15 @@ export default function DragButton({ attributes, listeners }: DragButtonProps) {
 
   return (
     edit && (
-      <Box sx={{ alignSelf: 'center' }} {...attributes} {...listeners}>
+      <Box
+        sx={{ alignSelf: 'center', touchAction: 'manipulation' }}
+        {...attributes}
+        {...listeners}
+      >
         <IconButton
           aria-label='drag'
           size='medium'
-          sx={{ alignSelf: 'center' }}
+          sx={{ alignSelf: 'center', touchAction: 'manipulation' }}
           disableFocusRipple={true}
         >
           <DragIndicatorIcon />
