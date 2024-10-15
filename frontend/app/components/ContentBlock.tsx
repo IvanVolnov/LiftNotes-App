@@ -29,6 +29,7 @@ export default function ContentBlock({ id, header, text, mode }: CustomProps) {
         paddingRight: '1rem',
         transform: CSS.Transform.toString(transform),
         transition,
+        touchAction: 'manipulation',
       }}
       ref={setNodeRef}
     >

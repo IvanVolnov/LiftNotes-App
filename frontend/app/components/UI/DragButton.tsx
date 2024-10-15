@@ -20,6 +20,7 @@ export default function DragButton({ attributes, listeners }: DragButtonProps) {
           aria-label='drag'
           size='medium'
           sx={{ alignSelf: 'center' }}
+          disableFocusRipple={true}
         >
           <DragIndicatorIcon />
         </IconButton>
