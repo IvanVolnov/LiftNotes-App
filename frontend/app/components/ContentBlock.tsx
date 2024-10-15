@@ -27,7 +27,7 @@ export default function ContentBlock({ id, header, text, mode }: CustomProps) {
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingRight: '1rem',
-        transform: CSS.Transform.toString(transform),
+        transform: CSS.Translate.toString(transform),
         transition,
         touchAction: 'manipulation',
       }}

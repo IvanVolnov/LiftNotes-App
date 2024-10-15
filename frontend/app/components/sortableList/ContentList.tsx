@@ -36,8 +36,15 @@ export default function ContentList({ data }: CustomProps) {
           (item) => item.workout_id === active.id
         );
         const newIndex = items.findIndex((item) => item.workout_id === over.id);
-        return arrayMove(items, oldIndex, newIndex);
+        const newSortedData = arrayMove(items, oldIndex, newIndex);
+        const newPositions = newSortedData.map((el, i) => ({
+          id: el.workout_id,
+          position: i,
+        }));
+        console.log(newPositions);
+        return newSortedData;
       });
+      console.log(sortedData);
     }
   }
 
