@@ -1,19 +1,22 @@
 import extractUserId from '../utils/extractUserId';
 import fetchApiData from '../utils/fetchApiData';
 
-type EntityType = 'workout' | 'day' | 'exercise';
+interface positionsObj {
+  id: string;
+  position: number;
+}
 
-export async function changeContentPosition(entity: EntityType) {
+export async function changeContentPosition(updatedPositions: positionsObj[]) {
   const { cookie, userId } = extractUserId();
 
   const data = await fetchApiData(
-    entity,
-    'post',
+    'workouts/reorder',
+    'put',
     {
       Authorization: `Bearer ${cookie}`,
       'Content-Type': 'application/json',
     },
-    { user_id: userId }
+    { newPositions: updatedPositions }
   );
   return data.workouts;
 }

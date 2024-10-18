@@ -12,15 +12,30 @@ import { arrayMove, SortableContext } from '@dnd-kit/sortable';
 import { Stack } from '@mui/material';
 import ContentBlock from '../ContentBlock';
 import { Workout } from '@/app/account/workouts/page';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import { changeContentPosition } from '@/app/lib/changeContentPosition';
 
 interface CustomProps {
   data: Workout[];
 }
 
 export default function ContentList({ data }: CustomProps) {
-  const [sortedData, setSortedData] = useState<Workout[]>(data);
+  const [sortedData, setSortedData] = useState<Workout[]>(
+    [...data].sort((a, b) => {
+      if (a.position === b.position) {
+        const dateA = new Date(a.created_at);
+        const dateB = new Date(b.created_at);
+
+        const timeA = dateA.getTime();
+        const timeB = dateB.getTime();
+
+        return timeB - timeA;
+      }
+      return a.position - b.position;
+    })
+  );
+  const [isPending, startTransition] = useTransition();
 
   const mouseSensor = useSensor(MouseSensor);
   const touchSensor = useSensor(TouchSensor);
@@ -41,10 +56,18 @@ export default function ContentList({ data }: CustomProps) {
           id: el.workout_id,
           position: i,
         }));
-        console.log(newPositions);
+
+        // Use startTransition to mark the update as non-urgent
+        startTransition(async () => {
+          try {
+            await changeContentPosition(newPositions);
+          } catch (error) {
+            // Optionally handle errors, e.g., revert state or show a notification
+            console.error('Error updating positions:', error);
+          }
+        });
         return newSortedData;
       });
-      console.log(sortedData);
     }
   }
 

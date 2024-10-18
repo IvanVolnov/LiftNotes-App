@@ -9,6 +9,8 @@ export interface Workout {
   workout_id: string;
   workout_name: string;
   workout_description: string;
+  position: number;
+  created_at: string | Date;
 }
 
 export default async function Workouts() {

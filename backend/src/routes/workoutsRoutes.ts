@@ -6,6 +6,7 @@ import {
   deleteWorkout,
   editWorkout,
   getWorkouts,
+  reorderWorkout,
 } from '../controller/workoutsController.js';
 
 const workouts = express.Router();
@@ -21,6 +22,9 @@ workouts.post('/create', authenticateToken, createWorkout);
 
 // edit workout
 workouts.put('/edit', authenticateToken, editWorkout);
+
+// reorder workouts
+workouts.put('/reorder', authenticateToken, reorderWorkout);
 
 // delete workout
 workouts.delete('/delete', authenticateToken, deleteWorkout);

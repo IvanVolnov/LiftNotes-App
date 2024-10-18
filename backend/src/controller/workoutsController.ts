@@ -29,11 +29,12 @@ export async function createWorkout(req: Request, res: Response) {
         .json({ error: 'invalid api request: workout name is missing' });
     }
     const newWorkout =
-      await sql`INSERT INTO workouts (user_id, workout_name, workout_description)
+      await sql`INSERT INTO workouts (user_id, workout_name, workout_description, position)
 VALUES (
     ${user.user_id},  
     ${workout_name},  
-    ${workout_description}  
+    ${workout_description},
+    0  
 ) RETURNING *;`;
     res.json({ workouts: newWorkout.rows });
   } catch (error) {
@@ -77,6 +78,40 @@ export async function deleteWorkout(req: Request, res: Response) {
 WHERE workout_id = ${workout_id}
 RETURNING *;`;
     res.json({ workouts: newWorkout.rows });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+export async function reorderWorkout(req: Request, res: Response) {
+  try {
+    const { newPositions } = req.body;
+
+    if (!newPositions) {
+      return res.status(400).json({
+        error:
+          'invalid api request: workout id  or newPositions object is missing',
+      });
+    }
+    type El = {
+      id: number;
+      position: number;
+    };
+
+    // Perform updates
+    const updatePromises = newPositions.map(async (el: El) => {
+      return sql`UPDATE workouts
+        SET position = ${el.position}
+        WHERE workout_id = ${el.id}
+        RETURNING *;`;
+    });
+
+    // Wait for all updates to complete
+    const results = await Promise.all(updatePromises);
+    // Flatten the array of results
+    const updatedWorkouts = results.flatMap((result) => result.rows);
+
+    res.json({ workouts: updatedWorkouts });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
