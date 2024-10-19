@@ -4,6 +4,8 @@ export default async function fetchApiData(
   headers = {},
   body = {}
 ) {
+  // const env = process.env.APP_API_URL;
+  // console.log({ env, url, method, headers, body });
   try {
     const response = await fetch(`${process.env.APP_API_URL}/api/${url}`, {
       cache: 'no-cache',

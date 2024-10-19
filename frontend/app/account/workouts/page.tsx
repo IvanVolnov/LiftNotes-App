@@ -2,8 +2,8 @@ import { getWorkouts } from '../../lib/workoutsDaysActions';
 import { Stack, Typography } from '@mui/material';
 import ContentHeaderBtn from '@/app/components/UI/ContentHeaderBtn';
 import ContentFooterBtn from '@/app/components/UI/ContentFooterBtn';
-import WorkoutsClient from '@/app/components/sortableList/ContentList';
 import ContentList from '@/app/components/sortableList/ContentList';
+import extractUserId from '@/app/utils/extractUserId';
 
 export interface Workout {
   workout_id: string;
@@ -15,6 +15,7 @@ export interface Workout {
 
 export default async function Workouts() {
   const data: Workout[] = await getWorkouts();
+  const { cookie, userId } = extractUserId();
 
   return (
     <>
@@ -35,7 +36,7 @@ export default async function Workouts() {
         </Typography>
       ) : (
         <>
-          <ContentList data={data} />
+          <ContentList data={data} cookie={cookie} userId={userId} />
           <ContentFooterBtn>Manage workouts</ContentFooterBtn>
         </>
       )}

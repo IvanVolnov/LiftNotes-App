@@ -1,4 +1,4 @@
-import extractUserId from '../utils/extractUserId';
+'use server';
 import fetchApiData from '../utils/fetchApiData';
 
 interface positionsObj {
@@ -6,9 +6,11 @@ interface positionsObj {
   position: number;
 }
 
-export async function changeContentPosition(updatedPositions: positionsObj[]) {
-  const { cookie, userId } = extractUserId();
-
+export async function changeContentPosition(
+  updatedPositions: positionsObj[],
+  cookie: string,
+  userId: string
+) {
   const data = await fetchApiData(
     'workouts/reorder',
     'put',

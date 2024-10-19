@@ -89,8 +89,7 @@ export async function reorderWorkout(req: Request, res: Response) {
 
     if (!newPositions) {
       return res.status(400).json({
-        error:
-          'invalid api request: workout id  or newPositions object is missing',
+        error: 'invalid api request: newPositions object is missing',
       });
     }
     type El = {

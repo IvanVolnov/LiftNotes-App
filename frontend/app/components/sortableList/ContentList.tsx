@@ -18,9 +18,11 @@ import { changeContentPosition } from '@/app/lib/changeContentPosition';
 
 interface CustomProps {
   data: Workout[];
+  cookie: string;
+  userId: string;
 }
 
-export default function ContentList({ data }: CustomProps) {
+export default function ContentList({ data, cookie, userId }: CustomProps) {
   const [sortedData, setSortedData] = useState<Workout[]>(
     [...data].sort((a, b) => {
       if (a.position === b.position) {
@@ -45,6 +47,11 @@ export default function ContentList({ data }: CustomProps) {
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
+    let newPositions: {
+      id: string;
+      position: number;
+    }[];
+
     if (over && active.id !== over.id) {
       setSortedData((items) => {
         const oldIndex = items.findIndex(
@@ -52,21 +59,19 @@ export default function ContentList({ data }: CustomProps) {
         );
         const newIndex = items.findIndex((item) => item.workout_id === over.id);
         const newSortedData = arrayMove(items, oldIndex, newIndex);
-        const newPositions = newSortedData.map((el, i) => ({
+        newPositions = newSortedData.map((el, i) => ({
           id: el.workout_id,
           position: i,
         }));
-
-        // Use startTransition to mark the update as non-urgent
-        startTransition(async () => {
-          try {
-            await changeContentPosition(newPositions);
-          } catch (error) {
-            // Optionally handle errors, e.g., revert state or show a notification
-            console.error('Error updating positions:', error);
-          }
-        });
         return newSortedData;
+      });
+      startTransition(async () => {
+        try {
+          await changeContentPosition(newPositions, cookie, userId);
+        } catch (error) {
+          // Optionally handle errors, e.g., revert state or show a notification
+          throw new Error(`Error updating positions: ${error}`);
+        }
       });
     }
   }

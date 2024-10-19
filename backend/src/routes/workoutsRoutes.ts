@@ -1,5 +1,4 @@
-import express, { Request, Response } from 'express';
-import { sql } from '@vercel/postgres';
+import express from 'express';
 import { authenticateToken } from '../middleware/authorization.js';
 import {
   createWorkout,

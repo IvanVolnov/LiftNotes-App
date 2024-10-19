@@ -3,7 +3,7 @@ import Dialog from '@mui/material/Dialog';
 import { useModalContext } from '@/app/context/ModalContext';
 import { Paper } from '@mui/material';
 import { startTransition } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import WorkoutDayModal from './WorkoutDayModal';
 import {
   createWorkoutDay,
@@ -11,6 +11,7 @@ import {
   editWorkoutDay,
 } from '@/app/lib/workoutsDaysActions';
 import DeleteConfirmModal from './DeleteConfirmModal';
+import { revalidatePath } from 'next/cache';
 
 interface CustomProps {
   isOpened: boolean;
@@ -44,9 +45,8 @@ export default function ModalBase({ isOpened }: CustomProps) {
     )
       deleteWorkoutDay(mode.entity, mode.modeData);
 
-    startTransition(() => {
-      router.refresh();
-    });
+    router.refresh();
+
     handleClose();
   };
 
