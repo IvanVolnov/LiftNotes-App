@@ -64,7 +64,6 @@ export function ModalProvider({ children }: Props) {
         operation: newOperation,
         modeData,
       };
-      // console.log(newMode);
       setMode(newMode);
     }
   }

@@ -2,7 +2,6 @@
 import fetchApiData from '../utils/fetchApiData';
 import extractUserId from '../utils/extractUserId';
 import { ModeData } from '../context/ModalContext';
-import { revalidatePath } from 'next/cache';
 
 type EntityType = 'workout' | 'day';
 
@@ -24,7 +23,6 @@ export async function getWorkouts() {
     },
     { user_id: userId }
   );
-  console.log('getWorkouts finished', data.workouts);
   return data.workouts;
 }
 

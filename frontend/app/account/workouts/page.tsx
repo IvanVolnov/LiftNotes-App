@@ -4,7 +4,6 @@ import ContentHeaderBtn from '@/app/components/UI/ContentHeaderBtn';
 import ContentFooterBtn from '@/app/components/UI/ContentFooterBtn';
 import ContentList from '@/app/components/sortableList/ContentList';
 import extractUserId from '@/app/utils/extractUserId';
-import { revalidatePath, unstable_noStore } from 'next/cache';
 
 export interface Workout {
   workout_id: string;
@@ -16,7 +15,7 @@ export interface Workout {
 
 export default async function Workouts() {
   const data: Workout[] = await getWorkouts();
-  console.log(data);
+
   const { cookie, userId } = extractUserId();
 
   return (
