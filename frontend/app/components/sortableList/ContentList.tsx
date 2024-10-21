@@ -12,7 +12,7 @@ import { arrayMove, SortableContext } from '@dnd-kit/sortable';
 import { Stack } from '@mui/material';
 import ContentBlock from '../ContentBlock';
 import { Workout } from '@/app/account/workouts/page';
-import { useState, useTransition } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { changeContentPosition } from '@/app/lib/changeContentPosition';
 
@@ -23,20 +23,22 @@ interface CustomProps {
 }
 
 export default function ContentList({ data, cookie, userId }: CustomProps) {
-  const [sortedData, setSortedData] = useState<Workout[]>(
-    [...data].sort((a, b) => {
+  console.log('content list reloaded with data', data);
+  const [sortedData, setSortedData] = useState<Workout[]>([]);
+
+  useEffect(() => {
+    const sorted = [...data].sort((a, b) => {
       if (a.position === b.position) {
         const dateA = new Date(a.created_at);
         const dateB = new Date(b.created_at);
 
-        const timeA = dateA.getTime();
-        const timeB = dateB.getTime();
-
-        return timeB - timeA;
+        return dateB.getTime() - dateA.getTime();
       }
       return a.position - b.position;
-    })
-  );
+    });
+    setSortedData(sorted);
+  }, [data]);
+
   const [isPending, startTransition] = useTransition();
 
   const mouseSensor = useSensor(MouseSensor);
@@ -69,7 +71,6 @@ export default function ContentList({ data, cookie, userId }: CustomProps) {
         try {
           await changeContentPosition(newPositions, cookie, userId);
         } catch (error) {
-          // Optionally handle errors, e.g., revert state or show a notification
           throw new Error(`Error updating positions: ${error}`);
         }
       });

@@ -30,12 +30,12 @@ export default function ContentBlockMenu({
 
   const router = useRouter();
 
-  function copyContent() {
+  async function copyContent() {
     if (mode === 'workout' || mode === 'day') {
       const formData = new FormData();
       formData.append('entityName', `${name} copy`);
       formData.append('entityDescription', description || '');
-      createWorkoutDay(formData, mode);
+      await createWorkoutDay(formData, mode);
       router.refresh();
     }
   }
