@@ -11,23 +11,33 @@ import {
 import { arrayMove, SortableContext } from '@dnd-kit/sortable';
 import { Stack } from '@mui/material';
 import ContentBlock from '../ContentBlock';
-import { Workout } from '@/app/account/workouts/page';
 import { useEffect, useState, useTransition } from 'react';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { changeContentPosition } from '@/app/lib/changeContentPosition';
+import { useOptimisticContext } from '@/app/context/OptimisticLoadingContext';
+import transformToContent, {
+  transformToContentArray,
+} from '@/app/utils/transformToContent';
 
 interface CustomProps {
-  data: Workout[];
+  data: Workout[] | Day[] | Exercise[];
   cookie: string;
   userId: string;
+  mode: Entity;
 }
 
-export default function ContentList({ data, cookie, userId }: CustomProps) {
-  console.log('content list reloaded with data', data);
-  const [sortedData, setSortedData] = useState<Workout[]>([]);
+export default function ContentList({
+  data,
+  cookie,
+  userId,
+  mode,
+}: CustomProps) {
+  // console.log('content list reloaded with data', data);
+  const [sortedData, setSortedData] = useState<Content[]>([]);
+  const { updateOptimisticData, optimisticData } = useOptimisticContext();
 
-  useEffect(() => {
-    const sorted = [...data].sort((a, b) => {
+  function sortByPosition(arr: Content[]) {
+    const sortedArr = [...arr].sort((a, b) => {
       if (a.position === b.position) {
         const dateA = new Date(a.created_at);
         const dateB = new Date(b.created_at);
@@ -36,8 +46,20 @@ export default function ContentList({ data, cookie, userId }: CustomProps) {
       }
       return a.position - b.position;
     });
-    setSortedData(sorted);
+    return sortedArr;
+  }
+
+  useEffect(() => {
+    const formattedData = sortByPosition(transformToContentArray(data));
+
+    setSortedData(formattedData);
+    updateOptimisticData(formattedData);
   }, [data]);
+
+  useEffect(() => {
+    const formattedData = sortByPosition(optimisticData);
+    setSortedData(formattedData);
+  }, [optimisticData]);
 
   const [isPending, startTransition] = useTransition();
 
@@ -56,13 +78,13 @@ export default function ContentList({ data, cookie, userId }: CustomProps) {
 
     if (over && active.id !== over.id) {
       setSortedData((items) => {
-        const oldIndex = items.findIndex(
-          (item) => item.workout_id === active.id
-        );
-        const newIndex = items.findIndex((item) => item.workout_id === over.id);
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => {
+          return item.id === over.id;
+        });
         const newSortedData = arrayMove(items, oldIndex, newIndex);
         newPositions = newSortedData.map((el, i) => ({
-          id: el.workout_id,
+          id: el.id,
           position: i,
         }));
         return newSortedData;
@@ -83,15 +105,15 @@ export default function ContentList({ data, cookie, userId }: CustomProps) {
       sensors={sensors}
       modifiers={[restrictToVerticalAxis]}
     >
-      <SortableContext items={sortedData.map((workout) => workout.workout_id)}>
+      <SortableContext items={sortedData.map((el) => el.id)}>
         <Stack mt={4} mb={{ xs: 3, sm: 5 }} spacing={2}>
-          {sortedData?.map((workout) => (
+          {sortedData?.map((el) => (
             <ContentBlock
-              key={workout.workout_id}
-              id={workout.workout_id}
-              header={workout.workout_name}
-              text={workout.workout_description}
-              mode='workout'
+              key={el.id}
+              id={el.id}
+              header={el.name}
+              text={el.description}
+              mode={mode}
             />
           ))}
         </Stack>

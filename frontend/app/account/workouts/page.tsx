@@ -5,14 +5,6 @@ import ContentFooterBtn from '@/app/components/UI/ContentFooterBtn';
 import ContentList from '@/app/components/sortableList/ContentList';
 import extractUserId from '@/app/utils/extractUserId';
 
-export interface Workout {
-  workout_id: string;
-  workout_name: string;
-  workout_description: string;
-  position: number;
-  created_at: string | Date;
-}
-
 export default async function Workouts() {
   const data: Workout[] = await getWorkouts();
 
@@ -37,7 +29,12 @@ export default async function Workouts() {
         </Typography>
       ) : (
         <>
-          <ContentList data={data} cookie={cookie} userId={userId} />
+          <ContentList
+            data={data}
+            cookie={cookie}
+            userId={userId}
+            mode='workout'
+          />
           <ContentFooterBtn>Manage workouts</ContentFooterBtn>
         </>
       )}

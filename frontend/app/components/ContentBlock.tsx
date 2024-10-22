@@ -1,7 +1,6 @@
 import { Card, CardContent, Stack, Typography } from '@mui/material';
 import { ReactNode } from 'react';
 import ContentBlockMenu from './ContentBlockMenu';
-import { Entity } from '../context/ModalContext';
 import DragButton from './UI/DragButton';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
