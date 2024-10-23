@@ -1,8 +1,6 @@
 'use client';
 
 import { Button, Stack, Typography } from '@mui/material';
-import NextButton from '../components/UI/NextButton';
-import SubmitButton from '../components/UI/SubmitButton';
 
 export default function Error({
   error,

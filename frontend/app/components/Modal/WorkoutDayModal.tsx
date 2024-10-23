@@ -26,7 +26,7 @@ export default function WorkoutDayModal() {
           required
           margin='dense'
           id='name'
-          name='entityName'
+          name='name'
           label='Name'
           type='text'
           fullWidth
@@ -38,7 +38,7 @@ export default function WorkoutDayModal() {
           autoFocus
           margin='dense'
           id='description'
-          name='entityDescription'
+          name='description'
           label='Description'
           type='text'
           fullWidth

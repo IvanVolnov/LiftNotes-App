@@ -2,14 +2,7 @@
 import fetchApiData from '../utils/fetchApiData';
 import extractUserId from '../utils/extractUserId';
 import { ModeData } from '../context/ModalContext';
-
-type EntityType = 'workout' | 'day';
-
-function extractFormData(formData: FormData) {
-  const entityName = formData.get('entityName') as string | null;
-  const entityDescription = formData.get('entityDescription') as string | null;
-  return { entityName, entityDescription };
-}
+import extractFormData from '../utils/extractFormData';
 
 export async function getWorkouts() {
   const { cookie, userId } = extractUserId();
@@ -26,12 +19,9 @@ export async function getWorkouts() {
   return data.workouts;
 }
 
-export async function createWorkoutDay(
-  formData: FormData,
-  etityType: EntityType
-) {
+export async function createWorkoutDay(formData: FormData, etityType: Entity) {
   const { cookie, userId } = extractUserId();
-  const { entityName, entityDescription } = extractFormData(formData);
+  const { name, description } = extractFormData(formData);
 
   const data = await fetchApiData(
     etityType === 'workout'
@@ -45,9 +35,9 @@ export async function createWorkoutDay(
       'Content-Type': 'application/json',
     },
     etityType === 'workout'
-      ? { workout_name: entityName, workout_description: entityDescription }
+      ? { workout_name: name, workout_description: description }
       : etityType === 'day'
-      ? { day_name: entityName, day_description: entityDescription }
+      ? { day_name: name, day_description: description }
       : ''
   );
   return data.workouts;
@@ -55,11 +45,11 @@ export async function createWorkoutDay(
 
 export async function editWorkoutDay(
   formData: FormData,
-  entityType: EntityType,
+  entityType: Entity,
   modeData: ModeData
 ) {
   const { cookie, userId } = extractUserId();
-  const { entityName, entityDescription } = extractFormData(formData);
+  const { name, description } = extractFormData(formData);
   console.log(modeData);
 
   const data = await fetchApiData(
@@ -75,14 +65,14 @@ export async function editWorkoutDay(
     },
     entityType === 'workout'
       ? {
-          workout_name: entityName,
-          workout_description: entityDescription,
+          workout_name: name,
+          workout_description: description,
           workout_id: modeData.id,
         }
       : entityType === 'day'
       ? {
-          day_name: entityName,
-          day_description: entityDescription,
+          day_name: name,
+          day_description: description,
           day_id: modeData.id,
         }
       : ''
@@ -90,10 +80,7 @@ export async function editWorkoutDay(
   return data.workouts;
 }
 
-export async function deleteWorkoutDay(
-  entityType: EntityType,
-  modeData: ModeData
-) {
+export async function deleteWorkoutDay(entityType: Entity, modeData: ModeData) {
   const { cookie, userId } = extractUserId();
 
   const data = await fetchApiData(

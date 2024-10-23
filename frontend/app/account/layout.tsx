@@ -1,4 +1,4 @@
-import { Box, Container, Stack, Toolbar } from '@mui/material';
+import { Container, Stack, Toolbar } from '@mui/material';
 import MenuBar from '../components/MenuBar';
 import { ModalProvider } from '../context/ModalContext';
 import { OptimisticProvider } from '../context/OptimisticLoadingContext';

@@ -1,9 +1,10 @@
 'use client';
 import { createContext, ReactNode, useContext, useState } from 'react';
+import extractFormData from '../utils/extractFormData';
 
 interface optimisticContextProps {
   optimisticData: Content[];
-  createOptimisticData: (content: Content) => void;
+  createOptimisticData: (formData: FormData) => void;
   updateOptimisticData: (data: Content[]) => void;
   deleteOptimisticData: () => void;
   copyOptimisticData: () => void;
@@ -34,12 +35,20 @@ export function OptimisticProvider({ children }: Props) {
   const [optimisticData, setOptimisticData] = useState<Content[]>([]);
 
   function updateOptimisticData(data: Content[]) {
-    console.log('optimistic data updated');
+    console.log('optimistic data updated', data);
     setOptimisticData(data);
   }
 
-  function createOptimisticData(content: Content) {
-    setOptimisticData((prev) => [...prev, content]);
+  function createOptimisticData(formData: FormData) {
+    const { name, description } = extractFormData(formData);
+    const formatedContent: Content = {
+      name,
+      description,
+      position: 0,
+      created_at: Date(),
+    };
+    console.log('optimistic data added ', formatedContent);
+    setOptimisticData((prev) => [...prev, formatedContent]);
   }
 
   function copyOptimisticData() {}

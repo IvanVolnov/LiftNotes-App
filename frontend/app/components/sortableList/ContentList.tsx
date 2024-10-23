@@ -15,9 +15,7 @@ import { useEffect, useState, useTransition } from 'react';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { changeContentPosition } from '@/app/lib/changeContentPosition';
 import { useOptimisticContext } from '@/app/context/OptimisticLoadingContext';
-import transformToContent, {
-  transformToContentArray,
-} from '@/app/utils/transformToContent';
+import { transformToContentArray } from '@/app/utils/transformToContent';
 
 interface CustomProps {
   data: Workout[] | Day[] | Exercise[];
@@ -50,16 +48,16 @@ export default function ContentList({
   }
 
   useEffect(() => {
+    const formattedData = sortByPosition(optimisticData);
+    setSortedData(formattedData);
+  }, [optimisticData]);
+
+  useEffect(() => {
     const formattedData = sortByPosition(transformToContentArray(data));
 
     setSortedData(formattedData);
     updateOptimisticData(formattedData);
   }, [data]);
-
-  useEffect(() => {
-    const formattedData = sortByPosition(optimisticData);
-    setSortedData(formattedData);
-  }, [optimisticData]);
 
   const [isPending, startTransition] = useTransition();
 

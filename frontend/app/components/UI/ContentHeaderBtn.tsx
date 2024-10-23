@@ -3,7 +3,7 @@ import { Button } from '@mui/material';
 import { ReactNode } from 'react';
 import { useColorModeContext } from '@/app/context/ColorModeContext';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Entity, useModalContext } from '@/app/context/ModalContext';
+import { useModalContext } from '@/app/context/ModalContext';
 
 interface MyProps {
   children?: ReactNode;

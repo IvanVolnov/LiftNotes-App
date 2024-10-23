@@ -6,7 +6,7 @@ import { IconButton, Stack } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import EditIcon from '@mui/icons-material/Edit';
-import { Entity, useModalContext } from '../context/ModalContext';
+import { useModalContext } from '../context/ModalContext';
 import { createWorkoutDay } from '../lib/workoutsDaysActions';
 
 interface CustomProps {

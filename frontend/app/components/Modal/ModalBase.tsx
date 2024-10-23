@@ -10,6 +10,7 @@ import {
   editWorkoutDay,
 } from '@/app/lib/workoutsDaysActions';
 import DeleteConfirmModal from './DeleteConfirmModal';
+import { useOptimisticContext } from '@/app/context/OptimisticLoadingContext';
 
 interface CustomProps {
   isOpened: boolean;
@@ -17,6 +18,8 @@ interface CustomProps {
 
 export default function ModalBase({ isOpened }: CustomProps) {
   const { mode, toggleModal } = useModalContext();
+  const { createOptimisticData, optimisticData, deleteOptimisticData } =
+    useOptimisticContext();
   const router = useRouter();
 
   const handleClose = () => {
@@ -26,12 +29,13 @@ export default function ModalBase({ isOpened }: CustomProps) {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-
     if (
       mode.operation === 'create' &&
       (mode.entity === 'workout' || mode.entity === 'day')
-    )
+    ) {
+      createOptimisticData(formData);
       await createWorkoutDay(formData, mode.entity);
+    }
 
     if (
       mode.operation === 'edit' &&
