@@ -23,7 +23,7 @@ interface Exercise {
 }
 
 interface Content {
-  id?: string;
+  id: string;
   name: string;
   description: string;
   position: number;
