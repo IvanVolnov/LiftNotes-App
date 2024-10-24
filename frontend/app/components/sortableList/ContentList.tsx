@@ -106,13 +106,7 @@ export default function ContentList({
       <SortableContext items={sortedData.map((el) => el.id)}>
         <Stack mt={4} mb={{ xs: 3, sm: 5 }} spacing={2}>
           {sortedData?.map((el) => (
-            <ContentBlock
-              key={el.id}
-              id={el.id}
-              header={el.name}
-              text={el.description}
-              mode={mode}
-            />
+            <ContentBlock key={el.id} content={el} mode={mode} />
           ))}
         </Stack>
       </SortableContext>

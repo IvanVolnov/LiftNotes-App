@@ -2,7 +2,7 @@
 import { ReactNode } from 'react';
 import NextButton from './UI/NextButton';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { IconButton, Stack } from '@mui/material';
+import { IconButton, Skeleton, Stack } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import EditIcon from '@mui/icons-material/Edit';
@@ -11,20 +11,15 @@ import { createWorkoutDay } from '../lib/workoutsDaysActions';
 
 interface CustomProps {
   children?: ReactNode;
-  id: string;
+
   mode: Entity;
-  name: string;
-  description?: string;
+  content: Content;
 }
 
-export default function ContentBlockMenu({
-  mode,
-  id,
-  name,
-  description,
-}: CustomProps) {
+export default function ContentBlockMenu({ mode, content }: CustomProps) {
   const searchParams = useSearchParams();
   const edit = searchParams.get('edit');
+  const { id, name, description } = content;
 
   const { toggleModal } = useModalContext();
 
@@ -40,27 +35,48 @@ export default function ContentBlockMenu({
     }
   }
 
-  return edit ? (
-    <Stack direction='row' spacing={1}>
-      <IconButton
-        aria-label='delete'
-        size='medium'
-        onClick={() => toggleModal(mode, 'delete', { id, name, description })}
-      >
-        <DeleteIcon />
-      </IconButton>
-      <IconButton aria-label='copy' size='medium' onClick={() => copyContent()}>
-        <ContentCopyIcon />
-      </IconButton>
-      <IconButton
-        aria-label='edit'
-        size='medium'
-        onClick={() => toggleModal(mode, 'edit', { id, name, description })}
-      >
-        <EditIcon />
-      </IconButton>
-    </Stack>
-  ) : (
-    <NextButton variant='contained'>start</NextButton>
-  );
+  if (edit && !content.optimistic) {
+    return (
+      <Stack direction='row' spacing={1}>
+        <IconButton
+          aria-label='delete'
+          size='medium'
+          onClick={() => toggleModal(mode, 'delete', { id, name, description })}
+        >
+          <DeleteIcon />
+        </IconButton>
+        <IconButton
+          aria-label='copy'
+          size='medium'
+          onClick={() => copyContent()}
+        >
+          <ContentCopyIcon />
+        </IconButton>
+        <IconButton
+          aria-label='edit'
+          size='medium'
+          onClick={() => toggleModal(mode, 'edit', { id, name, description })}
+        >
+          <EditIcon />
+        </IconButton>
+      </Stack>
+    );
+  }
+
+  if (edit && content.optimistic) {
+    return (
+      <Stack direction='row' spacing={3} mr={1}>
+        <Skeleton animation='wave' width={25} height={40} />
+        <Skeleton animation='wave' width={25} height={40} />
+        <Skeleton animation='wave' width={25} height={40} />
+      </Stack>
+    );
+  }
+
+  if (!edit && content.optimistic) {
+    return <Skeleton animation='wave' width={75} height={56} />;
+  }
+
+  if (!edit && !content.optimistic)
+    return <NextButton variant='contained'>start</NextButton>;
 }

@@ -42,11 +42,12 @@ export function OptimisticProvider({ children }: Props) {
   function createOptimisticData(formData: FormData) {
     const { name, description } = extractFormData(formData);
     const formatedContent: Content = {
-      id: (Math.random() * 100).toString(),
+      id: Date.now().toString(),
       name,
       description,
       position: 0,
       created_at: Date(),
+      optimistic: true,
     };
     console.log('optimistic data added ', formatedContent);
     setOptimisticData((prev) => [...prev, formatedContent]);

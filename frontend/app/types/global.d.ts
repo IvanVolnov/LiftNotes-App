@@ -28,6 +28,7 @@ interface Content {
   description: string;
   position: number;
   created_at: string | Date;
+  optimistic?: boolean;
 }
 
 type Entity = 'workout' | 'day' | 'exercise';

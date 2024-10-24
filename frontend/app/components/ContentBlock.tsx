@@ -7,14 +7,13 @@ import { CSS } from '@dnd-kit/utilities';
 
 interface CustomProps {
   children?: ReactNode;
-  id: string;
-  header: string;
-  text?: string;
+  content: Content;
   mode: Entity;
   searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-export default function ContentBlock({ id, header, text, mode }: CustomProps) {
+export default function ContentBlock({ content, mode }: CustomProps) {
+  const { id } = content;
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
 
@@ -33,18 +32,22 @@ export default function ContentBlock({ id, header, text, mode }: CustomProps) {
       ref={setNodeRef}
     >
       <Stack direction='row'>
-        <DragButton attributes={attributes} listeners={listeners} />
+        <DragButton
+          attributes={attributes}
+          listeners={listeners}
+          optimistic={content.optimistic}
+        />
 
         <CardContent>
           <Typography gutterBottom variant='h5' component='div'>
-            {header}
+            {content.name}
           </Typography>
           <Typography variant='body2' color='text.secondary'>
-            {text}
+            {content.description}
           </Typography>
         </CardContent>
       </Stack>
-      <ContentBlockMenu id={id} mode={mode} name={header} description={text}>
+      <ContentBlockMenu mode={mode} content={content}>
         start
       </ContentBlockMenu>
     </Card>

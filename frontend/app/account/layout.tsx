@@ -7,8 +7,8 @@ export default function AccountLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <ModalProvider>
-      <OptimisticProvider>
+    <OptimisticProvider>
+      <ModalProvider>
         <Container
           maxWidth='xl'
           sx={{
@@ -33,7 +33,7 @@ export default function AccountLayout({
             {children}
           </Stack>
         </Container>
-      </OptimisticProvider>
-    </ModalProvider>
+      </ModalProvider>
+    </OptimisticProvider>
   );
 }
