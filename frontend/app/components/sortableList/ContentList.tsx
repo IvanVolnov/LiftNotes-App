@@ -87,7 +87,6 @@ export default function ContentList({
           id: el.id,
           position: i,
         }));
-        updateOptimisticData(newSortedData);
         return newSortedData;
       });
       startTransition(async () => {
