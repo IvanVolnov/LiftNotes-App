@@ -45,7 +45,7 @@ export default function ContentBlockMenu({ mode, content }: CustomProps) {
         <IconButton
           aria-label='delete'
           size='medium'
-          onClick={() => toggleModal(mode, 'delete', { id, name, description })}
+          onClick={() => toggleModal(mode, 'delete', content)}
         >
           <DeleteIcon />
         </IconButton>
@@ -59,7 +59,7 @@ export default function ContentBlockMenu({ mode, content }: CustomProps) {
         <IconButton
           aria-label='edit'
           size='medium'
-          onClick={() => toggleModal(mode, 'edit', { id, name, description })}
+          onClick={() => toggleModal(mode, 'edit', content)}
         >
           <EditIcon />
         </IconButton>

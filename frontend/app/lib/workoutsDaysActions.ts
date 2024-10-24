@@ -1,7 +1,7 @@
 'use server';
 import fetchApiData from '../utils/fetchApiData';
 import extractUserId from '../utils/extractUserId';
-import { ModeData } from '../context/ModalContext';
+// import { ModeData } from '../context/ModalContext';
 import extractFormData from '../utils/extractFormData';
 
 export async function getWorkouts() {
@@ -46,7 +46,7 @@ export async function createWorkoutDay(formData: FormData, etityType: Entity) {
 export async function editWorkoutDay(
   formData: FormData,
   entityType: Entity,
-  modeData: ModeData
+  modeData: Content
 ) {
   const { cookie, userId } = extractUserId();
   const { name, description } = extractFormData(formData);
@@ -80,7 +80,7 @@ export async function editWorkoutDay(
   return data.workouts;
 }
 
-export async function deleteWorkoutDay(entityType: Entity, modeData: ModeData) {
+export async function deleteWorkoutDay(entityType: Entity, modeData: Content) {
   const { cookie, userId } = extractUserId();
 
   const data = await fetchApiData(
