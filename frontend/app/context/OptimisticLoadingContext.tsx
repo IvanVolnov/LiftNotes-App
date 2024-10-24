@@ -6,7 +6,7 @@ interface optimisticContextProps {
   optimisticData: Content[];
   createOptimisticData: (formData: FormData) => void;
   updateOptimisticData: (data: Content[]) => void;
-  deleteOptimisticData: () => void;
+  deleteOptimisticData: (contentToDelete: Content) => void;
   copyOptimisticData: () => void;
 }
 
@@ -55,7 +55,9 @@ export function OptimisticProvider({ children }: Props) {
 
   function copyOptimisticData() {}
 
-  function deleteOptimisticData() {}
+  function deleteOptimisticData(data: Content) {
+    setOptimisticData((prev) => prev.filter((el) => el.id !== data.id));
+  }
 
   return (
     <OptimisticLoadingContext.Provider

@@ -34,7 +34,7 @@ export default function ModalBase({ isOpened }: CustomProps) {
       (mode.entity === 'workout' || mode.entity === 'day')
     ) {
       createOptimisticData(formData);
-      await createWorkoutDay(formData, mode.entity);
+      createWorkoutDay(formData, mode.entity);
     }
 
     if (
@@ -48,8 +48,10 @@ export default function ModalBase({ isOpened }: CustomProps) {
       mode.operation === 'delete' &&
       mode.modeData &&
       (mode.entity === 'workout' || mode.entity === 'day')
-    )
-      await deleteWorkoutDay(mode.entity, mode.modeData);
+    ) {
+      deleteOptimisticData(mode.modeData);
+      deleteWorkoutDay(mode.entity, mode.modeData);
+    }
 
     router.refresh();
     handleClose();

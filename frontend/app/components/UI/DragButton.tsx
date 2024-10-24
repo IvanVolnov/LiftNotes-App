@@ -40,7 +40,14 @@ export default function DragButton({
   }
 
   if (edit && optimistic) {
-    return <Skeleton animation='wave' width={25} height={40} />;
+    return (
+      <Skeleton
+        animation='wave'
+        width={15}
+        height={40}
+        sx={{ marginTop: '1rem', marginLeft: '0.8rem', marginRight: '0.8rem' }}
+      />
+    );
   }
 
   if (!edit) {

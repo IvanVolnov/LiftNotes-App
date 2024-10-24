@@ -8,6 +8,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import EditIcon from '@mui/icons-material/Edit';
 import { useModalContext } from '../context/ModalContext';
 import { createWorkoutDay } from '../lib/workoutsDaysActions';
+import { useOptimisticContext } from '../context/OptimisticLoadingContext';
 
 interface CustomProps {
   children?: ReactNode;
@@ -21,6 +22,8 @@ export default function ContentBlockMenu({ mode, content }: CustomProps) {
   const edit = searchParams.get('edit');
   const { id, name, description } = content;
 
+  const { createOptimisticData, optimisticData, deleteOptimisticData } =
+    useOptimisticContext();
   const { toggleModal } = useModalContext();
 
   const router = useRouter();
@@ -28,9 +31,10 @@ export default function ContentBlockMenu({ mode, content }: CustomProps) {
   async function copyContent() {
     if (mode === 'workout' || mode === 'day') {
       const formData = new FormData();
-      formData.append('entityName', `${name} copy`);
-      formData.append('entityDescription', description || '');
-      await createWorkoutDay(formData, mode);
+      formData.append('name', `${name} copy`);
+      formData.append('description', description || '');
+      createOptimisticData(formData);
+      createWorkoutDay(formData, mode);
       router.refresh();
     }
   }

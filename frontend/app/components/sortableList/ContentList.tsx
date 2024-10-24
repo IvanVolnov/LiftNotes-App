@@ -53,6 +53,8 @@ export default function ContentList({
   }, [optimisticData]);
 
   useEffect(() => {
+    if (optimisticData.length > data.length) return;
+
     const formattedData = sortByPosition(transformToContentArray(data));
 
     setSortedData(formattedData);
@@ -85,6 +87,7 @@ export default function ContentList({
           id: el.id,
           position: i,
         }));
+        updateOptimisticData(newSortedData);
         return newSortedData;
       });
       startTransition(async () => {
