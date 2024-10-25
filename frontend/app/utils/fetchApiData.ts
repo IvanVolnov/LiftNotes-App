@@ -2,7 +2,8 @@ export default async function fetchApiData(
   url = '',
   method = 'get',
   headers = {},
-  body = {}
+  body = {},
+  signal?: AbortSignal
 ) {
   try {
     const response = await fetch(`${process.env.APP_API_URL}/api/${url}`, {
@@ -11,6 +12,7 @@ export default async function fetchApiData(
       headers: new Headers(headers),
       credentials: 'include',
       body: JSON.stringify(body),
+      signal,
     });
 
     if (!response.ok) {

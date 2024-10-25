@@ -30,7 +30,6 @@ export default function ContentList({
   userId,
   mode,
 }: CustomProps) {
-  // console.log('content list reloaded with data', data);
   const [sortedData, setSortedData] = useState<Content[]>([]);
   const { updateOptimisticData, optimisticData } = useOptimisticContext();
 

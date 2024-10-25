@@ -18,8 +18,12 @@ interface CustomProps {
 
 export default function ModalBase({ isOpened }: CustomProps) {
   const { mode, toggleModal } = useModalContext();
-  const { createOptimisticData, optimisticData, deleteOptimisticData } =
-    useOptimisticContext();
+  const {
+    createOptimisticData,
+    optimisticData,
+    deleteOptimisticData,
+    editOptimisticData,
+  } = useOptimisticContext();
   const router = useRouter();
 
   const handleClose = () => {
@@ -41,9 +45,10 @@ export default function ModalBase({ isOpened }: CustomProps) {
       mode.operation === 'edit' &&
       mode.modeData &&
       (mode.entity === 'workout' || mode.entity === 'day')
-    )
-      await editWorkoutDay(formData, mode.entity, mode.modeData);
-
+    ) {
+      editOptimisticData(formData, mode.modeData);
+      editWorkoutDay(formData, mode.entity, mode.modeData);
+    }
     if (
       mode.operation === 'delete' &&
       mode.modeData &&

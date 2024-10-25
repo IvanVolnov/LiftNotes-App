@@ -7,7 +7,7 @@ interface optimisticContextProps {
   createOptimisticData: (formData: FormData) => void;
   updateOptimisticData: (data: Content[]) => void;
   deleteOptimisticData: (contentToDelete: Content) => void;
-  copyOptimisticData: () => void;
+  editOptimisticData: (formData: FormData, data: Content) => void;
 }
 
 const ContextDefaultValue: optimisticContextProps = {
@@ -15,7 +15,7 @@ const ContextDefaultValue: optimisticContextProps = {
   createOptimisticData: () => {},
   updateOptimisticData: () => {},
   deleteOptimisticData: () => {},
-  copyOptimisticData: () => {},
+  editOptimisticData: () => {},
 };
 
 const OptimisticLoadingContext =
@@ -49,11 +49,18 @@ export function OptimisticProvider({ children }: Props) {
       created_at: Date(),
       optimistic: true,
     };
-    console.log('optimistic data added ', formatedContent);
+
     setOptimisticData((prev) => [...prev, formatedContent]);
   }
 
-  function copyOptimisticData() {}
+  function editOptimisticData(formData: FormData, data: Content) {
+    const { name, description } = extractFormData(formData);
+    setOptimisticData((prev) =>
+      prev.map((el) =>
+        el.id === data.id ? { ...el, name, description, optimistic: true } : el
+      )
+    );
+  }
 
   function deleteOptimisticData(data: Content) {
     setOptimisticData((prev) => prev.filter((el) => el.id !== data.id));
@@ -66,7 +73,7 @@ export function OptimisticProvider({ children }: Props) {
         updateOptimisticData,
         createOptimisticData,
         deleteOptimisticData,
-        copyOptimisticData,
+        editOptimisticData,
       }}
     >
       {children}

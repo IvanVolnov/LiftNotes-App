@@ -3,6 +3,7 @@ import { useSearchParams } from 'next/navigation';
 import { Box, IconButton, Skeleton } from '@mui/material';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
+import { useOptimisticContext } from '@/app/context/OptimisticLoadingContext';
 
 interface DragButtonProps {
   attributes: React.HTMLAttributes<HTMLElement>;
@@ -10,15 +11,17 @@ interface DragButtonProps {
   optimistic?: boolean;
 }
 
-export default function DragButton({
-  attributes,
-  listeners,
-  optimistic,
-}: DragButtonProps) {
+export default function DragButton({ attributes, listeners }: DragButtonProps) {
+  const { optimisticData } = useOptimisticContext();
+
+  const isOptimisticLoading = optimisticData.some(
+    (el) => el.optimistic === true
+  );
+
   const searchParams = useSearchParams();
   const edit = searchParams.get('edit');
 
-  if (edit && !optimistic) {
+  if (edit && !isOptimisticLoading) {
     return (
       edit && (
         <Box
@@ -39,7 +42,7 @@ export default function DragButton({
     );
   }
 
-  if (edit && optimistic) {
+  if (edit && isOptimisticLoading) {
     return (
       <Skeleton
         animation='wave'

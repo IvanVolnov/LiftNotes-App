@@ -9,7 +9,8 @@ interface positionsObj {
 export async function changeContentPosition(
   updatedPositions: positionsObj[],
   cookie: string,
-  userId: string
+  userId: string,
+  signal: AbortSignal
 ) {
   const data = await fetchApiData(
     'workouts/reorder',

@@ -50,7 +50,6 @@ export async function editWorkoutDay(
 ) {
   const { cookie, userId } = extractUserId();
   const { name, description } = extractFormData(formData);
-  console.log(modeData);
 
   const data = await fetchApiData(
     entityType === 'workout'

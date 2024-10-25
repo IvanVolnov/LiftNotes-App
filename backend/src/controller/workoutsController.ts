@@ -14,7 +14,7 @@ export async function getWorkouts(req: Request, res: Response) {
       await sql`SELECT * FROM workouts WHERE user_id = ${user_id} ORDER BY position;`;
     // setTimeout(() => {
     res.json({ workouts: userWorkouts.rows });
-    // }, 10000);
+    // }, 5000);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

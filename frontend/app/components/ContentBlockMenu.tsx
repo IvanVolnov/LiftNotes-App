@@ -20,10 +20,9 @@ interface CustomProps {
 export default function ContentBlockMenu({ mode, content }: CustomProps) {
   const searchParams = useSearchParams();
   const edit = searchParams.get('edit');
-  const { id, name, description } = content;
+  const { name, description } = content;
 
-  const { createOptimisticData, optimisticData, deleteOptimisticData } =
-    useOptimisticContext();
+  const { createOptimisticData } = useOptimisticContext();
   const { toggleModal } = useModalContext();
 
   const router = useRouter();
