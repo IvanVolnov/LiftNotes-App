@@ -11,7 +11,7 @@ import {
 import { arrayMove, SortableContext } from '@dnd-kit/sortable';
 import { Stack } from '@mui/material';
 import ContentBlock from '../ContentBlock';
-import { useEffect, useState, useTransition } from 'react';
+import { useEffect, useRef, useState, useTransition } from 'react';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { changeContentPosition } from '@/app/lib/changeContentPosition';
 import { useOptimisticContext } from '@/app/context/OptimisticLoadingContext';
@@ -32,6 +32,8 @@ export default function ContentList({
 }: CustomProps) {
   const [sortedData, setSortedData] = useState<Content[]>([]);
   const { updateOptimisticData, optimisticData } = useOptimisticContext();
+
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   function sortByPosition(arr: Content[]) {
     const sortedArr = [...arr].sort((a, b) => {
@@ -88,13 +90,21 @@ export default function ContentList({
         }));
         return newSortedData;
       });
-      startTransition(async () => {
-        try {
-          await changeContentPosition(newPositions, cookie, userId);
-        } catch (error) {
-          throw new Error(`Error updating positions: ${error}`);
-        }
-      });
+      // Clear any existing timer
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+
+      // Set a new timer
+      timerRef.current = setTimeout(() => {
+        startTransition(async () => {
+          try {
+            await changeContentPosition(newPositions, cookie, userId);
+          } catch (error) {
+            throw new Error(`Error updating positions: ${error}`);
+          }
+        });
+      }, 1500);
     }
   }
 
