@@ -9,9 +9,10 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useModalContext } from '../context/ModalContext';
 import { createWorkoutDay } from '../lib/workoutsDaysActions';
 import { useOptimisticContext } from '../context/OptimisticLoadingContext';
+import toCamelCase from '../utils/toCamelCase';
 
 interface CustomProps {
-  children?: ReactNode;
+  // children?: ReactNode;
 
   mode: Entity;
   content: Content;
@@ -81,5 +82,18 @@ export default function ContentBlockMenu({ mode, content }: CustomProps) {
   }
 
   if (!edit && !content.optimistic)
-    return <NextButton variant='contained'>start</NextButton>;
+    return (
+      <NextButton
+        variant='contained'
+        href={{
+          pathName: `workouts/${content.id}`,
+          query: {
+            name,
+            description,
+          },
+        }}
+      >
+        start
+      </NextButton>
+    );
 }

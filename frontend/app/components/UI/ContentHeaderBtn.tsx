@@ -14,7 +14,7 @@ interface MyProps {
 export default function ContentHeaderBtn({
   children,
   size = 'large',
-  entity = 'workout',
+  entity,
 }: MyProps) {
   const { checkIfDarkMode } = useColorModeContext();
   const checkIfDark = checkIfDarkMode();

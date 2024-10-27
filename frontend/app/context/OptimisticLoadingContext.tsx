@@ -35,7 +35,6 @@ export function OptimisticProvider({ children }: Props) {
   const [optimisticData, setOptimisticData] = useState<Content[]>([]);
 
   function updateOptimisticData(data: Content[]) {
-    console.log('optimistic data updated', data);
     setOptimisticData(data);
   }
 

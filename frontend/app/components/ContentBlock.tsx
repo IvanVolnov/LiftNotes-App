@@ -47,9 +47,7 @@ export default function ContentBlock({ content, mode }: CustomProps) {
           </Typography>
         </CardContent>
       </Stack>
-      <ContentBlockMenu mode={mode} content={content}>
-        start
-      </ContentBlockMenu>
+      <ContentBlockMenu mode={mode} content={content} />
     </Card>
   );
 }

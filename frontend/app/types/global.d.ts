@@ -33,3 +33,11 @@ interface Content {
 
 type Entity = 'workout' | 'day' | 'exercise';
 type Operation = 'create' | 'edit' | 'duplicate' | 'delete';
+
+interface LinkHref {
+  pathName: string;
+  query: {
+    name: string;
+    description: string;
+  };
+}

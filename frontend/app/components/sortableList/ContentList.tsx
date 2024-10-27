@@ -90,6 +90,7 @@ export default function ContentList({
         }));
         return newSortedData;
       });
+
       // Clear any existing timer
       if (timerRef.current) {
         clearTimeout(timerRef.current);
@@ -104,7 +105,7 @@ export default function ContentList({
             throw new Error(`Error updating positions: ${error}`);
           }
         });
-      }, 1500);
+      }, 700);
     }
   }
 
