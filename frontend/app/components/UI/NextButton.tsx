@@ -6,7 +6,7 @@ interface MyProps {
   children?: ReactNode;
   variant?: 'text' | 'outlined' | 'contained';
   size?: 'small' | 'medium' | 'large';
-  href?: string | LinkHref;
+  href?: string;
   color?:
     | 'primary'
     | 'inherit'

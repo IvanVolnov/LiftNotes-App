@@ -1,5 +1,4 @@
 'use client';
-import { ReactNode } from 'react';
 import NextButton from './UI/NextButton';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { IconButton, Skeleton, Stack } from '@mui/material';
@@ -9,7 +8,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useModalContext } from '../context/ModalContext';
 import { createWorkoutDay } from '../lib/workoutsDaysActions';
 import { useOptimisticContext } from '../context/OptimisticLoadingContext';
-import toCamelCase from '../utils/toCamelCase';
 
 interface CustomProps {
   // children?: ReactNode;
@@ -85,13 +83,14 @@ export default function ContentBlockMenu({ mode, content }: CustomProps) {
     return (
       <NextButton
         variant='contained'
-        href={{
-          pathName: `workouts/${content.id}`,
-          query: {
-            name,
-            description,
-          },
-        }}
+        // href={{
+        //   pathName: `workouts/${content.id}`,
+        //   query: {
+        //     name,
+        //     description,
+        //   },
+        // }}
+        href={`workouts/${content.id}`}
       >
         start
       </NextButton>
