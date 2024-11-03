@@ -16,18 +16,18 @@ import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { changeContentPosition } from '@/app/lib/changeContentPosition';
 import { useOptimisticContext } from '@/app/context/OptimisticLoadingContext';
 import { transformToContentArray } from '@/app/utils/transformToContent';
+import areArraysEqualUnordered from '@/app/utils/areArraysEqualUnordered';
 
 interface CustomProps {
   data: Workout[] | Day[] | Exercise[];
   cookie: string;
-  userId: string;
   mode: Entity;
 }
 
 export default function ContentList({
   data,
   cookie,
-  userId,
+
   mode,
 }: CustomProps) {
   const [sortedData, setSortedData] = useState<Content[]>([]);
@@ -54,7 +54,7 @@ export default function ContentList({
   }, [optimisticData]);
 
   useEffect(() => {
-    if (optimisticData.length > data.length) return;
+    if (areArraysEqualUnordered(optimisticData, data)) return;
 
     const formattedData = sortByPosition(transformToContentArray(data));
 
@@ -78,18 +78,29 @@ export default function ContentList({
     }[];
 
     if (over && active.id !== over.id) {
-      setSortedData((items) => {
-        const oldIndex = items.findIndex((item) => item.id === active.id);
-        const newIndex = items.findIndex((item) => {
-          return item.id === over.id;
-        });
-        const newSortedData = arrayMove(items, oldIndex, newIndex);
-        newPositions = newSortedData.map((el, i) => ({
-          id: el.id,
-          position: i,
-        }));
-        return newSortedData;
-      });
+      const oldIndex = optimisticData.findIndex(
+        (item) => item.id === active.id
+      );
+      const newIndex = optimisticData.findIndex((item) => item.id === over.id);
+
+      const newOptimisticData = arrayMove(
+        optimisticData,
+        oldIndex,
+        newIndex
+      ).map((el, i) => ({
+        ...el,
+        position: i,
+      }));
+
+      newPositions = newOptimisticData.map((el, i) => ({
+        id: el.id,
+        position: i,
+      }));
+
+      // Update the optimistic data in your context
+      updateOptimisticData(newOptimisticData);
+
+      console.log(newOptimisticData, optimisticData);
 
       // Clear any existing timer
       if (timerRef.current) {
@@ -100,7 +111,7 @@ export default function ContentList({
       timerRef.current = setTimeout(() => {
         startTransition(async () => {
           try {
-            await changeContentPosition(newPositions, cookie, userId);
+            await changeContentPosition(newPositions, cookie);
           } catch (error) {
             throw new Error(`Error updating positions: ${error}`);
           }
@@ -115,9 +126,9 @@ export default function ContentList({
       sensors={sensors}
       modifiers={[restrictToVerticalAxis]}
     >
-      <SortableContext items={sortedData.map((el) => el.id)}>
+      <SortableContext items={optimisticData.map((el) => el.id)}>
         <Stack mt={4} mb={{ xs: 3, sm: 5 }} spacing={2}>
-          {sortedData?.map((el) => (
+          {optimisticData?.map((el) => (
             <ContentBlock key={el.id} content={el} mode={mode} />
           ))}
         </Stack>

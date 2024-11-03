@@ -4,21 +4,6 @@ import extractUserId from '../utils/extractUserId';
 // import { ModeData } from '../context/ModalContext';
 import extractFormData from '../utils/extractFormData';
 
-export async function getWorkouts() {
-  const { cookie, userId } = extractUserId();
-
-  const data = await fetchApiData(
-    'workouts',
-    'post',
-    {
-      Authorization: `Bearer ${cookie}`,
-      'Content-Type': 'application/json',
-    },
-    { user_id: userId }
-  );
-  return data.workouts;
-}
-
 export async function createWorkoutDay(formData: FormData, etityType: Entity) {
   const { cookie, userId } = extractUserId();
   const { name, description } = extractFormData(formData);

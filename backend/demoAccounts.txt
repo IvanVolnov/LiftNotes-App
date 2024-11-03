@@ -1,0 +1,10 @@
+{
+  "email": "demoaccount@demo.com",
+  "password": "demo"
+}
+empty account: 
+{
+  "email": "empty@demo.com",
+  "password": "empty"
+}
+

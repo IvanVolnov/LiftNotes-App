@@ -10,8 +10,6 @@ import { createWorkoutDay } from '../lib/workoutsDaysActions';
 import { useOptimisticContext } from '../context/OptimisticLoadingContext';
 
 interface CustomProps {
-  // children?: ReactNode;
-
   mode: Entity;
   content: Content;
 }
@@ -83,14 +81,7 @@ export default function ContentBlockMenu({ mode, content }: CustomProps) {
     return (
       <NextButton
         variant='contained'
-        // href={{
-        //   pathName: `workouts/${content.id}`,
-        //   query: {
-        //     name,
-        //     description,
-        //   },
-        // }}
-        href={`workouts/${content.id}`}
+        href={`${mode}s/${content.id}?name=${name}&description=${description}`}
       >
         start
       </NextButton>

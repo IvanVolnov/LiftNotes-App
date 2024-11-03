@@ -1,90 +1,90 @@
 import { Request, Response } from 'express';
 import { sql } from '@vercel/postgres';
 
-export async function getWorkouts(req: Request, res: Response) {
-  try {
-    const { user_id } = req.body;
-
-    if (!user_id) {
-      return res
-        .status(400)
-        .json({ error: 'invalid api request: user id is missing' });
-    }
-    const userWorkouts =
-      await sql`SELECT * FROM workouts WHERE user_id = ${user_id} ORDER BY position;`;
-    // setTimeout(() => {
-    res.json({ result: userWorkouts.rows });
-    // }, 5000);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-}
-
-export async function createWorkout(req: Request, res: Response) {
-  try {
-    const { workout_name, workout_description } = req.body;
-    const { user } = res.locals;
-
-    if (!workout_name) {
-      return res
-        .status(400)
-        .json({ error: 'invalid api request: workout name is missing' });
-    }
-    const newWorkout =
-      await sql`INSERT INTO workouts (user_id, workout_name, workout_description, position)
-VALUES (
-    ${user.user_id},  
-    ${workout_name},  
-    ${workout_description},
-    0  
-) RETURNING *;`;
-    res.json({ workouts: newWorkout.rows });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-}
-
-export async function editWorkout(req: Request, res: Response) {
-  try {
-    const { workout_name, workout_description, workout_id } = req.body;
-
-    if (!workout_name) {
-      return res
-        .status(400)
-        .json({ error: 'invalid api request: workout name is missing' });
-    }
-    const newWorkout = await sql`UPDATE workouts 
-SET 
-    workout_name = ${workout_name}, 
-    workout_description = ${workout_description} 
-WHERE 
-    workout_id = ${workout_id}
-RETURNING *;`;
-    res.json({ workouts: newWorkout.rows });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-}
-
-export async function deleteWorkout(req: Request, res: Response) {
+export async function getDays(req: Request, res: Response) {
   try {
     const { workout_id } = req.body;
 
     if (!workout_id) {
       return res
         .status(400)
-        .json({ error: 'invalid api request: workout id is missing' });
+        .json({ error: 'invalid api request: user id is missing' });
     }
-    const newWorkout = await sql`DELETE FROM workouts 
-WHERE workout_id = ${workout_id}
-RETURNING *;`;
-    res.json({ workouts: newWorkout.rows });
+    const result =
+      await sql`SELECT * FROM days WHERE workout_id = ${workout_id} ORDER BY position;`;
+    // setTimeout(() => {
+    res.json({ result: result.rows });
+    // }, 5000);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 }
 
-export async function reorderWorkout(req: Request, res: Response) {
+export async function createDay(req: Request, res: Response) {
+  try {
+    const { day_name, day_description, workout_id } = req.body;
+    // const { user } = res.locals;
+
+    if (!day_name) {
+      return res
+        .status(400)
+        .json({ error: 'invalid api request: workout name is missing' });
+    }
+    const newDay =
+      await sql`INSERT INTO days (workout_id, day_name, day_description, position)
+VALUES (
+    ${workout_id},  
+    ${day_name},  
+    ${day_description},
+    0  
+) RETURNING *;`;
+    res.json({ days: newDay.rows });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+export async function editDay(req: Request, res: Response) {
+  try {
+    const { day_name, day_description, day_id } = req.body;
+
+    if (!day_name) {
+      return res
+        .status(400)
+        .json({ error: 'invalid api request: day name is missing' });
+    }
+    const editedDay = await sql`UPDATE days 
+SET 
+    day_name = ${day_name}, 
+    day_description = ${day_description} 
+WHERE 
+    day_id = ${day_id}
+RETURNING *;`;
+    res.json({ workouts: editedDay.rows });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+export async function deleteDay(req: Request, res: Response) {
+  try {
+    const { day_id } = req.body;
+
+    if (!day_id) {
+      return res
+        .status(400)
+        .json({ error: 'invalid api request: day id is missing' });
+    }
+    const deletedDay = await sql`DELETE FROM days 
+WHERE day_id = ${day_id}
+RETURNING *;`;
+    res.json({ workouts: deletedDay.rows });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+export async function reorderDay(req: Request, res: Response) {
   try {
     const { newPositions } = req.body;
 
@@ -100,9 +100,9 @@ export async function reorderWorkout(req: Request, res: Response) {
 
     // Perform updates
     const updatePromises = newPositions.map(async (el: El) => {
-      return sql`UPDATE workouts
+      return sql`UPDATE days
         SET position = ${el.position}
-        WHERE workout_id = ${el.id}
+        WHERE day_id = ${el.id}
         RETURNING *;`;
     });
 

@@ -6,6 +6,7 @@ import { dirname } from 'path';
 import cookieParser from 'cookie-parser';
 import users from './routes/authRoutes.js';
 import workouts from './routes/workoutsRoutes.js';
+import days from './routes/daysRoutes.js';
 
 const app = express();
 
@@ -24,5 +25,6 @@ app.get('/', async (req, res) => {
 
 app.use('/api/users', users);
 app.use('/api/workouts', workouts);
+app.use('/api/days', days);
 
 app.listen(PORT, () => console.log(`App listening on port ${PORT}!`));

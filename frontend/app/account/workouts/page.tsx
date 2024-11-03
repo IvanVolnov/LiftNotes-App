@@ -1,13 +1,13 @@
-import { getWorkouts } from '../../lib/workoutsDaysActions';
 import { Typography } from '@mui/material';
 import ContentHeaderBtn from '@/app/components/UI/ContentHeaderBtn';
 import ContentFooterBtn from '@/app/components/UI/ContentFooterBtn';
 import ContentList from '@/app/components/sortableList/ContentList';
 import extractUserId from '@/app/utils/extractUserId';
 import ContentHeaderMenu from '@/app/components/UI/ContentHeaderMenu';
+import { getData } from '@/app/lib/getData';
 
 export default async function Workouts() {
-  const data: Workout[] = await getWorkouts();
+  const data: Workout[] = await getData('workout');
 
   const { cookie, userId } = extractUserId();
 
@@ -23,12 +23,7 @@ export default async function Workouts() {
         </Typography>
       ) : (
         <>
-          <ContentList
-            data={data}
-            cookie={cookie}
-            userId={userId}
-            mode='workout'
-          />
+          <ContentList data={data} cookie={cookie} mode='workout' />
           <ContentFooterBtn>Manage workouts</ContentFooterBtn>
         </>
       )}
