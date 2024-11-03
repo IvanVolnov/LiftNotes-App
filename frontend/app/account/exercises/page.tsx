@@ -1,6 +1,5 @@
 import ContentList from '@/app/components/sortableList/ContentList';
 import ContentFooterBtn from '@/app/components/UI/ContentFooterBtn';
-import ContentHeaderBtn from '@/app/components/UI/ContentHeaderBtn';
 import ContentHeaderMenu from '@/app/components/UI/ContentHeaderMenu';
 import extractUserId from '@/app/utils/extractUserId';
 import { Typography } from '@mui/material';
@@ -25,7 +24,6 @@ export default function Exercises() {
           <ContentList
             data={data}
             cookie={cookie}
-            userId={userId}
             mode='exercise'
           />
           <ContentFooterBtn>Manage exercises</ContentFooterBtn>
