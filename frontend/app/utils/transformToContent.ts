@@ -1,26 +1,34 @@
 export default function transformToContent(
   item: Workout | Day | Exercise
 ): Content {
-  if ('workout_id' in item) {
+  if ('workout_name' in item) {
+    const { workout_id, workout_name, workout_description, user_id, ...rest } =
+      item;
     return {
-      ...item,
-      id: item.workout_id,
-      name: item.workout_name,
-      description: item.workout_description,
+      ...rest,
+      name: workout_name,
+      id: workout_id,
+      description: workout_description,
+      parentId: user_id,
     };
-  } else if ('day_id' in item) {
+  }
+  if ('day_name' in item) {
+    const { day_id, day_name, day_description, workout_id, ...rest } = item;
     return {
-      ...item,
-      id: item.day_id,
-      name: item.day_name,
-      description: item.day_description,
+      ...rest,
+      name: day_name,
+      id: day_id,
+      description: day_description,
+      parentId: workout_id,
     };
-  } else if ('exercise_id' in item) {
+  }
+  if ('exercise_name' in item) {
+    const { exercise_id, exercise_name, exercise_description, ...rest } = item;
     return {
       ...item,
-      id: item.exercise_id,
-      name: item.exercise_name,
-      description: item.exercise_description,
+      name: exercise_name,
+      id: exercise_id,
+      description: exercise_description,
     };
   }
   throw new Error('Unknown item type');

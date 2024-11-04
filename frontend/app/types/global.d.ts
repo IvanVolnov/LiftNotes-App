@@ -1,4 +1,5 @@
 interface Workout {
+  user_id: string;
   workout_id: string;
   workout_name: string;
   workout_description: string;
@@ -12,6 +13,7 @@ interface Day {
   day_description: string;
   position: number;
   created_at: string | Date;
+  workout_id: string;
 }
 
 interface Exercise {
@@ -28,6 +30,7 @@ interface Content {
   description: string;
   position: number;
   created_at: string | Date;
+  parentId?: string;
   optimistic?: boolean;
 }
 

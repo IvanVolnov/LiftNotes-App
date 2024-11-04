@@ -8,10 +8,11 @@ interface positionsObj {
 
 export async function changeContentPosition(
   updatedPositions: positionsObj[],
-  cookie: string
+  cookie: string,
+  entity: Entity
 ) {
   const data = await fetchApiData(
-    'workouts/reorder',
+    `${entity}s/reorder`,
     'put',
     {
       Authorization: `Bearer ${cookie}`,

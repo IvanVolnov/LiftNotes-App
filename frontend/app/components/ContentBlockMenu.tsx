@@ -17,8 +17,7 @@ interface CustomProps {
 export default function ContentBlockMenu({ mode, content }: CustomProps) {
   const searchParams = useSearchParams();
   const edit = searchParams.get('edit');
-  const { name, description } = content;
-
+  const { name, description, parentId } = content;
   const { createOptimisticData } = useOptimisticContext();
   const { toggleModal } = useModalContext();
 
@@ -30,7 +29,7 @@ export default function ContentBlockMenu({ mode, content }: CustomProps) {
       formData.append('name', `${name} copy`);
       formData.append('description', description || '');
       createOptimisticData(formData);
-      createWorkoutDay(formData, mode);
+      createWorkoutDay(formData, mode, parentId);
       router.refresh();
     }
   }

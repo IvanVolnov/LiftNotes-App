@@ -11,7 +11,7 @@ import {
 import { arrayMove, SortableContext } from '@dnd-kit/sortable';
 import { Stack } from '@mui/material';
 import ContentBlock from '../ContentBlock';
-import { useEffect, useRef, useState, useTransition } from 'react';
+import { useEffect, useRef, useTransition } from 'react';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { changeContentPosition } from '@/app/lib/changeContentPosition';
 import { useOptimisticContext } from '@/app/context/OptimisticLoadingContext';
@@ -24,13 +24,8 @@ interface CustomProps {
   mode: Entity;
 }
 
-export default function ContentList({
-  data,
-  cookie,
-
-  mode,
-}: CustomProps) {
-  const [sortedData, setSortedData] = useState<Content[]>([]);
+export default function ContentList({ data, cookie, mode }: CustomProps) {
+  // const [sortedData, setSortedData] = useState<Content[]>([]);
   const { updateOptimisticData, optimisticData } = useOptimisticContext();
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -48,17 +43,18 @@ export default function ContentList({
     return sortedArr;
   }
 
-  useEffect(() => {
-    const formattedData = sortByPosition(optimisticData);
-    setSortedData(formattedData);
-  }, [optimisticData]);
+  // useEffect(() => {
+  //   console.log('optimisticData updated:', optimisticData);
+  //   const formattedData = sortByPosition(optimisticData);
+  //   setSortedData(formattedData);
+  // }, [optimisticData]);
 
   useEffect(() => {
     if (areArraysEqualUnordered(optimisticData, data)) return;
 
     const formattedData = sortByPosition(transformToContentArray(data));
 
-    setSortedData(formattedData);
+    // setSortedData(formattedData);
     updateOptimisticData(formattedData);
   }, [data]);
 
@@ -100,7 +96,7 @@ export default function ContentList({
       // Update the optimistic data in your context
       updateOptimisticData(newOptimisticData);
 
-      console.log(newOptimisticData, optimisticData);
+      // console.log(newOptimisticData, optimisticData);
 
       // Clear any existing timer
       if (timerRef.current) {
@@ -111,7 +107,7 @@ export default function ContentList({
       timerRef.current = setTimeout(() => {
         startTransition(async () => {
           try {
-            await changeContentPosition(newPositions, cookie);
+            await changeContentPosition(newPositions, cookie, mode);
           } catch (error) {
             throw new Error(`Error updating positions: ${error}`);
           }

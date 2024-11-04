@@ -8,7 +8,7 @@ import { useModalContext } from '@/app/context/ModalContext';
 interface MyProps {
   children?: ReactNode;
   size?: 'small' | 'medium' | 'large';
-  entity?: Entity;
+  entity: Entity;
 }
 
 export default function ContentHeaderBtn({
@@ -41,7 +41,10 @@ export default function ContentHeaderBtn({
       type='button'
       onClick={
         edit
-          ? () => deleteQueryParam('edit')
+          ? () => {
+              deleteQueryParam('edit');
+              router.refresh();
+            }
           : () => toggleModal(entity, 'create')
       }
       disableElevation

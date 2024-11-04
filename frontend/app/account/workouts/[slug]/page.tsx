@@ -23,7 +23,7 @@ export default async function WorkoutPage({
     <>
       <ContentHeaderMenu>
         <Typography variant='h2'>{searchParams.name}</Typography>
-        <ContentHeaderBtn>Add new day</ContentHeaderBtn>
+        <ContentHeaderBtn entity='day'>Add new day</ContentHeaderBtn>
       </ContentHeaderMenu>
       <Typography mt={2} variant='body1'>
         {searchParams.description}

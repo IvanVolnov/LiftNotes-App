@@ -1,29 +1,41 @@
 'use server';
 import fetchApiData from '../utils/fetchApiData';
 import extractUserId from '../utils/extractUserId';
-// import { ModeData } from '../context/ModalContext';
 import extractFormData from '../utils/extractFormData';
 
-export async function createWorkoutDay(formData: FormData, etityType: Entity) {
+export async function createWorkoutDay(
+  formData: FormData,
+  etityType: Entity,
+  parentId?: string
+) {
   const { cookie, userId } = extractUserId();
   const { name, description } = extractFormData(formData);
 
+  let route = '',
+    body = {};
+
+  if (etityType === 'workout') {
+    route = 'workouts/create';
+    body = { workout_name: name, workout_description: description };
+  }
+
+  if (etityType === 'day') {
+    route = 'days/create';
+    body = {
+      day_name: name,
+      day_description: description,
+      workout_id: parentId,
+    };
+  }
+
   const data = await fetchApiData(
-    etityType === 'workout'
-      ? 'workouts/create'
-      : etityType === 'day'
-      ? 'days/create'
-      : '',
+    route,
     'post',
     {
       Authorization: `Bearer ${cookie}`,
       'Content-Type': 'application/json',
     },
-    etityType === 'workout'
-      ? { workout_name: name, workout_description: description }
-      : etityType === 'day'
-      ? { day_name: name, day_description: description }
-      : ''
+    body
   );
   return data.workouts;
 }

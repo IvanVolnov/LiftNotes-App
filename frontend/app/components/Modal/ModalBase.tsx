@@ -2,7 +2,7 @@
 import Dialog from '@mui/material/Dialog';
 import { useModalContext } from '@/app/context/ModalContext';
 import { Paper } from '@mui/material';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import WorkoutDayModal from './WorkoutDayModal';
 import {
   createWorkoutDay,
@@ -18,13 +18,11 @@ interface CustomProps {
 
 export default function ModalBase({ isOpened }: CustomProps) {
   const { mode, toggleModal } = useModalContext();
-  const {
-    createOptimisticData,
-    optimisticData,
-    deleteOptimisticData,
-    editOptimisticData,
-  } = useOptimisticContext();
+  const { createOptimisticData, deleteOptimisticData, editOptimisticData } =
+    useOptimisticContext();
   const router = useRouter();
+  const currentPath = usePathname();
+  const parentId = currentPath.split('/').slice(3).toString();
 
   const handleClose = () => {
     toggleModal();
@@ -38,7 +36,7 @@ export default function ModalBase({ isOpened }: CustomProps) {
       (mode.entity === 'workout' || mode.entity === 'day')
     ) {
       createOptimisticData(formData);
-      createWorkoutDay(formData, mode.entity);
+      createWorkoutDay(formData, mode.entity, parentId);
     }
 
     if (
