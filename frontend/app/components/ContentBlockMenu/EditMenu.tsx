@@ -1,25 +1,24 @@
 'use client';
-import NextButton from './UI/NextButton';
-import { useRouter, useSearchParams } from 'next/navigation';
+
+import { useModalContext } from '@/app/context/ModalContext';
+import { useOptimisticContext } from '@/app/context/OptimisticLoadingContext';
+import { createWorkoutDay } from '@/app/lib/workoutsDaysActions';
 import { IconButton, Skeleton, Stack } from '@mui/material';
+import { useRouter } from 'next/navigation';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import EditIcon from '@mui/icons-material/Edit';
-import { useModalContext } from '../context/ModalContext';
-import { createWorkoutDay } from '../lib/workoutsDaysActions';
-import { useOptimisticContext } from '../context/OptimisticLoadingContext';
 
 interface CustomProps {
   mode: Entity;
   content: Content;
 }
 
-export default function ContentBlockMenu({ mode, content }: CustomProps) {
-  const searchParams = useSearchParams();
-  const edit = searchParams.get('edit');
+export default function EditMenu({ mode, content }: CustomProps) {
   const { name, description, parentId } = content;
   const { createOptimisticData } = useOptimisticContext();
   const { toggleModal } = useModalContext();
+  // console.log(content);
 
   const router = useRouter();
 
@@ -34,7 +33,7 @@ export default function ContentBlockMenu({ mode, content }: CustomProps) {
     }
   }
 
-  if (edit && !content.optimistic) {
+  if (!content.optimistic) {
     return (
       <Stack direction='row' spacing={1}>
         <IconButton
@@ -62,7 +61,7 @@ export default function ContentBlockMenu({ mode, content }: CustomProps) {
     );
   }
 
-  if (edit && content.optimistic) {
+  if (content.optimistic) {
     return (
       <Stack direction='row' spacing={3} mr={1}>
         <Skeleton animation='wave' width={25} height={40} />
@@ -71,18 +70,4 @@ export default function ContentBlockMenu({ mode, content }: CustomProps) {
       </Stack>
     );
   }
-
-  if (!edit && content.optimistic) {
-    return <Skeleton animation='wave' width={75} height={56} />;
-  }
-
-  if (!edit && !content.optimistic)
-    return (
-      <NextButton
-        variant='contained'
-        href={`${mode}s/${content.id}?name=${name}&description=${description}`}
-      >
-        start
-      </NextButton>
-    );
 }
