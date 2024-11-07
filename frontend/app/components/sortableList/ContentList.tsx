@@ -17,6 +17,7 @@ import { changeContentPosition } from '@/app/lib/changeContentPosition';
 import { useOptimisticContext } from '@/app/context/OptimisticLoadingContext';
 import { transformToContentArray } from '@/app/utils/transformToContent';
 import areArraysEqualUnordered from '@/app/utils/areArraysEqualUnordered';
+import ExerciseContentBlock from '../EcerciseContentBlock';
 
 interface CustomProps {
   data: Workout[] | Day[] | Exercise[];
@@ -35,7 +36,6 @@ export default function ContentList({ data, cookie, mode }: CustomProps) {
       if (a.position === b.position) {
         const dateA = new Date(a.created_at);
         const dateB = new Date(b.created_at);
-
         return dateB.getTime() - dateA.getTime();
       }
       return a.position - b.position;
@@ -124,9 +124,13 @@ export default function ContentList({ data, cookie, mode }: CustomProps) {
     >
       <SortableContext items={optimisticData.map((el) => el.id)}>
         <Stack mt={4} mb={{ xs: 3, sm: 5 }} spacing={2}>
-          {optimisticData?.map((el) => (
-            <ContentBlock key={el.id} content={el} mode={mode} />
-          ))}
+          {optimisticData?.map((el) =>
+            mode === 'exercise' ? (
+              <ExerciseContentBlock key={el.id} content={el} />
+            ) : (
+              <ContentBlock key={el.id} content={el} mode={mode} />
+            )
+          )}
         </Stack>
       </SortableContext>
     </DndContext>

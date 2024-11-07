@@ -19,10 +19,6 @@ export default function ContentBlockMenu({ mode, content }: CustomProps) {
     return <EditMenu mode={mode} content={content} />;
   }
 
-  if (mode === 'exercise') {
-    return <ExerciseMenu content={content} />;
-  }
-
   if (content.optimistic) {
     return <Skeleton animation='wave' width={75} height={56} />;
   }

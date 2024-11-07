@@ -23,7 +23,7 @@ export default function AccountLayout({
           <Stack
             component='main'
             mt={{ xs: 0, sm: 3 }}
-            p={{ xs: 2, sm: 4 }}
+            p={{ xs: 0, sm: 4 }}
             sx={{
               bgcolor: 'secondaryBg.main',
               minWidth: 'min(100vw, 44rem)',
