@@ -3,11 +3,14 @@ import { createContext, ReactNode, useContext, useState } from 'react';
 import extractFormData from '../utils/extractFormData';
 
 interface optimisticContextProps {
-  optimisticData: Content[];
+  optimisticData: Content[] | ExerciseNormalised[];
   createOptimisticData: (formData: FormData) => void;
-  updateOptimisticData: (data: Content[]) => void;
-  deleteOptimisticData: (contentToDelete: Content) => void;
-  editOptimisticData: (formData: FormData, data: Content) => void;
+  updateOptimisticData: (data: Content[] | ExerciseNormalised[]) => void;
+  deleteOptimisticData: (contentToDelete: Content | ExerciseNormalised) => void;
+  editOptimisticData: (
+    formData: FormData,
+    data: Content | ExerciseNormalised
+  ) => void;
 }
 
 const ContextDefaultValue: optimisticContextProps = {
@@ -34,7 +37,7 @@ interface Props {
 export function OptimisticProvider({ children }: Props) {
   const [optimisticData, setOptimisticData] = useState<Content[]>([]);
 
-  function updateOptimisticData(data: Content[]) {
+  function updateOptimisticData(data: Content[] | ExerciseNormalised[]) {
     setOptimisticData(data);
   }
 
@@ -52,7 +55,10 @@ export function OptimisticProvider({ children }: Props) {
     setOptimisticData((prev) => [...prev, formatedContent]);
   }
 
-  function editOptimisticData(formData: FormData, data: Content) {
+  function editOptimisticData(
+    formData: FormData,
+    data: Content | ExerciseNormalised
+  ) {
     const { name, description } = extractFormData(formData);
     setOptimisticData((prev) =>
       prev.map((el) =>
@@ -61,7 +67,7 @@ export function OptimisticProvider({ children }: Props) {
     );
   }
 
-  function deleteOptimisticData(data: Content) {
+  function deleteOptimisticData(data: Content | ExerciseNormalised) {
     setOptimisticData((prev) => prev.filter((el) => el.id !== data.id));
   }
 

@@ -1,3 +1,5 @@
+import snakeToCamel from './snakeToCamel';
+
 export default function transformToContent(
   item: Workout | Day | Exercise
 ): Content {
@@ -23,12 +25,19 @@ export default function transformToContent(
     };
   }
   if ('exercise_name' in item) {
-    const { exercise_id, exercise_name, exercise_description, ...rest } = item;
+    const {
+      exercise_id,
+      exercise_name,
+      exercise_description,
+      created_at,
+      ...rest
+    } = item;
     return {
-      ...item,
+      ...snakeToCamel(rest),
       name: exercise_name,
       id: exercise_id,
       description: exercise_description,
+      created_at,
     };
   }
   throw new Error('Unknown item type');

@@ -16,10 +16,11 @@ import { useSearchParams } from 'next/navigation';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { ExpandMoreBtn } from './UI/ExpandMoreBtn';
+import daysAgo from '../utils/daysAgo';
 
 interface CustomProps {
   children?: ReactNode;
-  content: Content;
+  content: ExerciseNormalised;
 }
 
 export default function ExerciseContentBlock({ content }: CustomProps) {
@@ -41,11 +42,8 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
     <Card
       sx={{
         bgcolor: 'contentBg.main',
-        // width: '40rem',
         display: 'flex',
         flexDirection: 'column',
-        // alignItems: 'stretch',
-        // justifyContent: 'center',
         paddingRight: '1rem',
         transform: CSS.Translate.toString(transform),
         transition,
@@ -72,7 +70,7 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
               {content.name}
             </Typography>
             <Typography variant='body2' color='text.secondary'>
-              {content.description}
+              result updated {daysAgo(content.exerciseLastUpdated)}
             </Typography>
           </CardContent>
         </Stack>
@@ -87,7 +85,7 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
             <ContentBlockMenu mode={mode} content={content} />
           ) : (
             <>
-              <Chip label='secondary' color='secondary' />
+              <Chip label={content.exerciseType} color='secondary' />
               <ExpandMoreBtn
                 expand={expanded}
                 onClick={handleExpandClick}
@@ -101,11 +99,9 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
         </Stack>
       </Stack>
       <Collapse in={expanded} timeout='auto' unmountOnExit>
-        <CardContent sx={{ padding: 'none' }}>
-          <Typography>
-            Heat 1/2 cup of the broth in a pot until simmering, add saffron and
-            set aside for 10 minutes.
-          </Typography>
+        <CardContent>
+          <Typography>{content?.description}</Typography>
+          <Typography>{content?.exerciseInformation}</Typography>
         </CardContent>
       </Collapse>
     </Card>

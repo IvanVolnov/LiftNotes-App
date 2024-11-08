@@ -26,7 +26,6 @@ interface CustomProps {
 }
 
 export default function ContentList({ data, cookie, mode }: CustomProps) {
-  // const [sortedData, setSortedData] = useState<Content[]>([]);
   const { updateOptimisticData, optimisticData } = useOptimisticContext();
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -42,12 +41,6 @@ export default function ContentList({ data, cookie, mode }: CustomProps) {
     });
     return sortedArr;
   }
-
-  // useEffect(() => {
-  //   console.log('optimisticData updated:', optimisticData);
-  //   const formattedData = sortByPosition(optimisticData);
-  //   setSortedData(formattedData);
-  // }, [optimisticData]);
 
   useEffect(() => {
     if (areArraysEqualUnordered(optimisticData, data)) return;
@@ -123,10 +116,18 @@ export default function ContentList({ data, cookie, mode }: CustomProps) {
       modifiers={[restrictToVerticalAxis]}
     >
       <SortableContext items={optimisticData.map((el) => el.id)}>
-        <Stack mt={4} mb={{ xs: 3, sm: 5 }} spacing={2}>
+        <Stack
+          mt={4}
+          mb={{ xs: 3, sm: 5 }}
+          spacing={2}
+          sx={{ maxWidth: '40rem' }}
+        >
           {optimisticData?.map((el) =>
             mode === 'exercise' ? (
-              <ExerciseContentBlock key={el.id} content={el} />
+              <ExerciseContentBlock
+                key={el.id}
+                content={el as ExerciseNormalised}
+              />
             ) : (
               <ContentBlock key={el.id} content={el} mode={mode} />
             )
