@@ -1,10 +1,14 @@
 'use client';
 import {
+  Button,
   Card,
+  CardActions,
   CardContent,
   Chip,
   Collapse,
+  Divider,
   Stack,
+  Switch,
   Typography,
 } from '@mui/material';
 import { ReactNode, useState } from 'react';
@@ -99,10 +103,27 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
         </Stack>
       </Stack>
       <Collapse in={expanded} timeout='auto' unmountOnExit>
-        <CardContent>
-          <Typography>{content?.description}</Typography>
-          <Typography>{content?.exerciseInformation}</Typography>
+        <CardContent
+          sx={{
+            paddingTop: '0px',
+          }}
+        >
+          <Typography variant='body2'>{content?.description}</Typography>
+          <Divider />
+          <Stack direction='row' spacing={3} alignItems='center'>
+            <Typography variant='body1'>how the training was?</Typography>
+            <Stack direction='row' spacing={1} alignItems='center'>
+              <Typography variant='body2'>normal</Typography>
+              <Switch />
+              <Typography variant='body2'>easy</Typography>
+            </Stack>
+          </Stack>
         </CardContent>
+        <CardActions>
+          <Button size='small' variant='contained'>
+            Update result
+          </Button>
+        </CardActions>
       </Collapse>
     </Card>
   );

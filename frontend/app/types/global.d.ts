@@ -38,7 +38,7 @@ interface Exercise {
   position: number;
   created_at: string | Date;
   exercise_type?: 'compound' | 'cardio' | 'isolation' | 'stretching';
-  exercise_information: string;
+
   previous_training_was_easy: boolean;
   exercise_last_updated: string;
   exercise_results: Result[];
@@ -68,7 +68,7 @@ interface ExerciseNormalised {
   parentId?: string;
   optimistic?: boolean;
   exerciseType: 'compound' | 'cardio' | 'isolation' | 'stretching';
-  exerciseInformation: string;
+
   previousTrainingWasEasy: boolean;
   exerciseLastUpdated: string;
   exerciseResults: Result[];

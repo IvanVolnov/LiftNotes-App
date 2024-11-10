@@ -106,7 +106,6 @@ export default function Exercises() {
     exercise_description: 'dummy ex description',
     position: 0,
     created_at: Date.now().toString(),
-    exercise_information: 'big dummy more info',
     previous_training_was_easy: true,
     exercise_last_updated: '2024-11-03T13:29:20.428Z',
     exercise_results,
