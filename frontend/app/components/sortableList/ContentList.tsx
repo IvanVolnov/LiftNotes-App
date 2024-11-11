@@ -30,7 +30,7 @@ export default function ContentList({ data, cookie, mode }: CustomProps) {
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  function sortByPosition(arr: Content[]) {
+  function sortByPosition(arr: Content[] | ExerciseNormalised[]) {
     const sortedArr = [...arr].sort((a, b) => {
       if (a.position === b.position) {
         const dateA = new Date(a.created_at);
@@ -47,7 +47,6 @@ export default function ContentList({ data, cookie, mode }: CustomProps) {
 
     const formattedData = sortByPosition(transformToContentArray(data));
 
-    // setSortedData(formattedData);
     updateOptimisticData(formattedData);
   }, [data]);
 

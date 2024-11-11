@@ -2,7 +2,7 @@ import snakeToCamel from './snakeToCamel';
 
 export default function transformToContent(
   item: Workout | Day | Exercise
-): Content {
+): Content | ExerciseNormalised {
   if ('workout_name' in item) {
     const { workout_id, workout_name, workout_description, user_id, ...rest } =
       item;
@@ -24,27 +24,26 @@ export default function transformToContent(
       parentId: workout_id,
     };
   }
-  if ('exercise_name' in item) {
+  if ('exerciseName' in item) {
     const {
-      exercise_id,
-      exercise_name,
-      exercise_description,
+      exerciseId,
+      exerciseName,
+      exerciseDescription,
       created_at,
       ...rest
     } = item;
+
     return {
-      ...snakeToCamel(rest),
-      name: exercise_name,
-      id: exercise_id,
-      description: exercise_description,
+      ...rest,
+      name: exerciseName,
+      id: exerciseId,
+      description: exerciseDescription,
       created_at,
     };
   }
   throw new Error('Unknown item type');
 }
 
-export function transformToContentArray(
-  items: (Workout | Day | Exercise)[]
-): Content[] {
+export function transformToContentArray(items: (Workout | Day | Exercise)[]) {
   return items.map(transformToContent);
 }

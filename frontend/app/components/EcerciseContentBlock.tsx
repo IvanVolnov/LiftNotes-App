@@ -11,7 +11,7 @@ import {
   Switch,
   Typography,
 } from '@mui/material';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import ContentBlockMenu from './ContentBlockMenu/ContentBlockMenuBase';
 import DragButton from './UI/DragButton';
 import { useSortable } from '@dnd-kit/sortable';
@@ -21,6 +21,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { ExpandMoreBtn } from './UI/ExpandMoreBtn';
 import daysAgo from '../utils/daysAgo';
+import ExerciseTable from './UI/ExerciseTable';
 
 interface CustomProps {
   children?: ReactNode;
@@ -28,6 +29,7 @@ interface CustomProps {
 }
 
 export default function ExerciseContentBlock({ content }: CustomProps) {
+  console.log(content);
   const { id } = content;
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
@@ -38,8 +40,10 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
 
   const [expanded, setExpanded] = useState(false);
 
+  useEffect(() => setExpanded(false), [edit]);
+
   const handleExpandClick = () => {
-    setExpanded(!expanded);
+    setExpanded((prev) => !prev);
   };
 
   return (
@@ -89,7 +93,9 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
             <ContentBlockMenu mode={mode} content={content} />
           ) : (
             <>
-              <Chip label={content.exerciseType} color='secondary' />
+              {content.exerciseType && (
+                <Chip label={content.exerciseType} color='secondary' />
+              )}
               <ExpandMoreBtn
                 expand={expanded}
                 onClick={handleExpandClick}
@@ -114,12 +120,23 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
             <Typography variant='body1'>how the training was?</Typography>
             <Stack direction='row' spacing={1} alignItems='center'>
               <Typography variant='body2'>normal</Typography>
-              <Switch />
+              <Switch checked={content.previousTrainingWasEasy} />
               <Typography variant='body2'>easy</Typography>
             </Stack>
           </Stack>
+          {content.exerciseResults ? (
+            <ExerciseTable results={content.exerciseResults} />
+          ) : (
+            <Typography variant='body2'>No results recorded yet...</Typography>
+          )}
         </CardContent>
-        <CardActions>
+        <CardActions
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            marginBottom: '1rem',
+          }}
+        >
           <Button size='small' variant='contained'>
             Update result
           </Button>

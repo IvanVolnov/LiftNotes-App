@@ -17,31 +17,30 @@ interface Day {
 }
 
 interface Result {
-  result_id: string;
-  result_date: string;
+  resultId: string;
+  resultDate: string;
   sets: Set[];
 }
 
 interface Set {
-  result_id: string;
-  set_id: string;
-  set_number: number;
+  resultId: string;
+  setId: string;
+  setNumber: number;
   reps: number;
-  weight_amount: number;
-  weight_unit: string;
+  weightAmount: number;
+  weightUnit: string;
 }
 
 interface Exercise {
-  exercise_id: string;
-  exercise_name: string;
-  exercise_description: string;
+  exerciseId: string;
+  exerciseName: string;
+  exerciseDescription: string;
   position: number;
   created_at: string | Date;
-  exercise_type?: 'compound' | 'cardio' | 'isolation' | 'stretching';
-
-  previous_training_was_easy: boolean;
-  exercise_last_updated: string;
-  exercise_results: Result[];
+  exerciseType?: 'compound' | 'cardio' | 'isolation' | 'stretching';
+  previousTrainingWasEasy: boolean;
+  exerciseLastUpdated: string;
+  exerciseResults: Result[];
 }
 
 interface Content {
@@ -68,7 +67,6 @@ interface ExerciseNormalised {
   parentId?: string;
   optimistic?: boolean;
   exerciseType: 'compound' | 'cardio' | 'isolation' | 'stretching';
-
   previousTrainingWasEasy: boolean;
   exerciseLastUpdated: string;
   exerciseResults: Result[];
