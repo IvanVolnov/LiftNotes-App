@@ -52,7 +52,6 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
         bgcolor: 'contentBg.main',
         display: 'flex',
         flexDirection: 'column',
-        paddingRight: '1rem',
         transform: CSS.Translate.toString(transform),
         transition,
         touchAction: 'manipulation',
@@ -88,6 +87,7 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
           sx={{
             alignItems: 'center',
           }}
+          useFlexGap
         >
           {edit ? (
             <ContentBlockMenu mode={mode} content={content} />
@@ -101,6 +101,7 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
                 onClick={handleExpandClick}
                 aria-expanded={expanded}
                 aria-label='show more'
+                sx={{ marginRight: '1rem' }}
               >
                 <ExpandMoreIcon />
               </ExpandMoreBtn>
@@ -124,7 +125,7 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
               <Typography variant='body2'>easy</Typography>
             </Stack>
           </Stack>
-          {content.exerciseResults ? (
+          {content.exerciseResults.length ? (
             <ExerciseTable results={content.exerciseResults} />
           ) : (
             <Typography variant='body2'>No results recorded yet...</Typography>
@@ -134,7 +135,7 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
           sx={{
             display: 'flex',
             justifyContent: 'flex-end',
-            marginBottom: '1rem',
+            margin: '0rem 1rem 1rem 0rem',
           }}
         >
           <Button size='small' variant='contained'>
