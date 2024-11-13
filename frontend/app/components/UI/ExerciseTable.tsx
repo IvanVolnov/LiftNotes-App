@@ -46,9 +46,9 @@ export default function ExerciseTable({ results }: CustomProps) {
         <TableHead>
           <TableRow>
             <TableCell>date</TableCell>
-            <TableCell>sets</TableCell>
-            <TableCell>reps</TableCell>
-            <TableCell>weight</TableCell>
+            <TableCell align='right'>sets</TableCell>
+            <TableCell align='right'>reps</TableCell>
+            <TableCell align='right'>weight</TableCell>
             <TableCell>unit</TableCell>
           </TableRow>
         </TableHead>

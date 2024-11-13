@@ -19,16 +19,17 @@ interface Day {
 interface Result {
   resultId: string;
   resultDate: string;
-  sets: Set[];
+  sets: ResultSet[];
 }
 
-interface Set {
+interface ResultSet {
   resultId: string;
   setId: string;
   setNumber: number;
   reps: number;
   weightAmount: number;
   weightUnit: string;
+  setAmount?: number;
 }
 
 interface Exercise {
