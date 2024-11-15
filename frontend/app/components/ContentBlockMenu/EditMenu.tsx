@@ -18,7 +18,6 @@ export default function EditMenu({ mode, content }: CustomProps) {
   const { name, description, parentId } = content;
   const { createOptimisticData } = useOptimisticContext();
   const { toggleModal } = useModalContext();
-  // console.log(content);
 
   const router = useRouter();
 
@@ -35,7 +34,11 @@ export default function EditMenu({ mode, content }: CustomProps) {
 
   if (!content.optimistic) {
     return (
-      <Stack direction='row' spacing={1}>
+      <Stack
+        direction='row'
+        spacing={1}
+        sx={{ marginRight: mode === 'exercise' ? '1rem' : '' }}
+      >
         <IconButton
           aria-label='delete'
           size='medium'

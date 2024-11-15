@@ -1,5 +1,4 @@
 import { TableCell, TableRow } from '@mui/material';
-import { yellow } from '@mui/material/colors';
 
 interface CustomProps {
   result: Result;
@@ -29,7 +28,6 @@ export default function SetsRows({ result }: CustomProps) {
       setId: `formatted-${x.setId}`,
     });
   });
-  // console.log(formattedSets);
 
   return (
     <>

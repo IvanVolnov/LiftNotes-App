@@ -29,7 +29,6 @@ interface CustomProps {
 }
 
 export default function ExerciseContentBlock({ content }: CustomProps) {
-  console.log(content);
   const { id } = content;
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
@@ -125,7 +124,7 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
               <Typography variant='body2'>easy</Typography>
             </Stack>
           </Stack>
-          {content.exerciseResults.length ? (
+          {content.exerciseResults?.length ? (
             <ExerciseTable results={content.exerciseResults} />
           ) : (
             <Typography variant='body2'>No results recorded yet...</Typography>

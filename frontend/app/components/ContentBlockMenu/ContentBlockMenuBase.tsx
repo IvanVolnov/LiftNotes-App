@@ -3,7 +3,6 @@ import NextButton from '../UI/NextButton';
 import { useSearchParams } from 'next/navigation';
 import { Skeleton } from '@mui/material';
 import EditMenu from './EditMenu';
-import ExerciseMenu from './ExerciseMenu';
 
 interface CustomProps {
   mode: Entity;

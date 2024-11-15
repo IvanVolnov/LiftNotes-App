@@ -13,32 +13,36 @@ import {
 import TablePaginationActions from '../ResultsTable/TablePaginationActions';
 import { useState } from 'react';
 import SetsRows from '../ResultsTable/SetsRows';
+import formatExerciseResults from '@/app/utils/formatExerciseResults';
 
 interface CustomProps {
   results: Result[];
 }
 
 export default function ExerciseTable({ results }: CustomProps) {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const fromattedResults = formatExerciseResults(results);
+  console.log(fromattedResults);
 
-  // // Avoid a layout jump when reaching the last page with empty rows.
-  // const emptyRows =
-  //   page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  // const [page, setPage] = useState(0);
+  // const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setPage(newPage);
-  };
+  // // // Avoid a layout jump when reaching the last page with empty rows.
+  // // const emptyRows =
+  // //   page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+  // const handleChangePage = (
+  //   event: React.MouseEvent<HTMLButtonElement> | null,
+  //   newPage: number
+  // ) => {
+  //   setPage(newPage);
+  // };
+
+  // const handleChangeRowsPerPage = (
+  //   event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   setRowsPerPage(parseInt(event.target.value, 10));
+  //   setPage(0);
+  // };
 
   return (
     <TableContainer component={Paper} sx={{ backgroundColor: 'transparent' }}>
@@ -53,9 +57,9 @@ export default function ExerciseTable({ results }: CustomProps) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {results.map((result) => (
+          {/* {fromattedResults.map((result) => (
             <SetsRows key={result.resultId} result={result} />
-          ))}
+          ))} */}
         </TableBody>
         {/* <TableFooter>
           <TableRow>

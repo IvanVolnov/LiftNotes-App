@@ -30,6 +30,9 @@ interface ResultSet {
   weightAmount: number;
   weightUnit: string;
   setAmount?: number;
+  isFirstSet: boolean;
+  isLastSet: boolean;
+  resultDate: string;
 }
 
 interface Exercise {
