@@ -29,10 +29,11 @@ interface ResultSet {
   reps: number;
   weightAmount: number;
   weightUnit: string;
+  totalSets?: number;
   setAmount?: number;
-  isFirstSet: boolean;
-  isLastSet: boolean;
-  resultDate: string;
+  isFirstSet?: boolean;
+  isLastSet?: boolean;
+  resultDate?: string;
 }
 
 interface Exercise {

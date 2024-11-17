@@ -21,8 +21,9 @@ function formatSets(result: Result) {
     return formattedSets.push({
       ...x,
       isFirstSet: i === 0,
-      isLastSet: x.setNumber + duples.length === 4,
+      isLastSet: x.setNumber + duples.length === result.sets.length + 1,
       setAmount: duples.length,
+      totalSets: result.sets.length,
       setId: `formatted-${x.setId}`,
       resultDate,
     });

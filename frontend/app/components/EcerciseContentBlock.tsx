@@ -111,12 +111,14 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
       <Collapse in={expanded} timeout='auto' unmountOnExit>
         <CardContent
           sx={{
-            paddingTop: '0px',
+            padding: '0px',
           }}
         >
-          <Typography variant='body2'>{content?.description}</Typography>
+          <Typography variant='body1' mb={1} ml={2}>
+            {content?.description}
+          </Typography>
           <Divider />
-          <Stack direction='row' spacing={3} alignItems='center'>
+          <Stack direction='row' spacing={3} alignItems='center' ml={2}>
             <Typography variant='body1'>how the training was?</Typography>
             <Stack direction='row' spacing={1} alignItems='center'>
               <Typography variant='body2'>normal</Typography>
@@ -127,14 +129,16 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
           {content.exerciseResults?.length ? (
             <ExerciseTable results={content.exerciseResults} />
           ) : (
-            <Typography variant='body2'>No results recorded yet...</Typography>
+            <Typography variant='body2' ml={2}>
+              No results recorded yet...
+            </Typography>
           )}
         </CardContent>
         <CardActions
           sx={{
             display: 'flex',
             justifyContent: 'flex-end',
-            margin: '0rem 1rem 1rem 0rem',
+            margin: '0.5rem 1rem 1rem 0rem',
           }}
         >
           <Button size='small' variant='contained'>
