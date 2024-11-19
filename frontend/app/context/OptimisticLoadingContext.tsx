@@ -43,7 +43,7 @@ export function OptimisticProvider({ children }: Props) {
 
   function createOptimisticData(formData: FormData) {
     const { name, description } = extractFormData(formData);
-    const formatedContent: Content = {
+    const formatedContent: Content | ExerciseNormalised = {
       id: Date.now().toString(),
       name,
       description,

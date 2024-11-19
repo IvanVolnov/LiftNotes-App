@@ -18,7 +18,6 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useSearchParams } from 'next/navigation';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { ExpandMoreBtn } from './UI/ExpandMoreBtn';
 import daysAgo from '../utils/daysAgo';
 import ExerciseTable from './UI/ExerciseTable';

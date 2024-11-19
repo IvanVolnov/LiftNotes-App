@@ -11,6 +11,7 @@ import {
 } from '@/app/lib/workoutsDaysActions';
 import DeleteConfirmModal from './DeleteConfirmModal';
 import { useOptimisticContext } from '@/app/context/OptimisticLoadingContext';
+import ExerciseModal from './ExerciseModal';
 
 interface CustomProps {
   isOpened: boolean;
@@ -24,6 +25,10 @@ export default function ModalBase({ isOpened }: CustomProps) {
   const currentPath = usePathname();
   const parentId = currentPath.split('/').slice(3).toString();
 
+  const isWorkoutOrDay = mode.entity === 'workout' || mode.entity === 'day';
+  const isEditOrCreate =
+    mode.operation === 'edit' || mode.operation === 'create';
+
   const handleClose = () => {
     toggleModal();
   };
@@ -31,27 +36,16 @@ export default function ModalBase({ isOpened }: CustomProps) {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    if (
-      mode.operation === 'create' &&
-      (mode.entity === 'workout' || mode.entity === 'day')
-    ) {
+    if (mode.operation === 'create' && isWorkoutOrDay) {
       createOptimisticData(formData);
       createWorkoutDay(formData, mode.entity, parentId);
     }
 
-    if (
-      mode.operation === 'edit' &&
-      mode.modeData &&
-      (mode.entity === 'workout' || mode.entity === 'day')
-    ) {
+    if (mode.operation === 'edit' && mode.modeData && isWorkoutOrDay) {
       editOptimisticData(formData, mode.modeData);
       editWorkoutDay(formData, mode.entity, mode.modeData);
     }
-    if (
-      mode.operation === 'delete' &&
-      mode.modeData &&
-      (mode.entity === 'workout' || mode.entity === 'day')
-    ) {
+    if (mode.operation === 'delete' && mode.modeData && isWorkoutOrDay) {
       deleteOptimisticData(mode.modeData);
       deleteWorkoutDay(mode.entity, mode.modeData);
     }
@@ -73,14 +67,16 @@ export default function ModalBase({ isOpened }: CustomProps) {
         PaperComponent={(props) => (
           <Paper
             {...props}
-            sx={{ bgcolor: 'contentBg.main', filter: 'none' }}
+            sx={{
+              margin: 0,
+              bgcolor: 'contentBg.main',
+              filter: 'none',
+            }}
           />
         )}
       >
-        {(mode.operation === 'edit' || mode.operation === 'create') &&
-          (mode.entity === 'workout' || mode.entity === 'day') && (
-            <WorkoutDayModal />
-          )}
+        {isEditOrCreate && isWorkoutOrDay && <WorkoutDayModal />}
+        {isEditOrCreate && mode.entity === 'exercise' && <ExerciseModal />}
         {mode.operation === 'delete' && <DeleteConfirmModal />}
       </Dialog>
     </>
