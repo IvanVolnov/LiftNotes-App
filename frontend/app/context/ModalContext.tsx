@@ -2,16 +2,10 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
 import ModalBase from '../components/Modal/ModalBase';
 
-// export interface ModeData {
-//   id?: string;
-//   name?: string;
-//   description?: string;
-// }
-
-interface Mode {
+export interface Mode {
   entity: Entity;
   operation: Operation;
-  modeData?: Content;
+  modeData?: Content | ExerciseNormalised;
 }
 
 interface ModalContextProps {
@@ -52,7 +46,7 @@ export function ModalProvider({ children }: Props) {
   function toggleModal(
     newEntity?: Entity,
     newOperation?: Operation,
-    modeData?: Content
+    modeData?: Content | ExerciseNormalised
   ) {
     setIsOpened((prev) => !prev);
     if (newEntity && newOperation) {

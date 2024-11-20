@@ -56,11 +56,6 @@ interface Content {
   created_at: string | Date;
   parentId?: string;
   optimistic?: boolean;
-  exerciseType?: 'compound' | 'cardio' | 'isolation' | 'stretching';
-  exerciseInformation?: string;
-  previousTrainingWasEasy?: boolean;
-  exerciseLastUpdated?: string;
-  exerciseResults?: Result[];
 }
 
 interface ExerciseNormalised {
@@ -69,11 +64,11 @@ interface ExerciseNormalised {
   description: string;
   position: number;
   created_at: string | Date;
-  parentId?: string;
-  optimistic?: boolean;
   exerciseType: 'compound' | 'cardio' | 'isolation' | 'stretching';
   previousTrainingWasEasy: boolean;
   exerciseLastUpdated: string;
+  parentId?: string;
+  optimistic?: boolean;
   exerciseResults: Result[];
 }
 

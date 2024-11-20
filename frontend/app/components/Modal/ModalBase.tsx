@@ -28,6 +28,7 @@ export default function ModalBase({ isOpened }: CustomProps) {
   const isWorkoutOrDay = mode.entity === 'workout' || mode.entity === 'day';
   const isEditOrCreate =
     mode.operation === 'edit' || mode.operation === 'create';
+  const isExercise = mode.entity === 'exercise';
 
   const handleClose = () => {
     toggleModal();
@@ -39,6 +40,10 @@ export default function ModalBase({ isOpened }: CustomProps) {
     if (mode.operation === 'create' && isWorkoutOrDay) {
       createOptimisticData(formData);
       createWorkoutDay(formData, mode.entity, parentId);
+    }
+
+    if (mode.operation === 'create' && isExercise) {
+      createOptimisticData(formData);
     }
 
     if (mode.operation === 'edit' && mode.modeData && isWorkoutOrDay) {
