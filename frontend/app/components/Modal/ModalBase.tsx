@@ -73,7 +73,6 @@ export default function ModalBase({ isOpened }: CustomProps) {
           <Paper
             {...props}
             sx={{
-              margin: 0,
               bgcolor: 'contentBg.main',
               filter: 'none',
             }}

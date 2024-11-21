@@ -39,13 +39,17 @@ export default function ExerciseModal() {
         {`${mode.operation}
         ${mode.entity}`}
       </DialogTitle>
-      <Stepper activeStep={activeStep} orientation='vertical'>
+      <Stepper
+        activeStep={activeStep}
+        orientation='vertical'
+        sx={{ margin: '1rem' }}
+      >
         {steps.map((step, index) => (
           <Step key={step.label}>
             <StepLabel>{step.label}</StepLabel>
             <StepContent>
               {index === 0 && <ExerciseFirstStep mode={mode} />}
-              {index === 1 && <ExerciseSecondStep mode={mode} />}
+              {/* {index === 1 && <ExerciseSecondStep mode={mode} />} */}
               <Box sx={{ mb: 2 }}>
                 <div>
                   {index === steps.length - 1 ? (

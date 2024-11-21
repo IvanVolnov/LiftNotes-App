@@ -9,6 +9,8 @@ interface MyProps {
   children?: ReactNode;
   size?: 'small' | 'medium' | 'large';
   entity: Entity;
+  userId?: string;
+  cookie?: string;
 }
 
 export default function ContentHeaderBtn({

@@ -40,9 +40,14 @@ export default function ExerciseFirstStep({ mode }: CustomProps) {
       />
 
       <Typography variant='subtitle1' mt={2}>
-        Choose exercise type if needed
+        Choose exercise type
       </Typography>
       <RadioGroup aria-labelledby='radio-buttons-group-label' name='type'>
+        <FormControlLabel
+          value={undefined}
+          control={<Radio />}
+          label='no type'
+        />
         <FormControlLabel
           value='compound'
           control={<Radio />}

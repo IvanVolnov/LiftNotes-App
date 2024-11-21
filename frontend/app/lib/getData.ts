@@ -1,8 +1,19 @@
 import extractUserId from '../utils/extractUserId';
 import fetchApiData from '../utils/fetchApiData';
 
-export async function getData(entityType: Entity, workoutId?: string) {
-  const { cookie, userId } = extractUserId();
+export async function getData(
+  entityType: Entity,
+  workoutId?: string,
+  contextUserId?: string,
+  contextCookie?: string
+) {
+  let cookie, userId;
+  if (contextCookie && contextUserId) {
+    cookie = contextCookie;
+    userId = contextUserId;
+  } else {
+    ({ cookie, userId } = extractUserId());
+  }
 
   let route = '',
     body = {};
