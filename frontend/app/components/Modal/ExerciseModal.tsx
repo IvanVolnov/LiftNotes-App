@@ -1,37 +1,41 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import StepContent from '@mui/material/StepContent';
 import Button from '@mui/material/Button';
 import SubmitButton from '../UI/SubmitButton';
-import { DialogTitle } from '@mui/material';
+import {
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { useModalContext } from '@/app/context/ModalContext';
-import ExerciseFirstStep from './ExerciseFirstStep';
-import ExerciseSecondStep from './ExerciseSecondStep';
-
-const steps = [
-  {
-    label: 'Add exercise Information',
-  },
-
-  {
-    label: 'Add exercise to existing workouts',
-  },
-];
 
 export default function ExerciseModal() {
   const { mode, toggleModal } = useModalContext();
-  const [activeStep, setActiveStep] = React.useState(0);
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  const [exerciseType, setExerciseType] = React.useState('');
+  const [externalLinks, setExternalLinks] = React.useState<ExternalLink[]>([
+    { label: '', href: '' },
+  ]);
+  // const [customButtons, setCustomButtons] = React.useState<ExternalLink[]>([]);
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setExerciseType(event.target.value as string);
   };
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  const handleClose = () => {
+    toggleModal();
   };
+
+  function handleAddLink() {
+    setExternalLinks((prev) => [...prev, { label: '', href: '' }]);
+  }
 
   return (
     <>
@@ -39,43 +43,79 @@ export default function ExerciseModal() {
         {`${mode.operation}
         ${mode.entity}`}
       </DialogTitle>
-      <Stepper
-        activeStep={activeStep}
-        orientation='vertical'
-        sx={{ margin: '1rem' }}
-      >
-        {steps.map((step, index) => (
-          <Step key={step.label}>
-            <StepLabel>{step.label}</StepLabel>
-            <StepContent>
-              {index === 0 && <ExerciseFirstStep mode={mode} />}
-              {/* {index === 1 && <ExerciseSecondStep mode={mode} />} */}
-              <Box sx={{ mb: 2 }}>
-                <div>
-                  {index === steps.length - 1 ? (
-                    <SubmitButton>Submit</SubmitButton>
-                  ) : (
-                    <Button
-                      variant='contained'
-                      onClick={handleNext}
-                      sx={{ mt: 1, mr: 1 }}
-                    >
-                      Continue
-                    </Button>
-                  )}
-                  <Button
-                    disabled={index === 0}
-                    onClick={handleBack}
-                    sx={{ mt: 1, mr: 1 }}
-                  >
-                    Back
-                  </Button>
-                </div>
-              </Box>
-            </StepContent>
-          </Step>
-        ))}
-      </Stepper>
+      <DialogContent>
+        <TextField
+          autoFocus
+          required
+          margin='dense'
+          id='name'
+          name='name'
+          label='Name'
+          type='text'
+          fullWidth
+          variant='standard'
+          defaultValue={mode.modeData?.name}
+        />
+        <TextField
+          margin='dense'
+          id='description'
+          name='description'
+          label='Description'
+          type='text'
+          fullWidth
+          variant='standard'
+          defaultValue={mode.modeData?.description}
+        />
+        <FormControl sx={{ width: '10rem', marginTop: '2rem' }}>
+          <InputLabel id='exercise-type-select-label'>exercise type</InputLabel>
+          <Select
+            labelId='exercise-type-select-label'
+            id='exercise-type-select'
+            value={exerciseType}
+            name='exerciseType'
+            label='Exercise type'
+            onChange={handleChange}
+            autoWidth
+          >
+            <MenuItem value={'no type'}>no type</MenuItem>
+            <MenuItem value={'compound'}>compound</MenuItem>
+            <MenuItem value={'cardio'}>cardio</MenuItem>
+            <MenuItem value={'isolation'}>isolation</MenuItem>
+            <MenuItem value={'stretching'}>stretching</MenuItem>
+          </Select>
+        </FormControl>
+        <Typography variant='subtitle1' mt={3} mb={2}>
+          External links
+        </Typography>
+        {externalLinks.map((el, i) => {
+          return (
+            <Stack key={i} direction='row' spacing={1} mb={2}>
+              <TextField
+                margin='dense'
+                id={`label-${i}`}
+                name='label'
+                label='Label'
+                type='text'
+                // defaultValue={mode.modeData?.externalLinks[i].label}
+              />
+              <TextField
+                margin='dense'
+                id={`href-${i}`}
+                name='href'
+                label='Link'
+                type='text'
+                // defaultValue={mode.modeData?.externalLinks[i].label}
+              />
+            </Stack>
+          );
+        })}
+        <Button onClick={handleAddLink}>Add link</Button>
+      </DialogContent>
+
+      <DialogActions>
+        <Button onClick={handleClose}>Cancel</Button>
+        <SubmitButton>Submit</SubmitButton>
+      </DialogActions>
     </>
   );
 }

@@ -9,14 +9,14 @@ interface MyProps {
   children?: ReactNode;
   size?: 'small' | 'medium' | 'large';
   entity: Entity;
-  userId?: string;
-  cookie?: string;
+  modalData?: [];
 }
 
 export default function ContentHeaderBtn({
   children,
   size = 'large',
   entity,
+  modalData,
 }: MyProps) {
   const { checkIfDarkMode } = useColorModeContext();
   const checkIfDark = checkIfDarkMode();
@@ -47,7 +47,7 @@ export default function ContentHeaderBtn({
               deleteQueryParam('edit');
               router.refresh();
             }
-          : () => toggleModal(entity, 'create')
+          : () => toggleModal(entity, 'create', undefined, modalData)
       }
       disableElevation
     >

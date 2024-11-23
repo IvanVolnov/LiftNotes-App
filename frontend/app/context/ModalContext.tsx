@@ -6,8 +6,7 @@ export interface Mode {
   entity: Entity;
   operation: Operation;
   modeData?: Content | ExerciseNormalised;
-  userId?: string;
-  cookie?: string;
+  modalData?: [];
 }
 
 interface ModalContextProps {
@@ -17,8 +16,7 @@ interface ModalContextProps {
     newEntity?: Entity,
     newOperation?: Operation,
     modeData?: Content,
-    userId?: string,
-    cookie?: string
+    modalData?: []
   ) => void;
 }
 
@@ -51,8 +49,7 @@ export function ModalProvider({ children }: Props) {
     newEntity?: Entity,
     newOperation?: Operation,
     modeData?: Content | ExerciseNormalised,
-    userId?: string,
-    cookie?: string
+    modalData?: []
   ) {
     setIsOpened((prev) => !prev);
     if (newEntity && newOperation) {
@@ -60,8 +57,7 @@ export function ModalProvider({ children }: Props) {
         entity: newEntity,
         operation: newOperation,
         modeData,
-        userId,
-        cookie,
+        modalData,
       };
       setMode(newMode);
     }

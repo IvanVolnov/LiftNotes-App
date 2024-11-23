@@ -36,13 +36,19 @@ interface ResultSet {
   resultDate?: string;
 }
 
+interface ExternalLink {
+  label: string;
+  href: string;
+}
+
 interface Exercise {
   exerciseId: string;
   exerciseName: string;
   exerciseDescription: string;
+  eserciseExternalLinks: ExternalLink[];
   position: number;
   created_at: string | Date;
-  exerciseType?: 'compound' | 'cardio' | 'isolation' | 'stretching';
+  exerciseType?: 'no type' | 'compound' | 'cardio' | 'isolation' | 'stretching';
   previousTrainingWasEasy: boolean;
   exerciseLastUpdated: string;
   exerciseResults: Result[];
@@ -67,7 +73,6 @@ interface ExerciseNormalised {
   exerciseType: 'compound' | 'cardio' | 'isolation' | 'stretching';
   previousTrainingWasEasy: boolean;
   exerciseLastUpdated: string;
-  parentId?: string;
   optimistic?: boolean;
   exerciseResults: Result[];
 }

@@ -44,6 +44,15 @@ export default function ModalBase({ isOpened }: CustomProps) {
 
     if (mode.operation === 'create' && isExercise) {
       createOptimisticData(formData);
+      const formDataExtracted = {
+        name: formData.get('name'),
+        description: formData.get('description'),
+        exerciseType: formData.get('exercise-type'),
+        // externalLinks,
+      };
+      console.log('Submitted Data:', formDataExtracted);
+
+      console.log('Submitted Data:', formData.values());
     }
 
     if (mode.operation === 'edit' && mode.modeData && isWorkoutOrDay) {
@@ -80,7 +89,7 @@ export default function ModalBase({ isOpened }: CustomProps) {
         )}
       >
         {isEditOrCreate && isWorkoutOrDay && <WorkoutDayModal />}
-        {isEditOrCreate && mode.entity === 'exercise' && <ExerciseModal />}
+        {isEditOrCreate && isExercise && <ExerciseModal />}
         {mode.operation === 'delete' && <DeleteConfirmModal />}
       </Dialog>
     </>

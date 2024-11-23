@@ -136,12 +136,15 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
         <CardActions
           sx={{
             display: 'flex',
-            justifyContent: 'flex-end',
-            margin: '0.5rem 1rem 1rem 0rem',
+            justifyContent: 'space-between',
+            margin: '0.5rem 1rem 1rem 1rem',
           }}
         >
+          <Button size='small' variant='text'>
+            manage existing results
+          </Button>
           <Button size='small' variant='contained'>
-            Update result
+            Add result
           </Button>
         </CardActions>
       </Collapse>
