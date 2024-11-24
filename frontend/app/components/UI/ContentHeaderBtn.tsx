@@ -47,7 +47,7 @@ export default function ContentHeaderBtn({
               deleteQueryParam('edit');
               router.refresh();
             }
-          : () => toggleModal(entity, 'create', undefined, modalData)
+          : () => toggleModal(entity, 'create')
       }
       disableElevation
     >

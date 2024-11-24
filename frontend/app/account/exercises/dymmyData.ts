@@ -375,6 +375,16 @@ const dummyData: Exercise[] = [
     previousTrainingWasEasy: true,
     exerciseLastUpdated: '2024-11-03T13:29:20.428Z',
     exerciseResults: exerciseResults1,
+    exerciseExternalLinks: [
+      {
+        label: 'yids',
+        href: 'https://youtu.be/T5NUv-XSCyI?si=BDVDIyElU7LbRJdh',
+      },
+      {
+        label: '235234523',
+        href: 'https://youtu.be/T5NUv-XSCyI?si=BDVDIyElU7LbRJdh',
+      },
+    ],
   },
   {
     exerciseId: 'yu765dfg534rtg34',
@@ -386,6 +396,24 @@ const dummyData: Exercise[] = [
     previousTrainingWasEasy: false,
     exerciseLastUpdated: '2024-11-09T08:45:20.428Z',
     exerciseResults: exerciseResults1,
+    exerciseExternalLinks: [
+      {
+        label: 'yids',
+        href: 'https://youtu.be/T5NUv-XSCyI?si=BDVDIyElU7LbRJdh',
+      },
+      {
+        label: 'sfgsdfgsdfbgtr',
+        href: 'https://youtu.be/T5NUv-XSCyI?si=BDVDIyElU7LbRJdh',
+      },
+      {
+        label: 'sfgsdfsdddddddddddfgsdfbgtr',
+        href: 'https://youtu.be/T5NUv-XSCyI?si=BDVDIyElU7LbRJdh',
+      },
+      {
+        label: '235234523',
+        href: 'https://youtu.be/T5NUv-XSCyI?si=BDVDIyElU7LbRJdh',
+      },
+    ],
   },
   {
     exerciseId: 'ht4589djkrh56dd5',
@@ -396,6 +424,12 @@ const dummyData: Exercise[] = [
     previousTrainingWasEasy: true,
     exerciseLastUpdated: '2024-11-10T07:20:00.428Z',
     exerciseResults: exerciseResults2,
+    exerciseExternalLinks: [
+      {
+        label: 'yids',
+        href: 'https://youtu.be/T5NUv-XSCyI?si=BDVDIyElU7LbRJdh',
+      },
+    ],
   },
   {
     exerciseId: 'oi0987gfnmbzxcvw',
@@ -407,6 +441,12 @@ const dummyData: Exercise[] = [
     previousTrainingWasEasy: false,
     exerciseLastUpdated: '2024-11-11T06:10:30.428Z',
     exerciseResults: [],
+    exerciseExternalLinks: [
+      {
+        label: 'yids',
+        href: 'https://youtu.be/T5NUv-XSCyI?si=BDVDIyElU7LbRJdh',
+      },
+    ],
   },
 ];
 

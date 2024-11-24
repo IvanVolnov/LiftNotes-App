@@ -7,6 +7,7 @@ import {
   Chip,
   Collapse,
   Divider,
+  Link,
   Stack,
   Switch,
   Typography,
@@ -29,6 +30,7 @@ interface CustomProps {
 
 export default function ExerciseContentBlock({ content }: CustomProps) {
   const { id } = content;
+  console.log(content.exerciseExternalLinks);
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
   const mode = 'exercise';
@@ -116,6 +118,29 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
           <Typography variant='body1' mb={1} ml={2}>
             {content?.description}
           </Typography>
+          <Stack
+            direction={'row'}
+            ml={2}
+            mb={1}
+            spacing={3}
+            useFlexGap
+            sx={{ flexWrap: 'wrap' }}
+          >
+            {content.exerciseExternalLinks?.map((el, i) => {
+              return (
+                <Link
+                  key={`external-link-${i}`}
+                  rel='noopener'
+                  underline='hover'
+                  target='_blank'
+                  href={el.href}
+                >
+                  {el.label}
+                </Link>
+              );
+            })}
+          </Stack>
+
           <Divider />
           <Stack direction='row' spacing={3} alignItems='center' ml={2}>
             <Typography variant='body1'>how the training was?</Typography>

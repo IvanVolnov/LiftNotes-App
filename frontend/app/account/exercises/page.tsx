@@ -10,18 +10,13 @@ import { getData } from '@/app/lib/getData';
 export default async function Exercises() {
   const data = dummyData;
 
-  const workoutsList = await getData('workout');
-  console.log(workoutsList);
-
   const { cookie, userId } = extractUserId();
 
   return (
     <>
       <ContentHeaderMenu>
         <Typography variant='h2'>All Exercises</Typography>
-        <ContentHeaderBtn entity='exercise' modalData={workoutsList}>
-          Add new exercise
-        </ContentHeaderBtn>
+        <ContentHeaderBtn entity='exercise'>Add new exercise</ContentHeaderBtn>
       </ContentHeaderMenu>
       {data.length === 0 ? (
         <Typography mt={4} variant='subtitle1'>

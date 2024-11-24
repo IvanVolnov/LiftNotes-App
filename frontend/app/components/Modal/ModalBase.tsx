@@ -48,11 +48,8 @@ export default function ModalBase({ isOpened }: CustomProps) {
         name: formData.get('name'),
         description: formData.get('description'),
         exerciseType: formData.get('exercise-type'),
-        // externalLinks,
       };
       console.log('Submitted Data:', formDataExtracted);
-
-      console.log('Submitted Data:', formData.values());
     }
 
     if (mode.operation === 'edit' && mode.modeData && isWorkoutOrDay) {

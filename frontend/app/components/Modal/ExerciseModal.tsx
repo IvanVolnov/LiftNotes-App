@@ -19,11 +19,18 @@ import { useModalContext } from '@/app/context/ModalContext';
 export default function ExerciseModal() {
   const { mode, toggleModal } = useModalContext();
 
+  const ExerciseData = mode.modeData as ExerciseNormalised;
+
   const [exerciseType, setExerciseType] = React.useState('');
-  const [externalLinks, setExternalLinks] = React.useState<ExternalLink[]>([
-    { label: '', href: '' },
-  ]);
-  // const [customButtons, setCustomButtons] = React.useState<ExternalLink[]>([]);
+
+  const [externalLinks, setExternalLinks] = React.useState<ExternalLink[]>(
+    ExerciseData?.exerciseExternalLinks || [
+      {
+        label: '',
+        href: '',
+      },
+    ]
+  );
 
   const handleChange = (event: SelectChangeEvent) => {
     setExerciseType(event.target.value as string);
@@ -37,6 +44,10 @@ export default function ExerciseModal() {
     setExternalLinks((prev) => [...prev, { label: '', href: '' }]);
   }
 
+  function handleRemoveLink() {
+    setExternalLinks((prev) => prev.slice(0, -1));
+  }
+
   return (
     <>
       <DialogTitle>
@@ -47,24 +58,22 @@ export default function ExerciseModal() {
         <TextField
           autoFocus
           required
-          margin='dense'
           id='name'
           name='name'
           label='Name'
           type='text'
           fullWidth
           variant='standard'
-          defaultValue={mode.modeData?.name}
+          defaultValue={ExerciseData?.name}
         />
         <TextField
-          margin='dense'
           id='description'
           name='description'
           label='Description'
           type='text'
           fullWidth
           variant='standard'
-          defaultValue={mode.modeData?.description}
+          defaultValue={ExerciseData?.description}
         />
         <FormControl sx={{ width: '10rem', marginTop: '2rem' }}>
           <InputLabel id='exercise-type-select-label'>exercise type</InputLabel>
@@ -75,6 +84,7 @@ export default function ExerciseModal() {
             name='exerciseType'
             label='Exercise type'
             onChange={handleChange}
+            // variant='standard'
             autoWidth
           >
             <MenuItem value={'no type'}>no type</MenuItem>
@@ -88,28 +98,56 @@ export default function ExerciseModal() {
           External links
         </Typography>
         {externalLinks.map((el, i) => {
+          const labelIsRequired =
+            externalLinks[i].href !== '' && externalLinks[i].label === '';
           return (
             <Stack key={i} direction='row' spacing={1} mb={2}>
               <TextField
-                margin='dense'
+                error={labelIsRequired}
+                required={labelIsRequired}
                 id={`label-${i}`}
                 name='label'
-                label='Label'
+                label={labelIsRequired ? 'Label is required' : 'Label'}
                 type='text'
-                // defaultValue={mode.modeData?.externalLinks[i].label}
+                variant='standard'
+                margin='dense'
+                defaultValue={el.label}
+                onChange={(e) =>
+                  setExternalLinks((prev) =>
+                    prev.toSpliced(i, 1, {
+                      href: prev[i].href,
+                      label: e.target.value,
+                    })
+                  )
+                }
               />
               <TextField
-                margin='dense'
                 id={`href-${i}`}
                 name='href'
                 label='Link'
                 type='text'
-                // defaultValue={mode.modeData?.externalLinks[i].label}
+                margin='dense'
+                variant='standard'
+                defaultValue={el.href}
+                onChange={(e) =>
+                  setExternalLinks((prev) =>
+                    prev.toSpliced(i, 1, {
+                      label: prev[i].label,
+                      href: e.target.value,
+                    })
+                  )
+                }
               />
             </Stack>
           );
         })}
-        <Button onClick={handleAddLink}>Add link</Button>
+
+        <Stack direction='row' spacing={1} mb={2}>
+          <Button onClick={handleAddLink}>Add link</Button>
+          <Button color='error' onClick={handleRemoveLink}>
+            Remove link
+          </Button>
+        </Stack>
       </DialogContent>
 
       <DialogActions>

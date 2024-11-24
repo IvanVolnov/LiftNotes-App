@@ -45,7 +45,7 @@ interface Exercise {
   exerciseId: string;
   exerciseName: string;
   exerciseDescription: string;
-  eserciseExternalLinks: ExternalLink[];
+  exerciseExternalLinks: ExternalLink[];
   position: number;
   created_at: string | Date;
   exerciseType?: 'no type' | 'compound' | 'cardio' | 'isolation' | 'stretching';
@@ -72,6 +72,7 @@ interface ExerciseNormalised {
   created_at: string | Date;
   exerciseType: 'compound' | 'cardio' | 'isolation' | 'stretching';
   previousTrainingWasEasy: boolean;
+  exerciseExternalLinks: ExternalLink[];
   exerciseLastUpdated: string;
   optimistic?: boolean;
   exerciseResults: Result[];
