@@ -30,7 +30,6 @@ interface CustomProps {
 
 export default function ExerciseContentBlock({ content }: CustomProps) {
   const { id } = content;
-  console.log(content.exerciseExternalLinks);
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
   const mode = 'exercise';

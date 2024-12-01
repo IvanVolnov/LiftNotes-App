@@ -12,6 +12,7 @@ import {
 import DeleteConfirmModal from './DeleteConfirmModal';
 import { useOptimisticContext } from '@/app/context/OptimisticLoadingContext';
 import ExerciseModal from './ExerciseModal';
+import { createExercise } from '@/app/lib/exercisesActions';
 
 interface CustomProps {
   isOpened: boolean;
@@ -44,12 +45,7 @@ export default function ModalBase({ isOpened }: CustomProps) {
 
     if (mode.operation === 'create' && isExercise) {
       createOptimisticData(formData);
-      const formDataExtracted = {
-        name: formData.get('name'),
-        description: formData.get('description'),
-        exerciseType: formData.get('exercise-type'),
-      };
-      console.log('Submitted Data:', formDataExtracted);
+      createExercise(formData);
     }
 
     if (mode.operation === 'edit' && mode.modeData && isWorkoutOrDay) {

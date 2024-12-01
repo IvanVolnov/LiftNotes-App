@@ -7,7 +7,7 @@ import cookieParser from 'cookie-parser';
 import users from './routes/authRoutes.js';
 import workouts from './routes/workoutsRoutes.js';
 import days from './routes/daysRoutes.js';
-import exercises from './routes/exercisesController.js';
+import exercises from './routes/exercisesRoutes.js';
 
 const app = express();
 
@@ -21,7 +21,7 @@ app.use(json());
 app.use(cookieParser());
 
 app.get('/', async (req, res) => {
-  res.json({ message: `hello, this is server for liftnores app` });
+  res.json({ message: `hello, this is server for liftnotes app` });
 });
 
 app.use('/api/users', users);

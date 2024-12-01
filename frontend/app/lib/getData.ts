@@ -1,31 +1,29 @@
 import extractUserId from '../utils/extractUserId';
 import fetchApiData from '../utils/fetchApiData';
 
-export async function getData(
-  entityType: Entity,
-  workoutId?: string,
-  contextUserId?: string,
-  contextCookie?: string
-) {
-  let cookie, userId;
-  if (contextCookie && contextUserId) {
-    cookie = contextCookie;
-    userId = contextUserId;
-  } else {
-    ({ cookie, userId } = extractUserId());
-  }
+export async function getData(entityType: Entity, parentId?: string) {
+  const { cookie, userId } = extractUserId();
 
   let route = '',
     body = {};
 
   if (entityType === 'workout') {
     route = 'workouts';
+
+    body = { user_id: userId };
+  }
+
+  if (entityType === 'exercise') {
+    route = 'exercises';
+    if (parentId) {
+      body = { user_id: userId, day_id: parentId };
+    }
     body = { user_id: userId };
   }
 
   if (entityType === 'day') {
     route = 'days';
-    body = { workout_id: workoutId };
+    body = { workout_id: parentId };
   }
 
   const data = await fetchApiData(

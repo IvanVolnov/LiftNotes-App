@@ -14,6 +14,7 @@ export async function getExercises(req: Request, res: Response) {
 
     result =
       await sql`SELECT * FROM exercises WHERE user_id = ${user_id} ORDER BY position;`;
+
     // setTimeout(() => {
     res.json({ result: result.rows });
     // }, 5000);
@@ -22,52 +23,69 @@ export async function getExercises(req: Request, res: Response) {
   }
 }
 
-// export async function createExercise(req: Request, res: Response) {
-//   try {
-//     const { day_name, day_description, workout_id } = req.body;
-//     // const { user } = res.locals;
+export async function createExercise(req: Request, res: Response) {
+  try {
+    const {
+      exercise_name,
+      exercise_description,
+      exercise_type,
+      exercise_external_links,
+    } = req.body;
+    const { user } = res.locals;
 
-//     if (!day_name) {
-//       return res
-//         .status(400)
-//         .json({ error: 'invalid api request: workout name is missing' });
-//     }
-//     const newDay =
-//       await sql`INSERT INTO days (workout_id, day_name, day_description, position)
-// VALUES (
-//     ${workout_id},
-//     ${day_name},
-//     ${day_description},
-//     0
-// ) RETURNING *;`;
-//     res.json({ days: newDay.rows });
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// }
+    if (!exercise_name) {
+      return res
+        .status(400)
+        .json({ error: 'invalid api request: workout name is missing' });
+    }
+    const newExercise =
+      await sql`INSERT INTO exercises (user_id, exercise_name, exercise_description, position, exercise_type, exercise_external_links, previous_training_was_easy
+)
+VALUES (
+    ${user.user_id},  
+    ${exercise_name},  
+    ${exercise_description},
+    0,
+    ${exercise_type || 'no type'},
+    ${exercise_external_links},
+    false
+) RETURNING *;`;
+    res.json({ exercises: newExercise.rows });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
 
-// export async function editExercise(req: Request, res: Response) {
-//   try {
-//     const { day_name, day_description, day_id } = req.body;
+export async function editExercise(req: Request, res: Response) {
+  try {
+    const {
+      exercise_id,
+      exercise_name,
+      exercise_description,
+      exercise_type,
+      exercise_external_links,
+    } = req.body;
 
-//     if (!day_name) {
-//       return res
-//         .status(400)
-//         .json({ error: 'invalid api request: day name is missing' });
-//     }
-//     const editedDay = await sql`UPDATE days
-// SET
-//     day_name = ${day_name},
-//     day_description = ${day_description}
-// WHERE
-//     day_id = ${day_id}
-// RETURNING *;`;
-//     res.json({ workouts: editedDay.rows });
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// }
-
+    if (!exercise_name || exercise_id) {
+      return res
+        .status(400)
+        .json({ error: 'invalid api request: exercise name or id is missing' });
+    }
+    const newExercise = await sql`UPDATE exercises 
+SET 
+    exercise_name = ${exercise_name}, 
+    exercise_description = ${exercise_description},
+    exercise_type = ${exercise_type},
+    exercise_external_links = ${exercise_external_links},
+    exercise_type = ${exercise_type}
+WHERE 
+    exercise_id = ${exercise_id}
+RETURNING *;`;
+    res.json({ exercises: newExercise.rows });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
 // export async function deleteDay(req: Request, res: Response) {
 //   try {
 //     const { day_id } = req.body;

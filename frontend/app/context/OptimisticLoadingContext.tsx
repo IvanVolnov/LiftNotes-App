@@ -42,12 +42,11 @@ export function OptimisticProvider({ children }: Props) {
   }
 
   function createOptimisticData(formData: FormData) {
-    const { name, description, type } = extractFormData(formData);
+    const { name, description } = extractFormData(formData);
     const formatedContent: Content | ExerciseNormalised = {
       id: Date.now().toString(),
       name,
       description,
-      exerciseType: type,
       position: 0,
       created_at: Date(),
       optimistic: true,

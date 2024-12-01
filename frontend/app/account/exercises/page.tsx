@@ -8,7 +8,8 @@ import dummyData from './dymmyData';
 import { getData } from '@/app/lib/getData';
 
 export default async function Exercises() {
-  const data = dummyData;
+  // const data = dummyData;
+  const data: Exercise[] = await getData('exercise');
 
   const { cookie, userId } = extractUserId();
 

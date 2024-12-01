@@ -88,8 +88,6 @@ export default function ContentList({ data, cookie, mode }: CustomProps) {
       // Update the optimistic data in your context
       updateOptimisticData(newOptimisticData);
 
-      // console.log(newOptimisticData, optimisticData);
-
       // Clear any existing timer
       if (timerRef.current) {
         clearTimeout(timerRef.current);

@@ -35,7 +35,6 @@ export default function WorkoutDayModal() {
           defaultValue={mode.modeData?.name}
         />
         <TextField
-          autoFocus
           margin='dense'
           id='description'
           name='description'

@@ -58,6 +58,7 @@ export default function ExerciseModal() {
         <TextField
           autoFocus
           required
+          margin='dense'
           id='name'
           name='name'
           label='Name'
@@ -68,6 +69,7 @@ export default function ExerciseModal() {
         />
         <TextField
           id='description'
+          margin='dense'
           name='description'
           label='Description'
           type='text'
@@ -84,7 +86,6 @@ export default function ExerciseModal() {
             name='exerciseType'
             label='Exercise type'
             onChange={handleChange}
-            // variant='standard'
             autoWidth
           >
             <MenuItem value={'no type'}>no type</MenuItem>

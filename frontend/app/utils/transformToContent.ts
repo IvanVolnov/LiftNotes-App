@@ -24,21 +24,21 @@ export default function transformToContent(
       parentId: workout_id,
     };
   }
-  if ('exerciseName' in item) {
+  if ('exercise_name' in item) {
     const {
       exerciseId,
       exerciseName,
       exerciseDescription,
-      created_at,
+      createdAt,
       ...rest
-    } = item;
+    } = snakeToCamel(item);
 
     return {
       ...rest,
       name: exerciseName,
       id: exerciseId,
       description: exerciseDescription,
-      created_at,
+      created_at: createdAt,
     };
   }
   throw new Error('Unknown item type');
