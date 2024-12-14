@@ -7,6 +7,7 @@ import SubmitButton from '@/app/components/UI/SubmitButton';
 import { useFormState } from 'react-dom';
 import ErrorMessage from '@/app/components/UI/ErrorMessage';
 import { FormEvent } from 'react';
+import DemoAccountBlock from '@/app/components/DemoAccountBlock';
 
 const initialState = {
   message: '',
@@ -59,10 +60,7 @@ export default function Registration() {
           login
         </NextButton>
       </Stack>
-      <Stack direction='row' spacing={1} alignItems='center'>
-        <Typography variant='body1'>Want to try it first?</Typography>
-        <NextButton size='small'>view demo</NextButton>
-      </Stack>
+      <DemoAccountBlock />
     </>
   );
 }

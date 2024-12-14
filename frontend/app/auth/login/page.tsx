@@ -4,11 +4,11 @@ import { Stack, TextField, Typography } from '@mui/material';
 
 import PasswordInput from '@/app/components/UI/PasswordInput';
 
-import { useFormState } from 'react-dom';
+import { useFormState, useFormStatus } from 'react-dom';
 import SubmitButton from '@/app/components/UI/SubmitButton';
 import { login } from '@/app/lib/authActions';
-import { FormEvent, useActionState } from 'react';
 import ErrorMessage from '@/app/components/UI/ErrorMessage';
+import DemoAccountBlock from '@/app/components/DemoAccountBlock';
 
 const initialState = {
   message: '',
@@ -17,11 +17,10 @@ const initialState = {
 export default function Login() {
   const [state, formAction] = useFormState(login, initialState);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+  const doAction = async (formData: FormData) => {
     formAction(formData);
   };
+
   return (
     <>
       <Stack
@@ -31,7 +30,7 @@ export default function Login() {
         alignItems='center'
         spacing={4}
         sx={{ width: '100%' }}
-        onSubmit={handleSubmit}
+        action={doAction}
       >
         <Typography variant='h4' sx={{ alignSelf: 'start' }}>
           Login
@@ -54,10 +53,7 @@ export default function Login() {
           register
         </NextButton>
       </Stack>
-      <Stack direction='row' spacing={1} alignItems='center'>
-        <Typography variant='body1'>Want to try it first?</Typography>
-        <NextButton size='small'>view demo</NextButton>
-      </Stack>
+      <DemoAccountBlock />
     </>
   );
 }

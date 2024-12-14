@@ -17,6 +17,7 @@ interface MyProps {
     | 'warning';
 
   type?: string;
+  fullWidth?: boolean;
 }
 
 export default function NextButton({
@@ -26,6 +27,7 @@ export default function NextButton({
   href = '#',
   color = 'primary',
   type = 'button',
+  fullWidth = false,
 }: MyProps) {
   return (
     <Button
@@ -37,6 +39,7 @@ export default function NextButton({
       href={href}
       sx={{ textTransform: 'uppercase' }}
       type={type}
+      fullWidth={fullWidth}
     >
       {children}
     </Button>

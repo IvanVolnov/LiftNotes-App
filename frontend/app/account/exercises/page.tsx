@@ -4,11 +4,9 @@ import ContentHeaderBtn from '@/app/components/UI/ContentHeaderBtn';
 import ContentHeaderMenu from '@/app/components/UI/ContentHeaderMenu';
 import extractUserId from '@/app/utils/extractUserId';
 import { Typography } from '@mui/material';
-import dummyData from './dymmyData';
 import { getData } from '@/app/lib/getData';
 
 export default async function Exercises() {
-  // const data = dummyData;
   const data: Exercise[] = await getData('exercise');
 
   const { cookie, userId } = extractUserId();
