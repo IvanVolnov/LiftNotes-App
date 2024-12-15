@@ -14,14 +14,14 @@ import {
 } from '@mui/material';
 import { ReactNode, useEffect, useState } from 'react';
 import ContentBlockMenu from './ContentBlockMenu/ContentBlockMenuBase';
-import DragButton from './UI/DragButton';
+import DragButton from '../UI/DragButton';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useSearchParams } from 'next/navigation';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { ExpandMoreBtn } from './UI/ExpandMoreBtn';
-import daysAgo from '../utils/daysAgo';
-import ExerciseTable from './UI/ExerciseTable';
+import { ExpandMoreBtn } from '../UI/ExpandMoreBtn';
+import daysAgo from '../../utils/daysAgo';
+import ExerciseTable from '../UI/ExerciseTable';
 
 interface CustomProps {
   children?: ReactNode;
@@ -92,14 +92,14 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
             <ContentBlockMenu mode={mode} content={content} />
           ) : (
             <>
-              {content.exerciseType && (
+              {content.exerciseType && content.exerciseType != 'no type' && (
                 <Chip label={content.exerciseType} color='secondary' />
               )}
               <ExpandMoreBtn
                 expand={expanded}
                 onClick={handleExpandClick}
                 aria-expanded={expanded}
-                aria-label='show more'
+                aria-label='expand exercise information button'
                 sx={{ marginRight: '1rem' }}
               >
                 <ExpandMoreIcon />

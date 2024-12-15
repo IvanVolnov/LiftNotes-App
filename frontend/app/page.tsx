@@ -1,6 +1,5 @@
-import { Button, Container, Stack, Typography } from '@mui/material';
+import { Container, Stack, Typography } from '@mui/material';
 import NextButton from './components/UI/NextButton';
-import { login } from './lib/authActions';
 import DemoAccountBlock from './components/DemoAccountBlock';
 import EntryLayout from './components/UI/EntryLayout';
 
@@ -26,16 +25,16 @@ export default async function Home() {
           </Typography>
         </Stack>
 
+        <NextButton href='/auth/login' variant='contained' fullWidth={true}>
+          login
+        </NextButton>
         <NextButton
           href='/auth/registration'
-          variant='contained'
+          variant='outlined'
           size='large'
           fullWidth={true}
         >
           register
-        </NextButton>
-        <NextButton href='/auth/login' variant='outlined' fullWidth={true}>
-          login
         </NextButton>
 
         <DemoAccountBlock />

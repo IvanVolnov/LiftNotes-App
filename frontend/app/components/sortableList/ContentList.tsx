@@ -10,14 +10,14 @@ import {
 } from '@dnd-kit/core';
 import { arrayMove, SortableContext } from '@dnd-kit/sortable';
 import { Stack } from '@mui/material';
-import ContentBlock from '../ContentBlock';
+import ContentBlock from '../ContentBlock/ContentBlock';
 import { useEffect, useRef, useTransition } from 'react';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { changeContentPosition } from '@/app/lib/changeContentPosition';
 import { useOptimisticContext } from '@/app/context/OptimisticLoadingContext';
 import { transformToContentArray } from '@/app/utils/transformToContent';
 import areArraysEqualUnordered from '@/app/utils/areArraysEqualUnordered';
-import ExerciseContentBlock from '../EcerciseContentBlock';
+import ExerciseContentBlock from '../ContentBlock/EcerciseContentBlock';
 
 interface CustomProps {
   data: Workout[] | Day[] | Exercise[];

@@ -66,7 +66,7 @@ export async function editExercise(req: Request, res: Response) {
       exercise_external_links,
     } = req.body;
 
-    if (!exercise_name || exercise_id) {
+    if (!exercise_name || !exercise_id) {
       return res
         .status(400)
         .json({ error: 'invalid api request: exercise name or id is missing' });
@@ -76,8 +76,7 @@ SET
     exercise_name = ${exercise_name}, 
     exercise_description = ${exercise_description},
     exercise_type = ${exercise_type},
-    exercise_external_links = ${exercise_external_links},
-    exercise_type = ${exercise_type}
+    exercise_external_links = ${exercise_external_links}
 WHERE 
     exercise_id = ${exercise_id}
 RETURNING *;`;
@@ -86,53 +85,53 @@ RETURNING *;`;
     res.status(500).json({ error: error.message });
   }
 }
-// export async function deleteDay(req: Request, res: Response) {
-//   try {
-//     const { day_id } = req.body;
+export async function deleteExercise(req: Request, res: Response) {
+  try {
+    const { exercise_id } = req.body;
 
-//     if (!day_id) {
-//       return res
-//         .status(400)
-//         .json({ error: 'invalid api request: day id is missing' });
-//     }
-//     const deletedDay = await sql`DELETE FROM days
-// WHERE day_id = ${day_id}
-// RETURNING *;`;
-//     res.json({ workouts: deletedDay.rows });
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// }
+    if (!exercise_id) {
+      return res
+        .status(400)
+        .json({ error: 'invalid api request: day id is missing' });
+    }
+    const deletedDay = await sql`DELETE FROM exercises
+WHERE exercise_id = ${exercise_id}
+RETURNING *;`;
+    res.json({ exercises: deletedDay.rows });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
 
-// export async function reorderDay(req: Request, res: Response) {
-//   try {
-//     const { newPositions } = req.body;
+export async function reorderExercise(req: Request, res: Response) {
+  try {
+    const { newPositions } = req.body;
 
-//     if (!newPositions) {
-//       return res.status(400).json({
-//         error: 'invalid api request: newPositions object is missing',
-//       });
-//     }
-//     type El = {
-//       id: number;
-//       position: number;
-//     };
+    if (!newPositions) {
+      return res.status(400).json({
+        error: 'invalid api request: newPositions object is missing',
+      });
+    }
+    type El = {
+      id: number;
+      position: number;
+    };
 
-//     // Perform updates
-//     const updatePromises = newPositions.map(async (el: El) => {
-//       return sql`UPDATE days
-//         SET position = ${el.position}
-//         WHERE day_id = ${el.id}
-//         RETURNING *;`;
-//     });
+    // Perform updates
+    const updatePromises = newPositions.map(async (el: El) => {
+      return sql`UPDATE exercises
+        SET position = ${el.position}
+        WHERE exercise_id = ${el.id}
+        RETURNING *;`;
+    });
 
-//     // Wait for all updates to complete
-//     const results = await Promise.all(updatePromises);
-//     // Flatten the array of results
-//     const updatedWorkouts = results.flatMap((result) => result.rows);
+    // Wait for all updates to complete
+    const results = await Promise.all(updatePromises);
+    // Flatten the array of results
+    const updatedExercises = results.flatMap((result) => result.rows);
 
-//     res.json({ workouts: updatedWorkouts });
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// }
+    res.json({ exercises: updatedExercises });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}

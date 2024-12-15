@@ -77,7 +77,7 @@ export async function editWorkoutDay(
 }
 
 export async function deleteWorkoutDay(entityType: Entity, modeData: Content) {
-  const { cookie, userId } = extractUserId();
+  const { cookie } = extractUserId();
 
   const data = await fetchApiData(
     entityType === 'workout'

@@ -21,7 +21,9 @@ export default function ExerciseModal() {
 
   const ExerciseData = mode.modeData as ExerciseNormalised;
 
-  const [exerciseType, setExerciseType] = React.useState('');
+  const [exerciseType, setExerciseType] = React.useState(
+    ExerciseData?.exerciseType || ''
+  );
 
   const [externalLinks, setExternalLinks] = React.useState<ExternalLink[]>(
     ExerciseData?.exerciseExternalLinks || [
@@ -33,7 +35,7 @@ export default function ExerciseModal() {
   );
 
   const handleChange = (event: SelectChangeEvent) => {
-    setExerciseType(event.target.value as string);
+    setExerciseType(event.target.value as ExerciseType);
   };
 
   const handleClose = () => {

@@ -12,7 +12,11 @@ import {
 import DeleteConfirmModal from './DeleteConfirmModal';
 import { useOptimisticContext } from '@/app/context/OptimisticLoadingContext';
 import ExerciseModal from './ExerciseModal';
-import { createExercise } from '@/app/lib/exercisesActions';
+import {
+  createExercise,
+  deleteExercise,
+  editExercise,
+} from '@/app/lib/exercisesActions';
 
 interface CustomProps {
   isOpened: boolean;
@@ -38,23 +42,24 @@ export default function ModalBase({ isOpened }: CustomProps) {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    if (mode.operation === 'create' && isWorkoutOrDay) {
+
+    if (mode.operation === 'create') {
       createOptimisticData(formData);
-      createWorkoutDay(formData, mode.entity, parentId);
+      if (isWorkoutOrDay) createWorkoutDay(formData, mode.entity, parentId);
+      if (isExercise) createExercise(formData);
     }
 
-    if (mode.operation === 'create' && isExercise) {
-      createOptimisticData(formData);
-      createExercise(formData);
-    }
-
-    if (mode.operation === 'edit' && mode.modeData && isWorkoutOrDay) {
+    if (mode.operation === 'edit' && mode.modeData) {
       editOptimisticData(formData, mode.modeData);
-      editWorkoutDay(formData, mode.entity, mode.modeData);
+      if (isWorkoutOrDay) editWorkoutDay(formData, mode.entity, mode.modeData);
+      if (isExercise)
+        editExercise(formData, mode.modeData as ExerciseNormalised);
     }
-    if (mode.operation === 'delete' && mode.modeData && isWorkoutOrDay) {
+    if (mode.operation === 'delete' && mode.modeData) {
+      console.log(mode.modalData);
       deleteOptimisticData(mode.modeData);
-      deleteWorkoutDay(mode.entity, mode.modeData);
+      if (isWorkoutOrDay) deleteWorkoutDay(mode.entity, mode.modeData);
+      if (isExercise) deleteExercise(mode.modeData as ExerciseNormalised);
     }
 
     router.refresh();

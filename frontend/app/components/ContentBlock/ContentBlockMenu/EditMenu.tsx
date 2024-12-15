@@ -8,28 +8,47 @@ import { useRouter } from 'next/navigation';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import EditIcon from '@mui/icons-material/Edit';
+import { createExercise } from '@/app/lib/exercisesActions';
 
 interface CustomProps {
   mode: Entity;
-  content: Content;
+  content: Content | ExerciseNormalised;
 }
 
 export default function EditMenu({ mode, content }: CustomProps) {
-  const { name, description, parentId } = content;
+  const { name, description } = content;
+  console.log(content);
+
   const { createOptimisticData } = useOptimisticContext();
   const { toggleModal } = useModalContext();
 
   const router = useRouter();
 
   async function copyContent() {
+    const formData = new FormData();
+    formData.append('name', `${name} copy`);
+    formData.append('description', description || '');
+
     if (mode === 'workout' || mode === 'day') {
-      const formData = new FormData();
-      formData.append('name', `${name} copy`);
-      formData.append('description', description || '');
+      const parentId = 'parentId' in content ? content.parentId : undefined;
       createOptimisticData(formData);
       createWorkoutDay(formData, mode, parentId);
-      router.refresh();
     }
+
+    if (mode === 'exercise') {
+      const { exerciseType, exerciseExternalLinks } =
+        content as ExerciseNormalised;
+      exerciseExternalLinks.forEach((el) => {
+        formData.append('label', el.label);
+        formData.append('href', el.href);
+      });
+
+      formData.append('type', exerciseType);
+      createOptimisticData(formData);
+      createExercise(formData);
+    }
+
+    router.refresh();
   }
 
   if (!content.optimistic) {

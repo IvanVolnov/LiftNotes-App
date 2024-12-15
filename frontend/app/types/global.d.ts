@@ -48,7 +48,7 @@ interface Exercise {
   exerciseExternalLinks: ExternalLink[];
   position: number;
   created_at: string | Date;
-  exerciseType?: 'no type' | 'compound' | 'cardio' | 'isolation' | 'stretching';
+  exerciseType?: ExerciseType;
   previousTrainingWasEasy: boolean;
   exerciseLastUpdated: string;
   exerciseResults: Result[];
@@ -70,7 +70,7 @@ interface ExerciseNormalised {
   description: string;
   position: number;
   created_at: string | Date;
-  exerciseType: 'compound' | 'cardio' | 'isolation' | 'stretching';
+  exerciseType: ExerciseType;
   previousTrainingWasEasy: boolean;
   exerciseExternalLinks: ExternalLink[];
   exerciseLastUpdated: string;
@@ -80,3 +80,10 @@ interface ExerciseNormalised {
 
 type Entity = 'workout' | 'day' | 'exercise';
 type Operation = 'create' | 'edit' | 'duplicate' | 'delete';
+
+type ExerciseType =
+  | 'no type'
+  | 'compound'
+  | 'cardio'
+  | 'isolation'
+  | 'stretching';
