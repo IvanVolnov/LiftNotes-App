@@ -93,7 +93,7 @@ export async function deleteExercise(req: Request, res: Response) {
     if (!exercise_id) {
       return res
         .status(400)
-        .json({ error: 'invalid api request: day id is missing' });
+        .json({ error: 'invalid api request: result id is missing' });
     }
     const deletedDay = await sql`DELETE FROM exercises
 WHERE exercise_id = ${exercise_id}

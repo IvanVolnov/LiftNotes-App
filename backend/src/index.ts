@@ -1,4 +1,4 @@
-import express, { json, Request, Response, NextFunction } from 'express';
+import express, { json } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
@@ -8,6 +8,7 @@ import users from './routes/authRoutes.js';
 import workouts from './routes/workoutsRoutes.js';
 import days from './routes/daysRoutes.js';
 import exercises from './routes/exercisesRoutes.js';
+import results from './routes/resultsRoutes.js';
 
 const app = express();
 
@@ -28,5 +29,6 @@ app.use('/api/users', users);
 app.use('/api/workouts', workouts);
 app.use('/api/days', days);
 app.use('/api/exercises', exercises);
+app.use('/api/results', results);
 
 app.listen(PORT, () => console.log(`App listening on port ${PORT}!`));

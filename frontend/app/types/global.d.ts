@@ -23,7 +23,7 @@ interface Result {
 }
 
 interface ResultSet {
-  resultId: string;
+  setId: string;
   setNumber: number;
   reps: number;
   weightAmount: number;
