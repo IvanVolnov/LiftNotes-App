@@ -21,7 +21,8 @@ import { useSearchParams } from 'next/navigation';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ExpandMoreBtn } from '../UI/ExpandMoreBtn';
 import daysAgo from '../../utils/daysAgo';
-import ExerciseTable from '../UI/ExerciseTable';
+import ExerciseTable from './ExerciseContentLogic/ResultsTable/ExerciseTable';
+import PreviousTrainingSwitcher from './ExerciseContentLogic/PreviousTrainingSwitcher';
 
 interface CustomProps {
   children?: ReactNode;
@@ -141,14 +142,7 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
           </Stack>
 
           <Divider />
-          <Stack direction='row' spacing={3} alignItems='center' ml={2}>
-            <Typography variant='body1'>how the training was?</Typography>
-            <Stack direction='row' spacing={1} alignItems='center'>
-              <Typography variant='body2'>normal</Typography>
-              <Switch checked={content.previousTrainingWasEasy} />
-              <Typography variant='body2'>easy</Typography>
-            </Stack>
-          </Stack>
+          <PreviousTrainingSwitcher content={content} />
           {content.exerciseResults?.length ? (
             <ExerciseTable results={content.exerciseResults} />
           ) : (

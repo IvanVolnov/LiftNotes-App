@@ -3,7 +3,6 @@ import fetchApiData from '../utils/fetchApiData';
 
 export async function getData(entityType: Entity, parentId?: string) {
   const { cookie, userId } = extractUserId();
-
   let route = '',
     body = {};
 
@@ -34,6 +33,21 @@ export async function getData(entityType: Entity, parentId?: string) {
       'Content-Type': 'application/json',
     },
     body
+  );
+  return data.result;
+}
+
+export async function getResults(exerciseId: string) {
+  const { cookie } = extractUserId();
+
+  const data = await fetchApiData(
+    'results',
+    'post',
+    {
+      Authorization: `Bearer ${cookie}`,
+      'Content-Type': 'application/json',
+    },
+    { exerciseId }
   );
   return data.result;
 }

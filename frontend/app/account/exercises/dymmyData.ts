@@ -1,4 +1,4 @@
-const exerciseResults1: Result[] = [
+const exerciseResults1 = [
   {
     resultId: 'dskfwqerf12345678',
     resultDate: '2024-11-09T08:45:20Z',
@@ -31,7 +31,7 @@ const exerciseResults1: Result[] = [
   },
 ];
 
-const exerciseResults2: Result[] = [
+const exerciseResults2 = [
   {
     resultId: 'asgdxcbn87654321',
     resultDate: '2024-11-10T07:20:00Z',
@@ -364,7 +364,7 @@ const exerciseResults2: Result[] = [
   },
 ];
 
-const dummyData: Exercise[] = [
+const dummyData = [
   {
     exerciseId: 'ew6515651rgerwg',
     exerciseType: 'compound',

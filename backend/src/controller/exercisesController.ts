@@ -85,6 +85,7 @@ RETURNING *;`;
     res.status(500).json({ error: error.message });
   }
 }
+
 export async function deleteExercise(req: Request, res: Response) {
   try {
     const { exercise_id } = req.body;
@@ -131,6 +132,28 @@ export async function reorderExercise(req: Request, res: Response) {
     const updatedExercises = results.flatMap((result) => result.rows);
 
     res.json({ exercises: updatedExercises });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+export async function setPrevExercise(req: Request, res: Response) {
+  try {
+    const { exercise_id, newState } = req.body;
+
+    if (typeof newState !== 'boolean' || !exercise_id) {
+      return res.status(400).json({
+        error: 'invalid api request: exercise id or invalid exercise data',
+      });
+    }
+    const newExercise = await sql`UPDATE exercises 
+SET 
+    previous_training_was_easy
+ = ${newState}
+WHERE 
+    exercise_id = ${exercise_id}
+RETURNING *;`;
+    res.json({ exercises: newExercise.rows });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

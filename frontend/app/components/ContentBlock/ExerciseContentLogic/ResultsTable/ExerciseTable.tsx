@@ -13,10 +13,9 @@ import {
 } from '@mui/material';
 
 import formatExerciseResults from '@/app/utils/formatExerciseResults';
-import SetsRow from '../ResultsTable/SetsRow';
+import SetsRow from './SetsRow';
 import { useState } from 'react';
-import TablePaginationActions from '../ResultsTable/TablePaginationActions';
-import { Padding } from '@mui/icons-material';
+import TablePaginationActions from './TablePaginationActions';
 
 interface CustomProps {
   results: Result[];
@@ -24,7 +23,6 @@ interface CustomProps {
 
 export default function ExerciseTable({ results }: CustomProps) {
   const fromattedResults = formatExerciseResults(results);
-  // console.log(fromattedResults);
 
   const defaultRowsPerPage = 3;
   const [page, setPage] = useState(0);

@@ -73,3 +73,20 @@ export async function deleteExercise(modeData: ExerciseNormalised) {
   );
   return data.exercises;
 }
+
+export async function setPrevExercise(id: string, newState: boolean) {
+  const { cookie } = extractUserId();
+  const data = await fetchApiData(
+    'exercises/setPrev',
+    'put',
+    {
+      Authorization: `Bearer ${cookie}`,
+      'Content-Type': 'application/json',
+    },
+    {
+      exercise_id: id,
+      newState,
+    }
+  );
+  return data.exercises;
+}
