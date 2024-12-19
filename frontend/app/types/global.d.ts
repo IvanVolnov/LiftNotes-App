@@ -1,3 +1,13 @@
+type Entity = 'workout' | 'day' | 'exercise' | 'result';
+type Operation = 'create' | 'edit' | 'delete';
+
+type ExerciseType =
+  | 'no type'
+  | 'compound'
+  | 'cardio'
+  | 'isolation'
+  | 'stretching';
+
 interface Workout {
   user_id: string;
   workout_id: string;
@@ -76,13 +86,3 @@ interface ExerciseNormalised {
   optimistic?: boolean;
   exerciseResults: Result[];
 }
-
-type Entity = 'workout' | 'day' | 'exercise';
-type Operation = 'create' | 'edit' | 'duplicate' | 'delete';
-
-type ExerciseType =
-  | 'no type'
-  | 'compound'
-  | 'cardio'
-  | 'isolation'
-  | 'stretching';

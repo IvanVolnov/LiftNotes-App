@@ -23,6 +23,7 @@ import { ExpandMoreBtn } from '../UI/ExpandMoreBtn';
 import daysAgo from '../../utils/daysAgo';
 import ExerciseTable from './ExerciseContentLogic/ResultsTable/ExerciseTable';
 import PreviousTrainingSwitcher from './ExerciseContentLogic/PreviousTrainingSwitcher';
+import { useModalContext } from '@/app/context/ModalContext';
 
 interface CustomProps {
   children?: ReactNode;
@@ -33,7 +34,8 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
   const { id } = content;
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
-  const mode = 'exercise';
+
+  const { toggleModal } = useModalContext();
 
   const searchParams = useSearchParams();
   const edit = searchParams.get('edit');
@@ -90,7 +92,7 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
           useFlexGap
         >
           {edit ? (
-            <ContentBlockMenu mode={mode} content={content} />
+            <ContentBlockMenu mode='exercise' content={content} />
           ) : (
             <>
               {content.exerciseType && content.exerciseType != 'no type' && (
@@ -158,10 +160,18 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
             margin: '0.5rem 1rem 1rem 1rem',
           }}
         >
-          <Button size='small' variant='text'>
+          <Button
+            size='small'
+            variant='text'
+            onClick={() => toggleModal('result', 'edit', content)}
+          >
             manage existing results
           </Button>
-          <Button size='small' variant='contained'>
+          <Button
+            size='small'
+            variant='contained'
+            onClick={() => toggleModal('result', 'create', content)}
+          >
             Add result
           </Button>
         </CardActions>

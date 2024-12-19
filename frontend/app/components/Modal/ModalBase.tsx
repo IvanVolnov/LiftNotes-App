@@ -56,7 +56,6 @@ export default function ModalBase({ isOpened }: CustomProps) {
         editExercise(formData, mode.modeData as ExerciseNormalised);
     }
     if (mode.operation === 'delete' && mode.modeData) {
-      console.log(mode.modalData);
       deleteOptimisticData(mode.modeData);
       if (isWorkoutOrDay) deleteWorkoutDay(mode.entity, mode.modeData);
       if (isExercise) deleteExercise(mode.modeData as ExerciseNormalised);

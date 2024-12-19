@@ -1,6 +1,7 @@
 'use client';
 import { createContext, ReactNode, useContext, useState } from 'react';
 import ModalBase from '../components/Modal/ModalBase';
+import ResultsModalBase from '../components/Modal/ResultsModal/ResultsModalBase';
 
 export interface Mode {
   entity: Entity;
@@ -15,7 +16,7 @@ interface ModalContextProps {
   toggleModal: (
     newEntity?: Entity,
     newOperation?: Operation,
-    modeData?: Content,
+    modeData?: Content | ExerciseNormalised,
     modalData?: []
   ) => void;
 }
@@ -65,7 +66,11 @@ export function ModalProvider({ children }: Props) {
 
   return (
     <ModalContext.Provider value={{ isOpened, mode, toggleModal }}>
-      <ModalBase isOpened={isOpened} />
+      {mode.entity === 'result' ? (
+        <ResultsModalBase isOpened={isOpened} />
+      ) : (
+        <ModalBase isOpened={isOpened} />
+      )}
       {children}
     </ModalContext.Provider>
   );
