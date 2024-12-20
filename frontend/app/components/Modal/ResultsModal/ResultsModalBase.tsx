@@ -3,7 +3,7 @@
 import { useModalContext } from '@/app/context/ModalContext';
 import { Button, Dialog, DialogActions, Paper } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import CreateResultModal from './CreateResultNodal';
+import CreateResultModal from './CreateResultModal';
 import EditResultsModal from './EditResultsModal';
 import SubmitButton from '../../UI/SubmitButton';
 

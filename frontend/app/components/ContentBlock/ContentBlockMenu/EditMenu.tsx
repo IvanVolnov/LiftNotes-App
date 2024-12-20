@@ -17,7 +17,6 @@ interface CustomProps {
 
 export default function EditMenu({ mode, content }: CustomProps) {
   const { name, description } = content;
-  console.log(content);
 
   const { createOptimisticData } = useOptimisticContext();
   const { toggleModal } = useModalContext();

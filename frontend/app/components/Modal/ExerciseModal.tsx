@@ -25,13 +25,13 @@ export default function ExerciseModal() {
     ExerciseData?.exerciseType || ''
   );
 
+  const emptyLink = {
+    label: '',
+    href: '',
+  };
+
   const [externalLinks, setExternalLinks] = React.useState<ExternalLink[]>(
-    ExerciseData?.exerciseExternalLinks || [
-      {
-        label: '',
-        href: '',
-      },
-    ]
+    ExerciseData?.exerciseExternalLinks || [emptyLink]
   );
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -43,7 +43,7 @@ export default function ExerciseModal() {
   };
 
   function handleAddLink() {
-    setExternalLinks((prev) => [...prev, { label: '', href: '' }]);
+    setExternalLinks((prev) => [...prev, emptyLink]);
   }
 
   function handleRemoveLink() {
