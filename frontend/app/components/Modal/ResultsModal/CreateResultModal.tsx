@@ -1,6 +1,7 @@
 import { useModalContext } from '@/app/context/ModalContext';
 import {
   Button,
+  DialogActions,
   DialogContent,
   DialogTitle,
   Stack,
@@ -10,12 +11,21 @@ import {
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { ChangeEvent, useState } from 'react';
+import SubmitButton from '../../UI/SubmitButton';
+import parseValue from '@/app/utils/parseValue';
+import ErrorMessage from '../../UI/ErrorMessage';
 
-interface CustomProps {}
+interface CustomProps {
+  error: string;
+}
 
-export default function CreateResultModal({}: CustomProps) {
-  const { mode } = useModalContext();
+export default function CreateResultModal({ error }: CustomProps) {
   const defaultDate = dayjs();
+  const { mode, toggleModal } = useModalContext();
+
+  const handleClose = () => {
+    toggleModal();
+  };
 
   const emptyResultSet: ResultSet = {
     setId: '',
@@ -30,7 +40,7 @@ export default function CreateResultModal({}: CustomProps) {
   const [sets, setSets] = useState<ResultSet[]>([emptyResultSet]);
 
   function handleAddSet() {
-    console.log(sets);
+    // console.log(sets);
     setSets((prev) => [...prev, emptyResultSet]);
   }
 
@@ -45,27 +55,20 @@ export default function CreateResultModal({}: CustomProps) {
   ) {
     setSets((prev) => {
       const updatedValue = parseValue(key, e.target.value);
-
-      return prev.toSpliced(i, 1, {
+      const updatedSets = prev.toSpliced(i, 1, {
         ...prev[i],
+        setNumber: i,
         [key]: updatedValue,
       });
+
+      const totalSetAmount = updatedSets.reduce(
+        (acc, el, i) => acc + el.setAmount,
+        0
+      );
+      updatedSets.forEach((el) => (el.totalSets = totalSetAmount));
+
+      return updatedSets;
     });
-  }
-
-  function parseValue(key: keyof ResultSet, val: string) {
-    const numericFields: (keyof ResultSet)[] = [
-      'setNumber',
-      'reps',
-      'weightAmount',
-      'totalSets',
-      'setAmount',
-    ];
-
-    if (numericFields.includes(key)) {
-      return Number(val);
-    }
-    return val;
   }
 
   return (
@@ -83,7 +86,6 @@ export default function CreateResultModal({}: CustomProps) {
           Training sets
         </Typography>
         {sets.map((el, i) => {
-          const invalidData = false;
           return (
             <Stack
               key={i}
@@ -93,12 +95,10 @@ export default function CreateResultModal({}: CustomProps) {
               sx={{ flexWrap: 'wrap' }}
             >
               <TextField
-                sx={{ width: '4rem' }}
-                error={invalidData}
-                required={invalidData}
+                sx={{ width: '3rem' }}
                 id={`sets-${i}`}
-                name='reps'
-                label={invalidData ? 'invalid data' : 'Sets'}
+                name='sets'
+                label='Sets'
                 type='number'
                 variant='standard'
                 margin='dense'
@@ -106,12 +106,10 @@ export default function CreateResultModal({}: CustomProps) {
                 onChange={(e) => handleChangeSet(i, e, 'setAmount')}
               />
               <TextField
-                sx={{ width: '4rem' }}
-                error={invalidData}
-                required={invalidData}
+                sx={{ width: '3rem' }}
                 id={`reps-${i}`}
                 name='reps'
-                label={invalidData ? 'invalid data' : 'Reps'}
+                label='Reps'
                 type='number'
                 variant='standard'
                 margin='dense'
@@ -120,11 +118,9 @@ export default function CreateResultModal({}: CustomProps) {
               />
               <TextField
                 sx={{ width: '4rem' }}
-                error={invalidData}
-                required={invalidData}
                 id={`weightAmount-${i}`}
                 name='weightAmount'
-                label={invalidData ? 'invalid data' : 'Weight'}
+                label='Weight'
                 type='number'
                 variant='standard'
                 margin='dense'
@@ -132,11 +128,11 @@ export default function CreateResultModal({}: CustomProps) {
                 onChange={(e) => handleChangeSet(i, e, 'weightAmount')}
               />
               <TextField
-                error={invalidData}
-                required={invalidData}
+                sx={{ width: '5rem' }}
+                required={true}
                 id={`weightUnit-${i}`}
                 name='weightUnit'
-                label={invalidData ? 'invalid data' : 'Unit'}
+                label='Unit'
                 variant='standard'
                 margin='dense'
                 defaultValue={el.weightUnit}
@@ -152,7 +148,12 @@ export default function CreateResultModal({}: CustomProps) {
             Remove set
           </Button>
         </Stack>
+        {error && <ErrorMessage>{error}</ErrorMessage>}
       </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose}>Cancel</Button>
+        <SubmitButton>Submit</SubmitButton>
+      </DialogActions>
     </>
   );
 }
