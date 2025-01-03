@@ -34,12 +34,12 @@ interface Result {
 
 interface ResultSet {
   setId: string;
-  setNumber: number;
+  // setNumber: number;
   reps: number;
   weightAmount: number;
   weightUnit: string;
-  totalSets: number;
   setAmount: number;
+  totalSets?: number;
   isFirstSet?: boolean;
   isLastSet?: boolean;
   resultDate?: string;

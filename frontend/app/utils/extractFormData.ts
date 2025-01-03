@@ -20,3 +20,23 @@ export function extractExerciseFormData(formData: FormData) {
 
   return { name, description, type, externalLinks };
 }
+
+export function extractResultFormData(formData: FormData) {
+  const date = formData.get('resultDate') as string;
+
+  const setAmounts = formData.getAll('sets');
+  const setReps = formData.getAll('reps');
+  const setWeightAmounts = formData.getAll('weightAmount');
+  const setWeightUnits = formData.getAll('weightUnit');
+
+  const resultSets = setAmounts.map((setAmount, i) => {
+    return {
+      setAmount,
+      reps: setReps[i],
+      weightAmount: setWeightAmounts[i],
+      weightUnit: setWeightUnits[i],
+    };
+  });
+
+  return { date, resultSets };
+}

@@ -9,7 +9,6 @@ import {
   Divider,
   Link,
   Stack,
-  Switch,
   Typography,
 } from '@mui/material';
 import { ReactNode, useEffect, useState } from 'react';

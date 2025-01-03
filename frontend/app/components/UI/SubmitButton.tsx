@@ -1,5 +1,5 @@
 'use client';
-import { Button, CircularProgress } from '@mui/material';
+import { Button } from '@mui/material';
 import { ReactNode } from 'react';
 import { useFormStatus } from 'react-dom';
 

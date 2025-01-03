@@ -6,6 +6,11 @@ function formatSets(result: Result) {
   const sameResultsId: string[] = [];
   const formattedSets: ResultSet[] = [];
 
+  const totalSetAmount = result.sets.reduce(
+    (acc, el, i) => acc + el.setAmount,
+    0
+  );
+
   result.sets.forEach((x, i) => {
     // const duples = result.sets.filter(
     //   (y) =>
@@ -21,9 +26,10 @@ function formatSets(result: Result) {
     return formattedSets.push({
       ...x,
       isFirstSet: i === 0,
-      isLastSet: x.setNumber + x.setAmount === result.sets.length + 1,
+      // isLastSet: x.setNumber + x.setAmount === result.sets.length + 1,
+      isLastSet: i === result.sets.length - 1,
       // setAmount: duples.length,
-      totalSets: result.sets.length,
+      totalSets: totalSetAmount,
       setId: `formatted-${x.setId}`,
       resultDate,
     });

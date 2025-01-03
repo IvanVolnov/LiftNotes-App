@@ -10,13 +10,24 @@ export async function getExercises(req: Request, res: Response) {
         .status(400)
         .json({ error: 'invalid api request: user id is missing' });
     }
-    let result;
 
-    result =
+    const exerciseResults =
       await sql`SELECT * FROM exercises WHERE user_id = ${user_id} ORDER BY position;`;
 
+    const exerciseFormatted = await Promise.all(
+      exerciseResults.rows.map(async (el) => {
+        const results =
+          await sql`SELECT * FROM results WHERE exercise_id = ${el.exercise_id} ORDER BY result_date;`;
+
+        return {
+          ...el,
+          exerciseResults: results.rows,
+        };
+      })
+    );
+    console.log(exerciseFormatted);
     // setTimeout(() => {
-    res.json({ result: result.rows });
+    res.json({ results: exerciseFormatted });
     // }, 5000);
   } catch (error) {
     res.status(500).json({ error: error.message });
