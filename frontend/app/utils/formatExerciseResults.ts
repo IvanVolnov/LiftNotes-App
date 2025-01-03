@@ -3,32 +3,18 @@ function formatSets(result: Result) {
     .toLocaleDateString('en-GB')
     .replace(/\//g, '.');
 
-  const sameResultsId: string[] = [];
   const formattedSets: ResultSet[] = [];
 
-  const totalSetAmount = result.sets.reduce(
+  const totalSetAmount = result.resultSets.reduce(
     (acc, el, i) => acc + el.setAmount,
     0
   );
 
-  result.sets.forEach((x, i) => {
-    // const duples = result.sets.filter(
-    //   (y) =>
-    //     x.reps === y.reps &&
-    //     x.weightAmount === y.weightAmount &&
-    //     x.weightUnit === y.weightUnit
-    // );
-    // if (sameResultsId.includes(duples[0].setId)) return;
-    // if (duples.length > 1) {
-    //   sameResultsId.push(duples[0].setId);
-    // }
-
+  result.resultSets.forEach((x, i) => {
     return formattedSets.push({
       ...x,
       isFirstSet: i === 0,
-      // isLastSet: x.setNumber + x.setAmount === result.sets.length + 1,
-      isLastSet: i === result.sets.length - 1,
-      // setAmount: duples.length,
+      isLastSet: i === result.resultSets.length - 1,
       totalSets: totalSetAmount,
       setId: `formatted-${x.setId}`,
       resultDate,

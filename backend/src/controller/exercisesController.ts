@@ -17,7 +17,7 @@ export async function getExercises(req: Request, res: Response) {
     const exerciseFormatted = await Promise.all(
       exerciseResults.rows.map(async (el) => {
         const results =
-          await sql`SELECT * FROM results WHERE exercise_id = ${el.exercise_id} ORDER BY result_date;`;
+          await sql`SELECT * FROM results WHERE exercise_id = ${el.exercise_id} ORDER BY result_date DESC;`;
 
         return {
           ...el,
@@ -25,9 +25,9 @@ export async function getExercises(req: Request, res: Response) {
         };
       })
     );
-    console.log(exerciseFormatted);
+
     // setTimeout(() => {
-    res.json({ results: exerciseFormatted });
+    res.json({ result: exerciseFormatted });
     // }, 5000);
   } catch (error) {
     res.status(500).json({ error: error.message });

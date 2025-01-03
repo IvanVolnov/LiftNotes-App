@@ -27,7 +27,6 @@ interface CustomProps {
 
 export default function ContentList({ data, cookie, mode }: CustomProps) {
   const { updateOptimisticData, optimisticData } = useOptimisticContext();
-
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   function sortByPosition(arr: Content[] | ExerciseNormalised[]) {

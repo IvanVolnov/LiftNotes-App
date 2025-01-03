@@ -54,13 +54,6 @@ export default function CreateResultModal({ error, handleClose }: CustomProps) {
         // setNumber: i,
         [key]: updatedValue,
       });
-
-      // const totalSetAmount = updatedSets.reduce(
-      //   (acc, el, i) => acc + el.setAmount,
-      //   0
-      // );
-      // updatedSets.forEach((el) => (el.totalSets = totalSetAmount));
-
       return updatedSets;
     });
   }
@@ -72,7 +65,7 @@ export default function CreateResultModal({ error, handleClose }: CustomProps) {
         <DatePicker
           label='Result date'
           name='resultDate'
-          autoFocus={true}
+          disableFuture={true}
           defaultValue={defaultDate}
           sx={{ marginTop: '1rem' }}
         />

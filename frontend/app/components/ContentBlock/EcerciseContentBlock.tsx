@@ -47,6 +47,10 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
     setExpanded((prev) => !prev);
   };
 
+  const exerciseLastUpdated = content.exerciseResults?.[0]?.resultDate
+    ? content.exerciseResults[0].resultDate
+    : null;
+
   return (
     <Card
       sx={{
@@ -77,9 +81,11 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
             <Typography gutterBottom variant='h5' component='div'>
               {content.name}
             </Typography>
-            <Typography variant='body2' color='text.secondary'>
-              result updated {daysAgo(content.exerciseLastUpdated)}
-            </Typography>
+            {exerciseLastUpdated && (
+              <Typography variant='body2' color='text.secondary'>
+                result updated {daysAgo(exerciseLastUpdated)}
+              </Typography>
+            )}
           </CardContent>
         </Stack>
         <Stack

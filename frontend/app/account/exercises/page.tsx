@@ -10,7 +10,7 @@ import dummyData from './dymmyData';
 export default async function Exercises() {
   // const data: Exercise[] = dummyData;
   const data: Exercise[] = await getData('exercise');
-  console.log(data);
+
   const { cookie } = extractUserId();
 
   return (

@@ -29,12 +29,11 @@ interface Day {
 interface Result {
   resultId: string;
   resultDate: string;
-  sets: ResultSet[];
+  resultSets: ResultSet[];
 }
 
 interface ResultSet {
   setId: string;
-  // setNumber: number;
   reps: number;
   weightAmount: number;
   weightUnit: string;
@@ -59,7 +58,6 @@ interface Exercise {
   created_at: string | Date;
   exerciseType?: ExerciseType;
   previousTrainingWasEasy: boolean;
-  exerciseLastUpdated: string;
   exerciseResults: Result[];
 }
 
@@ -82,7 +80,6 @@ interface ExerciseNormalised {
   exerciseType: ExerciseType;
   previousTrainingWasEasy: boolean;
   exerciseExternalLinks: ExternalLink[];
-  exerciseLastUpdated: string;
   optimistic?: boolean;
   exerciseResults: Result[];
 }
