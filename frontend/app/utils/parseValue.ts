@@ -1,6 +1,5 @@
 export default function parseValue(key: keyof ResultSet, val: string) {
   const numericFields: (keyof ResultSet)[] = [
-    'setNumber',
     'reps',
     'weightAmount',
     'totalSets',
