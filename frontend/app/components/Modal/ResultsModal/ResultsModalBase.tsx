@@ -8,7 +8,7 @@ import EditResultsModal from './EditResultsModal';
 
 import DeleteConfirmModal from '../DeleteConfirmModal';
 import { useState } from 'react';
-import { createResult } from '@/app/lib/resultsActions';
+import { createResult, editResult } from '@/app/lib/resultsActions';
 
 interface CustomProps {
   isOpened: boolean;
@@ -20,6 +20,7 @@ export default function ResultsModalBase({ isOpened }: CustomProps) {
   const [errorMessage, setErrorMessage] = useState('');
 
   const isEdit = mode.operation === 'edit';
+  const isManage = mode.operation === 'manageList';
   const isCreate = mode.operation === 'create';
 
   const handleClose = () => {
@@ -60,7 +61,8 @@ export default function ResultsModalBase({ isOpened }: CustomProps) {
       createResult(formData, mode.modeData.id);
     }
 
-    if (mode.operation === 'edit' && mode.modeData) {
+    if (mode.operation === 'edit' && mode.resultData) {
+      editResult(formData, mode.resultData.resultId);
     }
 
     router.refresh();
@@ -85,8 +87,8 @@ export default function ResultsModalBase({ isOpened }: CustomProps) {
         />
       )}
     >
-      {isEdit && <EditResultsModal />}
-      {isCreate && (
+      {isManage && <EditResultsModal />}
+      {(isCreate || isEdit) && (
         <CreateResultModal handleClose={handleClose} error={errorMessage} />
       )}
       {mode.operation === 'delete' && <DeleteConfirmModal />}

@@ -13,6 +13,8 @@ import { ChangeEvent, useState } from 'react';
 import SubmitButton from '../../UI/SubmitButton';
 import parseValue from '@/app/utils/parseValue';
 import ErrorMessage from '../../UI/ErrorMessage';
+import { useModalContext } from '@/app/context/ModalContext';
+import { fromatResultDate } from '@/app/utils/formatExerciseResults';
 
 interface CustomProps {
   error: string;
@@ -20,19 +22,26 @@ interface CustomProps {
 }
 
 export default function CreateResultModal({ error, handleClose }: CustomProps) {
-  const defaultDate = dayjs();
+  const { mode } = useModalContext();
+  const defaultDate = mode.resultData?.resultDate
+    ? dayjs(mode.resultData.resultDate)
+    : dayjs();
 
   const emptyResultSet: ResultSet = {
     setId: '',
     // setNumber: 0,
     reps: 0,
     weightAmount: 0,
-    weightUnit: '',
+    weightUnit:
+      (mode.modeData as ExerciseNormalised)?.exerciseResults[0]?.resultSets[0]
+        ?.weightUnit || '',
     // totalSets: 0,
     setAmount: 1,
   };
 
-  const [sets, setSets] = useState<ResultSet[]>([emptyResultSet]);
+  const [sets, setSets] = useState<ResultSet[]>(
+    mode.resultData ? mode.resultData.resultSets : [emptyResultSet]
+  );
 
   function handleAddSet() {
     setSets((prev) => [...prev, emptyResultSet]);
@@ -51,7 +60,6 @@ export default function CreateResultModal({ error, handleClose }: CustomProps) {
       const updatedValue = parseValue(key, e.target.value);
       const updatedSets = prev.toSpliced(i, 1, {
         ...prev[i],
-        // setNumber: i,
         [key]: updatedValue,
       });
       return updatedSets;
@@ -60,7 +68,7 @@ export default function CreateResultModal({ error, handleClose }: CustomProps) {
 
   return (
     <>
-      <DialogTitle>Update training result</DialogTitle>
+      <DialogTitle>add training result</DialogTitle>
       <DialogContent>
         <DatePicker
           label='Result date'

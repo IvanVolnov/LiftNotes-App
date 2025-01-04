@@ -168,7 +168,7 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
           <Button
             size='small'
             variant='text'
-            onClick={() => toggleModal('result', 'edit', content)}
+            onClick={() => toggleModal('result', 'manageList', content)}
           >
             manage existing results
           </Button>

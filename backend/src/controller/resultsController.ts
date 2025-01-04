@@ -59,7 +59,7 @@ export async function editResult(req: Request, res: Response) {
     const newResult = await sql`UPDATE results 
 SET 
     result_date = ${result_date}, 
-    result_sets = ${result_sets},
+    result_sets = ${result_sets}
     
 WHERE 
     result_id = ${result_id}

@@ -1,22 +1,28 @@
+import generateRandomId from './generateRandomId';
+
+export function fromatResultDate(resultDate: string) {
+  return new Date(resultDate).toLocaleDateString('en-GB').replace(/\//g, '.');
+}
+
+export function countTotalSetAmount(setsArr: ResultSet[]) {
+  return setsArr.reduce((acc, el, i) => acc + +el.setAmount, 0);
+}
+
 function formatSets(result: Result) {
-  const resultDate = new Date(result.resultDate)
-    .toLocaleDateString('en-GB')
-    .replace(/\//g, '.');
+  const resultDate = fromatResultDate(result.resultDate);
 
   const formattedSets: ResultSet[] = [];
 
-  const totalSetAmount = result.resultSets.reduce(
-    (acc, el, i) => acc + el.setAmount,
-    0
-  );
+  const totalSetAmount = countTotalSetAmount(result.resultSets);
 
   result.resultSets.forEach((x, i) => {
+    const formattedId = x.setId || generateRandomId().toString();
     return formattedSets.push({
       ...x,
       isFirstSet: i === 0,
       isLastSet: i === result.resultSets.length - 1,
       totalSets: totalSetAmount,
-      setId: `formatted-${x.setId}`,
+      setId: formattedId,
       resultDate,
     });
   });

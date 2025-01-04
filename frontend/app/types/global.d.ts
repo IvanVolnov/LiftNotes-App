@@ -1,5 +1,5 @@
 type Entity = 'workout' | 'day' | 'exercise' | 'result';
-type Operation = 'create' | 'edit' | 'delete';
+type Operation = 'create' | 'edit' | 'delete' | 'manageList';
 
 type ExerciseType =
   | 'no type'
