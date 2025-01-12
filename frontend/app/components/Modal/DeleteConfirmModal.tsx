@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import SubmitButton from '../UI/SubmitButton';
+import SubmitButton from '../UI/Buttons/SubmitButton';
 import { useModalContext } from '@/app/context/ModalContext';
 import { DialogContentText } from '@mui/material';
 

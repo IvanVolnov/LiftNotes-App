@@ -8,7 +8,11 @@ import EditResultsModal from './EditResultsModal';
 
 import DeleteConfirmModal from '../DeleteConfirmModal';
 import { useState } from 'react';
-import { createResult, editResult } from '@/app/lib/resultsActions';
+import {
+  createResult,
+  deleteResult,
+  editResult,
+} from '@/app/lib/resultsActions';
 
 interface CustomProps {
   isOpened: boolean;
@@ -63,6 +67,10 @@ export default function ResultsModalBase({ isOpened }: CustomProps) {
 
     if (mode.operation === 'edit' && mode.resultData) {
       editResult(formData, mode.resultData.resultId);
+    }
+
+    if (mode.operation === 'delete' && mode.resultData) {
+      deleteResult(mode.resultData.resultId);
     }
 
     router.refresh();

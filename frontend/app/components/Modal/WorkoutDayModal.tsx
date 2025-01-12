@@ -1,11 +1,12 @@
 'use client';
-import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import SubmitButton from '../UI/SubmitButton';
+import SubmitButton from '../UI/Buttons/SubmitButton';
 import { useModalContext } from '@/app/context/ModalContext';
+import DynamicColorBtn from '../UI/Buttons/DynamicColorBtn';
+import DynamicColorTextFeild from '../UI/DynamicColorTextfeild';
 
 export default function WorkoutDayModal() {
   const { mode, toggleModal } = useModalContext();
@@ -21,7 +22,7 @@ export default function WorkoutDayModal() {
         ${mode.entity}`}
       </DialogTitle>
       <DialogContent>
-        <TextField
+        <DynamicColorTextFeild
           autoFocus
           required
           margin='dense'
@@ -31,10 +32,9 @@ export default function WorkoutDayModal() {
           type='text'
           fullWidth
           variant='standard'
-          color='primary'
           defaultValue={mode.modeData?.name}
         />
-        <TextField
+        <DynamicColorTextFeild
           margin='dense'
           id='description'
           name='description'
@@ -46,7 +46,7 @@ export default function WorkoutDayModal() {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
+        <DynamicColorBtn onClick={handleClose}>Cancel</DynamicColorBtn>
         <SubmitButton>Submit</SubmitButton>
       </DialogActions>
     </>

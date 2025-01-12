@@ -1,4 +1,4 @@
-import NextButton from '@/app/components/UI/NextButton';
+import NextButton from '@/app/components/UI/Buttons/NextButton';
 import { Typography } from '@mui/material';
 
 export default async function Success() {

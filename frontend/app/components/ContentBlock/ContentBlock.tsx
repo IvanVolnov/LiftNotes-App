@@ -4,7 +4,7 @@ import ContentBlockMenu from './ContentBlockMenu/ContentBlockMenuBase';
 
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import DragButton from '../UI/DragButton';
+import DragButton from '../UI/Buttons/DragButton';
 
 interface CustomProps {
   children?: ReactNode;

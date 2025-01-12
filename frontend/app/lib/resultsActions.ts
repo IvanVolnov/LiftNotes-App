@@ -47,3 +47,19 @@ export async function editResult(formData: FormData, resultId: string) {
   );
   return data.results;
 }
+
+export async function deleteResult(resultId: string) {
+  const { cookie } = extractUserId();
+  const data = await fetchApiData(
+    'results/delete',
+    'delete',
+    {
+      Authorization: `Bearer ${cookie}`,
+      'Content-Type': 'application/json',
+    },
+    {
+      result_id: resultId,
+    }
+  );
+  return data.exercises;
+}

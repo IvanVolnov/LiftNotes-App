@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
-import ContentHeaderBtn from '@/app/components/UI/ContentHeaderBtn';
-import ContentFooterBtn from '@/app/components/UI/ContentFooterBtn';
+import ContentHeaderBtn from '@/app/components/UI/Buttons/ContentHeaderBtn';
+import ContentFooterBtn from '@/app/components/UI/Buttons/ContentFooterBtn';
 import ContentList from '@/app/components/sortableList/ContentList';
 import extractUserId from '@/app/utils/extractUserId';
 import ContentHeaderMenu from '@/app/components/UI/ContentHeaderMenu';

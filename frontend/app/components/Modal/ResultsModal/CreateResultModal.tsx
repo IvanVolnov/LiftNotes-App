@@ -10,11 +10,13 @@ import {
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { ChangeEvent, useState } from 'react';
-import SubmitButton from '../../UI/SubmitButton';
+import SubmitButton from '../../UI/Buttons/SubmitButton';
 import parseValue from '@/app/utils/parseValue';
 import ErrorMessage from '../../UI/ErrorMessage';
 import { useModalContext } from '@/app/context/ModalContext';
-import { fromatResultDate } from '@/app/utils/formatExerciseResults';
+import DynamicColorBtn from '../../UI/Buttons/DynamicColorBtn';
+import DynamicColorTextFeild from '../../UI/DynamicColorTextfeild';
+import { useColorModeContext } from '@/app/context/ColorModeContext';
 
 interface CustomProps {
   error: string;
@@ -23,6 +25,9 @@ interface CustomProps {
 
 export default function CreateResultModal({ error, handleClose }: CustomProps) {
   const { mode } = useModalContext();
+  const { checkIfDarkMode } = useColorModeContext();
+  const checkIfDark = checkIfDarkMode();
+
   const defaultDate = mode.resultData?.resultDate
     ? dayjs(mode.resultData.resultDate)
     : dayjs();
@@ -89,7 +94,7 @@ export default function CreateResultModal({ error, handleClose }: CustomProps) {
               mb={2}
               sx={{ flexWrap: 'nowrap' }}
             >
-              <TextField
+              <DynamicColorTextFeild
                 sx={{ flex: '2 2' }}
                 id={`sets-${i}`}
                 name='sets'
@@ -100,7 +105,7 @@ export default function CreateResultModal({ error, handleClose }: CustomProps) {
                 defaultValue={el.setAmount}
                 onChange={(e) => handleChangeSet(i, e, 'setAmount')}
               />
-              <TextField
+              <DynamicColorTextFeild
                 sx={{ flex: '3 3' }}
                 id={`reps-${i}`}
                 name='reps'
@@ -111,7 +116,7 @@ export default function CreateResultModal({ error, handleClose }: CustomProps) {
                 defaultValue={el.reps}
                 onChange={(e) => handleChangeSet(i, e, 'reps')}
               />
-              <TextField
+              <DynamicColorTextFeild
                 sx={{ flex: '4 4' }}
                 id={`weightAmount-${i}`}
                 name='weightAmount'
@@ -122,7 +127,7 @@ export default function CreateResultModal({ error, handleClose }: CustomProps) {
                 defaultValue={el.weightAmount}
                 onChange={(e) => handleChangeSet(i, e, 'weightAmount')}
               />
-              <TextField
+              <DynamicColorTextFeild
                 sx={{ flex: '6 6' }}
                 required={true}
                 id={`weightUnit-${i}`}
@@ -138,7 +143,7 @@ export default function CreateResultModal({ error, handleClose }: CustomProps) {
         })}
 
         <Stack direction='row' spacing={1} mb={2}>
-          <Button onClick={handleAddSet}>Add set</Button>
+          <DynamicColorBtn onClick={handleAddSet}>Add set</DynamicColorBtn>
           <Button color='error' onClick={handleRemoveSet}>
             Remove set
           </Button>
@@ -146,7 +151,7 @@ export default function CreateResultModal({ error, handleClose }: CustomProps) {
         {error && <ErrorMessage>{error}</ErrorMessage>}
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
+        <DynamicColorBtn onClick={handleClose}>Cancel</DynamicColorBtn>
         <SubmitButton>Submit</SubmitButton>
       </DialogActions>
     </>

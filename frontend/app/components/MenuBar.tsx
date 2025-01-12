@@ -14,7 +14,7 @@ import { useState } from 'react';
 import DarkModeSwitcher from './DarkModeSwitcher';
 import AccountMenu from './AccountMenu';
 import Link from 'next/link';
-import NextButton from './UI/NextButton';
+import NextButton from './UI/Buttons/NextButton';
 import { Stack } from '@mui/material';
 
 const drawerWidth = 200;

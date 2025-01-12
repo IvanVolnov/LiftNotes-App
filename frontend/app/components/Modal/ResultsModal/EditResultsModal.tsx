@@ -43,7 +43,12 @@ export default function EditResultsModal({}: CustomProps) {
                 key={el.resultId}
                 secondaryAction={
                   <Stack direction='row'>
-                    <IconButton aria-label='delete'>
+                    <IconButton
+                      aria-label='delete'
+                      onClick={() => {
+                        toggleModal('result', 'delete', undefined, el, true);
+                      }}
+                    >
                       <DeleteIcon />
                     </IconButton>
                     <IconButton aria-label='edit'>

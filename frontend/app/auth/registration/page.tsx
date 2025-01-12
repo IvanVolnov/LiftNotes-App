@@ -1,9 +1,9 @@
 'use client';
-import NextButton from '@/app/components/UI/NextButton';
+import NextButton from '@/app/components/UI/Buttons/NextButton';
 import { Stack, TextField, Typography } from '@mui/material';
 import PasswordInput from '@/app/components/UI/PasswordInput';
 import { register } from '@/app/lib/authActions';
-import SubmitButton from '@/app/components/UI/SubmitButton';
+import SubmitButton from '@/app/components/UI/Buttons/SubmitButton';
 import { useFormState } from 'react-dom';
 import ErrorMessage from '@/app/components/UI/ErrorMessage';
 import { FormEvent } from 'react';

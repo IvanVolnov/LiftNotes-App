@@ -13,16 +13,18 @@ import {
 } from '@mui/material';
 import { ReactNode, useEffect, useState } from 'react';
 import ContentBlockMenu from './ContentBlockMenu/ContentBlockMenuBase';
-import DragButton from '../UI/DragButton';
+import DragButton from '../UI/Buttons/DragButton';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useSearchParams } from 'next/navigation';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { ExpandMoreBtn } from '../UI/ExpandMoreBtn';
+import { ExpandMoreBtn } from '../UI/Buttons/ExpandMoreBtn';
 import daysAgo from '../../utils/daysAgo';
 import ExerciseTable from './ExerciseContentLogic/ResultsTable/ExerciseTable';
 import PreviousTrainingSwitcher from './ExerciseContentLogic/PreviousTrainingSwitcher';
 import { useModalContext } from '@/app/context/ModalContext';
+import DynamicColorBtn from '../UI/Buttons/DynamicColorBtn';
+import { useColorModeContext } from '@/app/context/ColorModeContext';
 
 interface CustomProps {
   children?: ReactNode;
@@ -35,6 +37,8 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
     useSortable({ id });
 
   const { toggleModal } = useModalContext();
+  const { checkIfDarkMode } = useColorModeContext();
+  const checkIfDark = checkIfDarkMode();
 
   const searchParams = useSearchParams();
   const edit = searchParams.get('edit');
@@ -136,6 +140,7 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
             {content.exerciseExternalLinks?.map((el, i) => {
               return (
                 <Link
+                  color={checkIfDark ? 'primary' : 'secondary'}
                   key={`external-link-${i}`}
                   rel='noopener'
                   underline='hover'
@@ -165,13 +170,13 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
             margin: '0.5rem 1rem 1rem 1rem',
           }}
         >
-          <Button
+          <DynamicColorBtn
             size='small'
             variant='text'
             onClick={() => toggleModal('result', 'manageList', content)}
           >
             manage existing results
-          </Button>
+          </DynamicColorBtn>
           <Button
             size='small'
             variant='contained'

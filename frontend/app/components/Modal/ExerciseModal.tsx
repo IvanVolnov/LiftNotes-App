@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import SubmitButton from '../UI/SubmitButton';
+import SubmitButton from '../UI/Buttons/SubmitButton';
 import {
   DialogActions,
   DialogContent,
@@ -15,6 +15,9 @@ import {
   Typography,
 } from '@mui/material';
 import { useModalContext } from '@/app/context/ModalContext';
+import DynamicColorBtn from '../UI/Buttons/DynamicColorBtn';
+import DynamicColorTextFeild from '../UI/DynamicColorTextfeild';
+import DynamicColorSelect from '../UI/DynamicColorSelect';
 
 export default function ExerciseModal() {
   const { mode, toggleModal } = useModalContext();
@@ -57,7 +60,7 @@ export default function ExerciseModal() {
         ${mode.entity}`}
       </DialogTitle>
       <DialogContent>
-        <TextField
+        <DynamicColorTextFeild
           autoFocus
           required
           margin='dense'
@@ -69,7 +72,7 @@ export default function ExerciseModal() {
           variant='standard'
           defaultValue={ExerciseData?.name}
         />
-        <TextField
+        <DynamicColorTextFeild
           id='description'
           margin='dense'
           name='description'
@@ -81,7 +84,7 @@ export default function ExerciseModal() {
         />
         <FormControl sx={{ width: '10rem', marginTop: '2rem' }}>
           <InputLabel id='exercise-type-select-label'>exercise type</InputLabel>
-          <Select
+          <DynamicColorSelect
             labelId='exercise-type-select-label'
             id='exercise-type-select'
             value={exerciseType}
@@ -95,7 +98,7 @@ export default function ExerciseModal() {
             <MenuItem value={'cardio'}>cardio</MenuItem>
             <MenuItem value={'isolation'}>isolation</MenuItem>
             <MenuItem value={'stretching'}>stretching</MenuItem>
-          </Select>
+          </DynamicColorSelect>
         </FormControl>
         <Typography variant='subtitle1' mt={3} mb={2}>
           External links
@@ -105,7 +108,7 @@ export default function ExerciseModal() {
             externalLinks[i].href !== '' && externalLinks[i].label === '';
           return (
             <Stack key={i} direction='row' spacing={1} mb={2}>
-              <TextField
+              <DynamicColorTextFeild
                 error={labelIsRequired}
                 required={labelIsRequired}
                 id={`label-${i}`}
@@ -124,7 +127,7 @@ export default function ExerciseModal() {
                   )
                 }
               />
-              <TextField
+              <DynamicColorTextFeild
                 id={`href-${i}`}
                 name='href'
                 label='Link'
@@ -146,7 +149,7 @@ export default function ExerciseModal() {
         })}
 
         <Stack direction='row' spacing={1} mb={2}>
-          <Button onClick={handleAddLink}>Add link</Button>
+          <DynamicColorBtn onClick={handleAddLink}>Add link</DynamicColorBtn>
           <Button color='error' onClick={handleRemoveLink}>
             Remove link
           </Button>
@@ -154,7 +157,7 @@ export default function ExerciseModal() {
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
+        <DynamicColorBtn onClick={handleClose}>Cancel</DynamicColorBtn>
         <SubmitButton>Submit</SubmitButton>
       </DialogActions>
     </>

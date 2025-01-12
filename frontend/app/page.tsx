@@ -1,5 +1,5 @@
 import { Container, Stack, Typography } from '@mui/material';
-import NextButton from './components/UI/NextButton';
+import NextButton from './components/UI/Buttons/NextButton';
 import DemoAccountBlock from './components/DemoAccountBlock';
 import EntryLayout from './components/UI/EntryLayout';
 

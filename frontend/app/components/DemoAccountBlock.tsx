@@ -1,6 +1,6 @@
 'use client';
 import { Stack, Typography } from '@mui/material';
-import SubmitButton from './UI/SubmitButton';
+import SubmitButton from './UI/Buttons/SubmitButton';
 import { useFormState } from 'react-dom';
 import { login } from '../lib/authActions';
 
