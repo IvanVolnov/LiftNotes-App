@@ -80,7 +80,15 @@ export default function CreateResultModal({ error, handleClose }: CustomProps) {
           name='resultDate'
           disableFuture={true}
           defaultValue={defaultDate}
-          sx={{ marginTop: '1rem' }}
+          sx={{
+            marginTop: '1rem',
+
+            '& .MuiOutlinedInput-root': {
+              '&.Mui-focused fieldset': {
+                borderColor: checkIfDark ? 'primary.main' : 'secondary.main',
+              },
+            },
+          }}
         />
         <Typography variant='subtitle1' mt={3} mb={2}>
           Training sets

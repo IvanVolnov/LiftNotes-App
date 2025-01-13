@@ -1,24 +1,29 @@
 # Lift Notes 🏋️‍♂️
 
-Lift Notes is a gym tracking app designed to log workouts and track progress, helping you enhance your fitness routine.
+A gym tracking app that helps you log workouts, measure progress, and stay on top of your fitness goals.
 
-## Features
-
-- Log and manage workout sessions
-- Track your progress over time
-
-## Tech Stack
-
-- **Frontend:** TypeScript, Next.js, MUI
-- **Backend:** Node.js, Express
-- **Database:** PostgreSQL
+---
 
 ## Live Demo
 
 Check out the app [here](https://liftnotes.vercel.app/).
 
-## Repository
+---
 
-Explore the codebase in this [repository](https://github.com/IvanVolnov/lift-notes-app).
+## Features
+
+- **Workout Logging**: Easily record exercises, sets, and reps.
+- **Progress Tracking**: Visualize progress over time to motivate consistent improvement.
+- **User-Friendly UI**: Intuitive interface built for simplicity and speed.
+
+---
+
+## Tech Stack
+
+- **Frontend**: [Next.js](https://nextjs.org/) (TypeScript) with [MUI](https://mui.com/)
+- **Backend**: [Node.js](https://nodejs.org/) (TypeScript) with [Express](https://expressjs.com/)
+- **Database**: [PostgreSQL](https://www.postgresql.org/)
+
+---
 
 Stay consistent and reach your fitness goals! 💪
