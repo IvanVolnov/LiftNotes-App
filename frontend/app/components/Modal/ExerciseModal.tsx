@@ -8,16 +8,15 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
-  Select,
   SelectChangeEvent,
   Stack,
-  TextField,
   Typography,
 } from '@mui/material';
 import { useModalContext } from '@/app/context/ModalContext';
 import DynamicColorBtn from '../UI/Buttons/DynamicColorBtn';
-import DynamicColorTextFeild from '../UI/DynamicColorTextfeild';
+
 import DynamicColorSelect from '../UI/DynamicColorSelect';
+import DynamicColorTextFeild from '../UI/DynamicColorTextFeild';
 
 export default function ExerciseModal() {
   const { mode, toggleModal } = useModalContext();

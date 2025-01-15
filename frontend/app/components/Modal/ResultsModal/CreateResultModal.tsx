@@ -4,7 +4,6 @@ import {
   DialogContent,
   DialogTitle,
   Stack,
-  TextField,
   Typography,
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
@@ -15,8 +14,9 @@ import parseValue from '@/app/utils/parseValue';
 import ErrorMessage from '../../UI/ErrorMessage';
 import { useModalContext } from '@/app/context/ModalContext';
 import DynamicColorBtn from '../../UI/Buttons/DynamicColorBtn';
-import DynamicColorTextFeild from '../../UI/DynamicColorTextfeild';
+
 import { useColorModeContext } from '@/app/context/ColorModeContext';
+import DynamicColorTextFeild from '../../UI/DynamicColorTextFeild';
 
 interface CustomProps {
   error: string;

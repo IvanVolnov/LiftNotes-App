@@ -6,7 +6,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import SubmitButton from '../UI/Buttons/SubmitButton';
 import { useModalContext } from '@/app/context/ModalContext';
 import DynamicColorBtn from '../UI/Buttons/DynamicColorBtn';
-import DynamicColorTextFeild from '../UI/DynamicColorTextfeild';
+import DynamicColorTextFeild from '../UI/DynamicColorTextFeild';
 
 export default function WorkoutDayModal() {
   const { mode, toggleModal } = useModalContext();
