@@ -18,6 +18,7 @@ import { useOptimisticContext } from '@/app/context/OptimisticLoadingContext';
 import { transformToContentArray } from '@/app/utils/transformToContent';
 import areArraysEqualUnordered from '@/app/utils/areArraysEqualUnordered';
 import ExerciseContentBlock from '../ContentBlock/EcerciseContentBlock';
+import { DRAG_AND_DROP_QUERY_DELAY } from '@/app/config/config';
 
 interface CustomProps {
   data: Workout[] | Day[] | Exercise[];
@@ -26,6 +27,7 @@ interface CustomProps {
 }
 
 export default function ContentList({ data, cookie, mode }: CustomProps) {
+  console.log(data);
   const { updateOptimisticData, optimisticData } = useOptimisticContext();
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -101,7 +103,7 @@ export default function ContentList({ data, cookie, mode }: CustomProps) {
             throw new Error(`Error updating positions: ${error}`);
           }
         });
-      }, 700);
+      }, DRAG_AND_DROP_QUERY_DELAY);
     }
   }
 

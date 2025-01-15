@@ -8,7 +8,6 @@ export async function getData(entityType: Entity, parentId?: string) {
 
   if (entityType === 'workout') {
     route = 'workouts';
-
     body = { user_id: userId };
   }
 
@@ -16,8 +15,12 @@ export async function getData(entityType: Entity, parentId?: string) {
     route = 'exercises';
     if (parentId) {
       body = { user_id: userId, day_id: parentId };
+      console.log(body);
     }
-    body = { user_id: userId };
+
+    if (!parentId) {
+      body = { user_id: userId };
+    }
   }
 
   if (entityType === 'day') {

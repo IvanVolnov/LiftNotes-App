@@ -26,7 +26,7 @@ export default function ContentBlockMenu({ mode, content }: CustomProps) {
     return (
       <NextButton
         variant='contained'
-        href={`${mode}s/${content.id}?name=${name}&description=${description}`}
+        href={`/account/${mode}s/${content.id}?name=${name}&description=${description}`}
       >
         start
       </NextButton>

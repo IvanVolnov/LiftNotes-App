@@ -4,6 +4,7 @@ import { sql } from '@vercel/postgres';
 export async function getExercises(req: Request, res: Response) {
   try {
     const { user_id, day_id } = req.body;
+    console.log(req.body);
 
     if (!user_id) {
       return res
@@ -11,8 +12,31 @@ export async function getExercises(req: Request, res: Response) {
         .json({ error: 'invalid api request: user id is missing' });
     }
 
-    const exerciseResults =
-      await sql`SELECT * FROM exercises WHERE user_id = ${user_id} ORDER BY position;`;
+    let exerciseResults;
+
+    if (day_id) {
+      exerciseResults = await sql`SELECT 
+    days_exercises.position,
+    exercises.exercise_id,
+    exercises.user_id,
+    exercises.created_at,
+    exercises.exercise_name,
+    exercises.exercise_type,
+    exercises.exercise_description,
+    exercises.exercise_external_links,
+    exercises.previous_training_was_easy
+    FROM 
+    days_exercises
+    JOIN 
+    exercises ON days_exercises.exercise_id = exercises.exercise_id
+    WHERE 
+    days_exercises.day_id = ${day_id} ORDER BY position;`;
+    }
+
+    if (!day_id) {
+      exerciseResults =
+        await sql`SELECT * FROM exercises WHERE user_id = ${user_id} ORDER BY position;`;
+    }
 
     const exerciseFormatted = await Promise.all(
       exerciseResults.rows.map(async (el) => {
