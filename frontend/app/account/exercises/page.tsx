@@ -15,7 +15,7 @@ export default async function Exercises() {
     <>
       <ContentHeaderMenu>
         <Typography variant='h2'>All Exercises</Typography>
-        <ContentHeaderBtn entity='exercise'>Add new exercise</ContentHeaderBtn>
+        <ContentHeaderBtn entity='exercise'>Create exercise</ContentHeaderBtn>
       </ContentHeaderMenu>
       {data.length === 0 ? (
         <Typography mt={4} variant='subtitle1'>

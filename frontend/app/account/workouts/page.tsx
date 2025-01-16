@@ -15,7 +15,7 @@ export default async function Workouts() {
     <>
       <ContentHeaderMenu>
         <Typography variant='h2'>Workouts</Typography>
-        <ContentHeaderBtn entity='workout'>Add new workout</ContentHeaderBtn>
+        <ContentHeaderBtn entity='workout'>Create workout</ContentHeaderBtn>
       </ContentHeaderMenu>
       {data.length === 0 ? (
         <Typography mt={4} variant='subtitle1'>

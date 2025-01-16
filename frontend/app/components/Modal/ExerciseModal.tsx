@@ -17,9 +17,14 @@ import DynamicColorBtn from '../UI/Buttons/DynamicColorBtn';
 
 import DynamicColorSelect from '../UI/DynamicColorSelect';
 import DynamicColorTextFeild from '../UI/DynamicColorTextFeild';
+import { useOptimisticContext } from '@/app/context/OptimisticLoadingContext';
+import { createExercise, editExercise } from '@/app/lib/exercisesActions';
+import { useRouter } from 'next/navigation';
 
 export default function ExerciseModal() {
   const { mode, toggleModal } = useModalContext();
+  const { createOptimisticData, editOptimisticData } = useOptimisticContext();
+  const router = useRouter();
 
   const ExerciseData = mode.modeData as ExerciseNormalised;
 
@@ -52,8 +57,26 @@ export default function ExerciseModal() {
     setExternalLinks((prev) => prev.slice(0, -1));
   }
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+
+    if (mode.operation === 'create') {
+      createOptimisticData(formData);
+      createExercise(formData);
+    }
+
+    if (mode.operation === 'edit' && mode.modeData) {
+      editOptimisticData(formData, mode.modeData);
+      editExercise(formData, mode.modeData as ExerciseNormalised);
+    }
+
+    router.refresh();
+    handleClose();
+  };
+
   return (
-    <>
+    <form onSubmit={handleSubmit}>
       <DialogTitle>
         {`${mode.operation}
         ${mode.entity}`}
@@ -159,6 +182,6 @@ export default function ExerciseModal() {
         <DynamicColorBtn onClick={handleClose}>Cancel</DynamicColorBtn>
         <SubmitButton>Submit</SubmitButton>
       </DialogActions>
-    </>
+    </form>
   );
 }
