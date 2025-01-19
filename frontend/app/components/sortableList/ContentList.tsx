@@ -71,7 +71,7 @@ export default function ContentList({ data, cookie, mode }: CustomProps) {
       );
       const newIndex = optimisticData.findIndex((item) => item.id === over.id);
 
-      const newOptimisticData = arrayMove(
+      const newOptimisticData = arrayMove<ExerciseNormalised | Content>(
         optimisticData,
         oldIndex,
         newIndex
