@@ -5,6 +5,7 @@ import { Paper } from '@mui/material';
 import WorkoutDayModal from './WorkoutDayModal';
 import DeleteConfirmModal from './DeleteConfirmModal';
 import ExerciseModal from './ExerciseModal';
+import AddExerciseToDayModal from './AddExerciseToDayModal';
 
 interface CustomProps {
   isOpened: boolean;
@@ -38,6 +39,9 @@ export default function ModalBase({ isOpened }: CustomProps) {
     >
       {isEditOrCreate && isWorkoutOrDay && <WorkoutDayModal />}
       {isEditOrCreate && isExercise && <ExerciseModal />}
+      {mode.operation === 'manageList' && isExercise && (
+        <AddExerciseToDayModal />
+      )}
       {mode.operation === 'delete' && <DeleteConfirmModal />}
     </Dialog>
   );

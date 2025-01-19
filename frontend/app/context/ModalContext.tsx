@@ -8,6 +8,7 @@ export interface Mode {
   operation: Operation;
   modeData?: Content | ExerciseNormalised;
   resultData?: Result;
+  exerciseList?: ExerciseNormalised[];
 }
 
 interface ModalContextProps {
@@ -18,7 +19,8 @@ interface ModalContextProps {
     newOperation?: Operation,
     modeData?: Content | ExerciseNormalised,
     resultData?: Result,
-    skipChangeIsOpened?: boolean
+    skipChangeIsOpened?: boolean,
+    exerciseList?: ExerciseNormalised[]
   ) => void;
 }
 
@@ -52,7 +54,8 @@ export function ModalProvider({ children }: Props) {
     newOperation?: Operation,
     modeData?: Content | ExerciseNormalised,
     resultData?: Result,
-    skipChangeIsOpened?: boolean
+    skipChangeIsOpened?: boolean,
+    exerciseList?: ExerciseNormalised[]
   ) {
     if (!skipChangeIsOpened) setIsOpened((prev) => !prev);
     if (newEntity && newOperation) {
@@ -61,6 +64,7 @@ export function ModalProvider({ children }: Props) {
         operation: newOperation,
         modeData,
         resultData,
+        exerciseList,
       };
       setMode(newMode);
     }

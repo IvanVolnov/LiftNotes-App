@@ -4,22 +4,28 @@ import { ReactNode } from 'react';
 import { useColorModeContext } from '@/app/context/ColorModeContext';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useModalContext } from '@/app/context/ModalContext';
+import { transformToContentArray } from '@/app/utils/transformToContent';
 
 interface MyProps {
   children?: ReactNode;
   size?: 'small' | 'medium' | 'large';
   entity: Entity;
-  modalData?: [];
+  operation?: Operation;
+  exercisesList?: Exercise[];
 }
 
 export default function ContentHeaderBtn({
   children,
   size = 'large',
   entity,
-  modalData,
+  operation,
+  exercisesList,
 }: MyProps) {
   const { checkIfDarkMode } = useColorModeContext();
   const checkIfDark = checkIfDarkMode();
+  const formattedexercisesList =
+    exercisesList &&
+    (transformToContentArray(exercisesList) as ExerciseNormalised[]);
 
   const searchParams = useSearchParams();
   const edit = searchParams.get('edit');
@@ -47,7 +53,15 @@ export default function ContentHeaderBtn({
               deleteQueryParam('edit');
               router.refresh();
             }
-          : () => toggleModal(entity, 'create')
+          : () =>
+              toggleModal(
+                entity,
+                operation ? operation : 'create',
+                undefined,
+                undefined,
+                undefined,
+                exercisesList ? formattedexercisesList : undefined
+              )
       }
       disableElevation
     >

@@ -3,8 +3,7 @@ import { sql } from '@vercel/postgres';
 
 export async function getExercises(req: Request, res: Response) {
   try {
-    const { user_id, day_id } = req.body;
-    console.log(req.body);
+    const { user_id, day_id, isAddEx } = req.body;
 
     if (!user_id) {
       return res
@@ -14,7 +13,7 @@ export async function getExercises(req: Request, res: Response) {
 
     let exerciseResults;
 
-    if (day_id) {
+    if (day_id && !isAddEx) {
       exerciseResults = await sql`SELECT 
     days_exercises.position,
     exercises.exercise_id,
@@ -31,6 +30,19 @@ export async function getExercises(req: Request, res: Response) {
     exercises ON days_exercises.exercise_id = exercises.exercise_id
     WHERE 
     days_exercises.day_id = ${day_id} ORDER BY position;`;
+    }
+
+    if (isAddEx) {
+      exerciseResults = await sql`SELECT *
+      FROM exercises
+      WHERE user_id = ${user_id}
+      AND exercise_id NOT IN (
+      SELECT e.exercise_id
+      FROM days_exercises de
+      JOIN exercises e ON de.exercise_id = e.exercise_id
+      WHERE de.day_id = ${day_id}
+  )
+ORDER BY position;`;
     }
 
     if (!day_id) {
@@ -50,9 +62,7 @@ export async function getExercises(req: Request, res: Response) {
       })
     );
 
-    // setTimeout(() => {
     res.json({ result: exerciseFormatted });
-    // }, 5000);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

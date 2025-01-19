@@ -54,7 +54,7 @@ export async function editExercise(
     },
     body
   );
-  console.log(data.exercises);
+
   return data.exercises;
 }
 

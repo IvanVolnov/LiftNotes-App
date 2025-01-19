@@ -16,14 +16,20 @@ export default async function WorkoutPage({
   searchParams,
 }: CustomProps) {
   const data: Exercise[] = await getData('exercise', params.slug);
-
+  const addExData: Exercise[] = await getData('exercise', params.slug, true);
   const { cookie, userId } = extractUserId();
 
   return (
     <>
       <ContentHeaderMenu>
         <Typography variant='h2'>{searchParams.name}</Typography>
-        <ContentHeaderBtn entity='day'>Add exercise</ContentHeaderBtn>
+        <ContentHeaderBtn
+          entity='exercise'
+          operation='manageList'
+          exercisesList={addExData}
+        >
+          Add exercise
+        </ContentHeaderBtn>
       </ContentHeaderMenu>
       <Typography mt={2} variant='body1'>
         {searchParams.description}

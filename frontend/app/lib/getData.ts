@@ -1,7 +1,11 @@
 import extractUserId from '../utils/extractUserId';
 import fetchApiData from '../utils/fetchApiData';
 
-export async function getData(entityType: Entity, parentId?: string) {
+export async function getData(
+  entityType: Entity,
+  parentId?: string,
+  isAddEx?: boolean
+) {
   const { cookie, userId } = extractUserId();
   let route = '',
     body = {};
@@ -13,14 +17,11 @@ export async function getData(entityType: Entity, parentId?: string) {
 
   if (entityType === 'exercise') {
     route = 'exercises';
-    if (parentId) {
-      body = { user_id: userId, day_id: parentId };
-      console.log(body);
-    }
-
-    if (!parentId) {
-      body = { user_id: userId };
-    }
+    body = {
+      user_id: userId,
+      ...(parentId ? { day_id: parentId } : {}),
+      ...(parentId && isAddEx ? { isAddEx } : {}),
+    };
   }
 
   if (entityType === 'day') {

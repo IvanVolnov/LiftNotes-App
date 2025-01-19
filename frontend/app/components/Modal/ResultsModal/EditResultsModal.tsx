@@ -17,6 +17,7 @@ import {
   countTotalSetAmount,
   fromatResultDate,
 } from '@/app/utils/formatExerciseResults';
+import DynamicColorBtn from '../../UI/Buttons/DynamicColorBtn';
 
 interface CustomProps {}
 
@@ -73,7 +74,7 @@ export default function EditResultsModal({}: CustomProps) {
         </List>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
+        <DynamicColorBtn onClick={handleClose}>Cancel</DynamicColorBtn>
       </DialogActions>
     </>
   );
