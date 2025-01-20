@@ -102,3 +102,18 @@ export async function deleteWorkoutDay(entityType: Entity, modeData: Content) {
   );
   return data.workouts;
 }
+
+export async function addExerciseToDay(exercises: string[], dayId: string) {
+  const { cookie } = extractUserId();
+
+  const data = await fetchApiData(
+    'days/addExercise',
+    'post',
+    {
+      Authorization: `Bearer ${cookie}`,
+      'Content-Type': 'application/json',
+    },
+    { exercises, dayId }
+  );
+  return data.addedExercises;
+}

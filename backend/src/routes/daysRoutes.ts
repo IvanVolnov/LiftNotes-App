@@ -1,6 +1,7 @@
 import express from 'express';
 import { authenticateToken } from '../middleware/authorization.js';
 import {
+  addExercise,
   createDay,
   deleteDay,
   editDay,
@@ -15,6 +16,9 @@ days.post('/', authenticateToken, getDays);
 
 // create new day
 days.post('/create', authenticateToken, createDay);
+
+// add exercise to the day
+days.post('/addExercise', authenticateToken, addExercise);
 
 // edit day
 days.put('/edit', authenticateToken, editDay);

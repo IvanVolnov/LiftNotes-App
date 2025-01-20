@@ -8,7 +8,6 @@ import { transformToContentArray } from '@/app/utils/transformToContent';
 
 interface MyProps {
   children?: ReactNode;
-  size?: 'small' | 'medium' | 'large';
   entity: Entity;
   operation?: Operation;
   exercisesList?: Exercise[];
@@ -16,7 +15,6 @@ interface MyProps {
 
 export default function ContentHeaderBtn({
   children,
-  size = 'large',
   entity,
   operation,
   exercisesList,
@@ -44,7 +42,7 @@ export default function ContentHeaderBtn({
     <Button
       color={checkIfDark ? 'primary' : 'secondary'}
       variant='outlined'
-      size={size}
+      size={'large'}
       sx={{ textTransform: 'uppercase' }}
       type='button'
       onClick={

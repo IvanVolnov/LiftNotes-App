@@ -1,6 +1,6 @@
 import { useModalContext } from '@/app/context/ModalContext';
 import {
-  Button,
+  Alert,
   DialogActions,
   DialogContent,
   DialogTitle,
@@ -13,19 +13,20 @@ import {
 
 import { fromatResultDate } from '@/app/utils/formatExerciseResults';
 import Checkbox from '@mui/material/Checkbox';
-import { useRouter } from 'next/navigation';
-import { useOptimisticContext } from '@/app/context/OptimisticLoadingContext';
+import { useParams, useRouter } from 'next/navigation';
+
 import { useState } from 'react';
 import DynamicColorBtn from '../UI/Buttons/DynamicColorBtn';
 import SubmitButton from '../UI/Buttons/SubmitButton';
+import { addExerciseToDay } from '@/app/lib/workoutsDaysActions';
 
 interface CustomProps {}
 
 export default function AddExerciseToDayModal({}: CustomProps) {
   const { mode, toggleModal } = useModalContext();
   const exerciseResults = mode.exerciseList;
+  const { slug } = useParams();
 
-  const { createOptimisticData } = useOptimisticContext();
   const router = useRouter();
 
   const [checked, setChecked] = useState<ExerciseNormalised[]>([]);
@@ -39,7 +40,6 @@ export default function AddExerciseToDayModal({}: CustomProps) {
     } else {
       newChecked.splice(currentIndex, 1);
     }
-    console.log(newChecked);
     setChecked(newChecked);
   };
 
@@ -49,7 +49,8 @@ export default function AddExerciseToDayModal({}: CustomProps) {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    const exercises = checked.map((el) => el.id);
+    addExerciseToDay(exercises, slug as string);
     router.refresh();
     handleClose();
   };
@@ -62,34 +63,40 @@ export default function AddExerciseToDayModal({}: CustomProps) {
           Exercises:
         </Typography>
         <List>
-          {exerciseResults?.map((el) => {
-            return (
-              <ListItem key={el.id} onClick={handleToggle(el)}>
-                <ListItemIcon>
-                  <Checkbox
-                    edge='start'
-                    checked={checked.some((x) => x.id === el.id)}
-                    tabIndex={-1}
-                    disableRipple
-                    inputProps={{ 'aria-labelledby': el.id }}
+          {exerciseResults?.length ? (
+            exerciseResults?.map((el) => {
+              return (
+                <ListItem key={el.id} onClick={handleToggle(el)} dense={true}>
+                  <ListItemIcon>
+                    <Checkbox
+                      edge='start'
+                      checked={checked.some((x) => x.id === el.id)}
+                      tabIndex={-1}
+                      disableRipple
+                      inputProps={{ 'aria-labelledby': el.id }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText
+                    id={`id${el.id}`}
+                    primary={el.name}
+                    secondary={
+                      el.exerciseResults[0]
+                        ? `last result updated: ${fromatResultDate(
+                            el.exerciseResults[0].resultDate
+                          )}`
+                        : `exercise created at: ${fromatResultDate(
+                            el.created_at.toString()
+                          )}`
+                    }
                   />
-                </ListItemIcon>
-                <ListItemText
-                  id={`id${el.id}`}
-                  primary={el.name}
-                  secondary={
-                    el.exerciseResults[0]
-                      ? `last result updated: ${fromatResultDate(
-                          el.exerciseResults[0].resultDate
-                        )}`
-                      : `exercise created at: ${fromatResultDate(
-                          el.created_at.toString()
-                        )}`
-                  }
-                />
-              </ListItem>
-            );
-          })}
+                </ListItem>
+              );
+            })
+          ) : (
+            <Alert variant='outlined' severity='info'>
+              There are no exercises to add for this day.
+            </Alert>
+          )}
         </List>
       </DialogContent>
       <DialogActions>
