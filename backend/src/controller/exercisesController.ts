@@ -75,13 +75,14 @@ export async function createExercise(req: Request, res: Response) {
       exercise_description,
       exercise_type,
       exercise_external_links,
+      day_id,
     } = req.body;
     const { user } = res.locals;
 
     if (!exercise_name) {
       return res
         .status(400)
-        .json({ error: 'invalid api request: workout name is missing' });
+        .json({ error: 'invalid api request: exercise name is missing' });
     }
     const newExercise =
       await sql`INSERT INTO exercises (user_id, exercise_name, exercise_description, position, exercise_type, exercise_external_links, previous_training_was_easy
@@ -95,6 +96,16 @@ VALUES (
     ${exercise_external_links},
     false
 ) RETURNING *;`;
+
+    if (day_id) {
+      await sql`INSERT INTO days_exercises (day_id, exercise_id, position)
+    VALUES (
+        ${day_id},
+        ${newExercise.rows[0].exercise_id},
+        0
+    ) RETURNING *;`;
+    }
+
     res.json({ exercises: newExercise.rows });
   } catch (error) {
     res.status(500).json({ error: error.message });

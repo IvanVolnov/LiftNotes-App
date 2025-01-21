@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Alert, Typography } from '@mui/material';
 import ContentHeaderBtn from '@/app/components/UI/Buttons/ContentHeaderBtn';
 import ContentFooterBtn from '@/app/components/UI/Buttons/ContentFooterBtn';
 import ContentList from '@/app/components/sortableList/ContentList';
@@ -18,9 +18,9 @@ export default async function Workouts() {
         <ContentHeaderBtn entity='workout'>Create workout</ContentHeaderBtn>
       </ContentHeaderMenu>
       {data.length === 0 ? (
-        <Typography mt={4} variant='subtitle1'>
-          There are no workouts yet
-        </Typography>
+        <Alert variant='outlined' severity='info' sx={{ marginTop: '2rem' }}>
+          There are no workouts yet.
+        </Alert>
       ) : (
         <>
           <ContentList data={data} cookie={cookie} mode='workout' />

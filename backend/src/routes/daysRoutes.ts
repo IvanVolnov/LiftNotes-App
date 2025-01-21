@@ -4,6 +4,7 @@ import {
   addExercise,
   createDay,
   deleteDay,
+  deleteExerciseFormDay,
   editDay,
   getDays,
   reorderDay,
@@ -19,6 +20,9 @@ days.post('/create', authenticateToken, createDay);
 
 // add exercise to the day
 days.post('/addExercise', authenticateToken, addExercise);
+
+// delete exercise from the day
+days.delete('/deleteExercise', authenticateToken, deleteExerciseFormDay);
 
 // edit day
 days.put('/edit', authenticateToken, editDay);

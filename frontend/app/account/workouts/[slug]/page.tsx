@@ -4,7 +4,7 @@ import ContentHeaderBtn from '@/app/components/UI/Buttons/ContentHeaderBtn';
 import ContentHeaderMenu from '@/app/components/UI/ContentHeaderMenu';
 import { getData } from '@/app/lib/getData';
 import extractUserId from '@/app/utils/extractUserId';
-import { Typography } from '@mui/material';
+import { Alert, Typography } from '@mui/material';
 
 interface CustomProps {
   params: { slug: string };
@@ -29,9 +29,9 @@ export default async function WorkoutPage({
         {searchParams.description}
       </Typography>
       {data.length === 0 ? (
-        <Typography mt={4} variant='subtitle1'>
-          There are no days in this workout yet
-        </Typography>
+        <Alert variant='outlined' severity='info' sx={{ marginTop: '2rem' }}>
+          There are no days in this workout yet.
+        </Alert>
       ) : (
         <>
           <ContentList data={data} cookie={cookie} mode='day' />

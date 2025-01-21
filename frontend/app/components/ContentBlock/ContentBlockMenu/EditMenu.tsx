@@ -4,7 +4,7 @@ import { useModalContext } from '@/app/context/ModalContext';
 import { useOptimisticContext } from '@/app/context/OptimisticLoadingContext';
 import { createWorkoutDay } from '@/app/lib/workoutsDaysActions';
 import { IconButton, Skeleton, Stack } from '@mui/material';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import EditIcon from '@mui/icons-material/Edit';
@@ -17,6 +17,8 @@ interface CustomProps {
 
 export default function EditMenu({ mode, content }: CustomProps) {
   const { name, description } = content;
+  const { slug } = useParams();
+  const dayId = Array.isArray(slug) ? slug[0] : slug;
 
   const { createOptimisticData } = useOptimisticContext();
   const { toggleModal } = useModalContext();
@@ -44,7 +46,7 @@ export default function EditMenu({ mode, content }: CustomProps) {
 
       formData.append('type', exerciseType);
       createOptimisticData(formData);
-      createExercise(formData);
+      createExercise(formData, dayId);
     }
 
     router.refresh();

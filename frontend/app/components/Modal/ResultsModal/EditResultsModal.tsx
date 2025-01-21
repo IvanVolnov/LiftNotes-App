@@ -1,5 +1,6 @@
 import { useModalContext } from '@/app/context/ModalContext';
 import {
+  Alert,
   Button,
   DialogActions,
   DialogContent,
@@ -37,6 +38,11 @@ export default function EditResultsModal({}: CustomProps) {
         <Typography variant='body1' mt={3} mb={2}>
           Results:
         </Typography>
+        {!exerciseResults.length && (
+          <Alert variant='outlined' severity='info'>
+            There are no recorded results in this exercise yet.
+          </Alert>
+        )}
         <List dense={true}>
           {exerciseResults.map((el) => {
             return (

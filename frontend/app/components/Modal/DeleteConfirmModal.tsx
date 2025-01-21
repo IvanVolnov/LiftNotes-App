@@ -9,12 +9,15 @@ import { DialogContentText } from '@mui/material';
 import { deleteWorkoutDay } from '@/app/lib/workoutsDaysActions';
 import { deleteExercise } from '@/app/lib/exercisesActions';
 import { useOptimisticContext } from '@/app/context/OptimisticLoadingContext';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 export default function DeleteConfirmModal() {
   const { mode, toggleModal } = useModalContext();
   const { deleteOptimisticData } = useOptimisticContext();
   const router = useRouter();
+
+  const { slug } = useParams();
+  const dayId = Array.isArray(slug) ? slug[0] : slug;
 
   const handleClose = () => {
     toggleModal();
@@ -28,7 +31,7 @@ export default function DeleteConfirmModal() {
     if (mode.entity === 'workout' || mode.entity === 'day')
       deleteWorkoutDay(mode.entity, mode.modeData);
     if (mode.entity === 'exercise')
-      deleteExercise(mode.modeData as ExerciseNormalised);
+      deleteExercise(mode.modeData as ExerciseNormalised, dayId);
 
     router.refresh();
     handleClose();
@@ -36,12 +39,17 @@ export default function DeleteConfirmModal() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <DialogTitle>Delete {mode.entity}</DialogTitle>
+      <DialogTitle>{`Delete ${mode.entity}${
+        dayId ? ' from this exercise day' : ''
+      }`}</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Are you sure you want to delete this {mode.entity}?
+          {`Are you sure you want to delete this ${mode.entity}
+          ${dayId ? ' from this exercise day' : ''}?`}
         </DialogContentText>
-        <DialogContentText>This action is irreversible.</DialogContentText>
+        {!dayId && (
+          <DialogContentText>This action is irreversible.</DialogContentText>
+        )}
       </DialogContent>
 
       <DialogActions>

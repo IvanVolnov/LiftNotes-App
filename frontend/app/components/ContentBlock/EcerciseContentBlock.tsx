@@ -1,5 +1,6 @@
 'use client';
 import {
+  Alert,
   Button,
   Card,
   CardActions,
@@ -158,9 +159,13 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
           {content.exerciseResults?.length ? (
             <ExerciseTable results={content.exerciseResults} />
           ) : (
-            <Typography variant='body2' ml={2}>
+            <Alert
+              variant='outlined'
+              severity='info'
+              sx={{ margin: '1rem 1rem 0rem 1rem' }}
+            >
               No results recorded yet...
-            </Typography>
+            </Alert>
           )}
         </CardContent>
         <CardActions

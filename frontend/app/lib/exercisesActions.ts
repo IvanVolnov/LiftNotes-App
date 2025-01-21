@@ -3,7 +3,7 @@ import fetchApiData from '../utils/fetchApiData';
 import extractUserId from '../utils/extractUserId';
 import { extractExerciseFormData } from '../utils/extractFormData';
 
-export async function createExercise(formData: FormData) {
+export async function createExercise(formData: FormData, day_id?: string) {
   const { cookie } = extractUserId();
   const { name, description, type, externalLinks } =
     extractExerciseFormData(formData);
@@ -13,6 +13,7 @@ export async function createExercise(formData: FormData) {
     exercise_description: description,
     exercise_type: type,
     exercise_external_links: JSON.stringify(externalLinks),
+    day_id,
   };
 
   const data = await fetchApiData(
@@ -43,8 +44,6 @@ export async function editExercise(
     exercise_external_links: JSON.stringify(externalLinks),
   };
 
-  console.log(body);
-
   const data = await fetchApiData(
     'exercises/edit',
     'put',
@@ -58,10 +57,21 @@ export async function editExercise(
   return data.exercises;
 }
 
-export async function deleteExercise(modeData: ExerciseNormalised) {
+export async function deleteExercise(
+  modeData: ExerciseNormalised,
+  dayId?: string
+) {
   const { cookie } = extractUserId();
+  let route = 'exercises/delete';
+
+  if (dayId) {
+    route = 'days/deleteExercise';
+  }
+
+  console.log(modeData, dayId);
+
   const data = await fetchApiData(
-    'exercises/delete',
+    route,
     'delete',
     {
       Authorization: `Bearer ${cookie}`,
@@ -69,6 +79,7 @@ export async function deleteExercise(modeData: ExerciseNormalised) {
     },
     {
       exercise_id: modeData.id,
+      day_id: dayId,
     }
   );
   return data.exercises;
