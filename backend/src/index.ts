@@ -9,6 +9,7 @@ import workouts from './routes/workoutsRoutes.js';
 import days from './routes/daysRoutes.js';
 import exercises from './routes/exercisesRoutes.js';
 import results from './routes/resultsRoutes.js';
+import pool from './db/db.js';
 
 const app = express();
 
@@ -32,3 +33,10 @@ app.use('/api/exercises', exercises);
 app.use('/api/results', results);
 
 app.listen(PORT, () => console.log(`App listening on port ${PORT}!`));
+
+process.on('SIGINT', async () => {
+  console.log('Closing database pool...');
+  await pool.end();
+  console.log('Database pool closed. Exiting...');
+  process.exit(0);
+});

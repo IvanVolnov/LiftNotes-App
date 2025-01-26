@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { sql } from '@vercel/postgres';
+import pool from '../db/db.js';
 import bcrypt from 'bcrypt';
 import { jwtTokens, jwtTokensPayload } from '../utils/jwt-helpers.js';
 import jwt from 'jsonwebtoken';
@@ -17,9 +17,10 @@ export async function register(req: Request, res: Response) {
     const hashedPassword: string = await bcrypt.hash(password, 10);
 
     if (!email || !password) throw new Error('email or password missing');
-    const newUser = await sql`INSERT INTO users (email, password) 
-VALUES 
-(${email}, ${hashedPassword}) RETURNING *;`;
+    const newUser = await pool.query(
+      'INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *;',
+      [email, hashedPassword]
+    );
     return res.status(200).json({ users: newUser.rows[0] });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -30,8 +31,10 @@ export async function login(req: Request, res: Response) {
   try {
     const { email, password }: User = req.body;
 
-    const usersRequest: { rows: User[] } =
-      await sql`SELECT * FROM users WHERE email = ${email};`;
+    const usersRequest: { rows: User[] } = await pool.query(
+      `SELECT * FROM users WHERE email = $1;`,
+      [email]
+    );
 
     if (usersRequest.rows.length === 0) {
       return res.status(401).json('invalid email or password');

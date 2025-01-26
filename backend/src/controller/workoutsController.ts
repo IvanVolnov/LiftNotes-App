@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { sql } from '@vercel/postgres';
+import pool from '../db/db.js';
 
 export async function getWorkouts(req: Request, res: Response) {
   try {
@@ -10,8 +10,14 @@ export async function getWorkouts(req: Request, res: Response) {
         .status(400)
         .json({ error: 'invalid api request: user id is missing' });
     }
-    const userWorkouts =
-      await sql`SELECT * FROM workouts WHERE user_id = ${user_id} ORDER BY position;`;
+    const userWorkouts = await pool.query(
+      `SELECT * 
+   FROM workouts 
+   WHERE user_id = $1 
+   ORDER BY position;`,
+      [user_id]
+    );
+
     // setTimeout(() => {
     res.json({ result: userWorkouts.rows });
     // }, 5000);
@@ -30,14 +36,13 @@ export async function createWorkout(req: Request, res: Response) {
         .status(400)
         .json({ error: 'invalid api request: workout name is missing' });
     }
-    const newWorkout =
-      await sql`INSERT INTO workouts (user_id, workout_name, workout_description, position)
-VALUES (
-    ${user.user_id},  
-    ${workout_name},  
-    ${workout_description},
-    0  
-) RETURNING *;`;
+    const newWorkout = await pool.query(
+      `INSERT INTO workouts (user_id, workout_name, workout_description, position)
+   VALUES ($1, $2, $3, $4)
+   RETURNING *;`,
+      [user.user_id, workout_name, workout_description, 0]
+    );
+
     res.json({ workouts: newWorkout.rows });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -53,13 +58,17 @@ export async function editWorkout(req: Request, res: Response) {
         .status(400)
         .json({ error: 'invalid api request: workout name is missing' });
     }
-    const newWorkout = await sql`UPDATE workouts 
-SET 
-    workout_name = ${workout_name}, 
-    workout_description = ${workout_description} 
-WHERE 
-    workout_id = ${workout_id}
-RETURNING *;`;
+    const newWorkout = await pool.query(
+      `UPDATE workouts 
+   SET 
+       workout_name = $1, 
+       workout_description = $2
+   WHERE 
+       workout_id = $3
+   RETURNING *;`,
+      [workout_name, workout_description, workout_id]
+    );
+
     res.json({ workouts: newWorkout.rows });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -75,9 +84,13 @@ export async function deleteWorkout(req: Request, res: Response) {
         .status(400)
         .json({ error: 'invalid api request: workout id is missing' });
     }
-    const newWorkout = await sql`DELETE FROM workouts 
-WHERE workout_id = ${workout_id}
-RETURNING *;`;
+    const newWorkout = await pool.query(
+      `DELETE FROM workouts 
+   WHERE workout_id = $1
+   RETURNING *;`,
+      [workout_id]
+    );
+
     res.json({ workouts: newWorkout.rows });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -100,10 +113,13 @@ export async function reorderWorkout(req: Request, res: Response) {
 
     // Perform updates
     const updatePromises = newPositions.map(async (el: El) => {
-      return sql`UPDATE workouts
-        SET position = ${el.position}
-        WHERE workout_id = ${el.id}
-        RETURNING *;`;
+      return pool.query(
+        `UPDATE workouts
+     SET position = $1
+     WHERE workout_id = $2
+     RETURNING *;`,
+        [el.position, el.id]
+      );
     });
 
     // Wait for all updates to complete

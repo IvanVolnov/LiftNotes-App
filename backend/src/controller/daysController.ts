@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { sql } from '@vercel/postgres';
+import pool from '../db/db.js';
 
 export async function getDays(req: Request, res: Response) {
   try {
@@ -10,8 +10,10 @@ export async function getDays(req: Request, res: Response) {
         .status(400)
         .json({ error: 'invalid api request: user id is missing' });
     }
-    const result =
-      await sql`SELECT * FROM days WHERE workout_id = ${workout_id} ORDER BY position;`;
+    const result = await pool.query(
+      'SELECT * FROM days WHERE workout_id = $1 ORDER BY position;',
+      [workout_id]
+    );
     // setTimeout(() => {
     res.json({ result: result.rows });
     // }, 5000);
@@ -29,14 +31,12 @@ export async function createDay(req: Request, res: Response) {
         .status(400)
         .json({ error: 'invalid api request: workout name is missing' });
     }
-    const newDay =
-      await sql`INSERT INTO days (workout_id, day_name, day_description, position)
-VALUES (
-    ${workout_id},  
-    ${day_name},  
-    ${day_description},
-    0  
-) RETURNING *;`;
+    const newDay = await pool.query(
+      `INSERT INTO days (workout_id, day_name, day_description, position)
+   VALUES ($1, $2, $3, $4) RETURNING *;`,
+      [workout_id, day_name, day_description, 0]
+    );
+
     res.json({ days: newDay.rows });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -52,13 +52,17 @@ export async function editDay(req: Request, res: Response) {
         .status(400)
         .json({ error: 'invalid api request: day name is missing' });
     }
-    const editedDay = await sql`UPDATE days 
-SET 
-    day_name = ${day_name}, 
-    day_description = ${day_description} 
-WHERE 
-    day_id = ${day_id}
-RETURNING *;`;
+    const editedDay = await pool.query(
+      `UPDATE days 
+   SET 
+       day_name = $1, 
+       day_description = $2 
+   WHERE 
+       day_id = $3
+   RETURNING *;`,
+      [day_name, day_description, day_id]
+    );
+
     res.json({ workouts: editedDay.rows });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -74,9 +78,13 @@ export async function deleteDay(req: Request, res: Response) {
         .status(400)
         .json({ error: 'invalid api request: day id is missing' });
     }
-    const deletedDay = await sql`DELETE FROM days 
-WHERE day_id = ${day_id}
-RETURNING *;`;
+    const deletedDay = await pool.query(
+      `DELETE FROM days 
+   WHERE day_id = $1
+   RETURNING *;`,
+      [day_id]
+    );
+
     res.json({ workouts: deletedDay.rows });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -99,10 +107,13 @@ export async function reorderDay(req: Request, res: Response) {
 
     // Perform updates
     const updatePromises = newPositions.map(async (el: El) => {
-      return sql`UPDATE days
-        SET position = ${el.position}
-        WHERE day_id = ${el.id}
-        RETURNING *;`;
+      return pool.query(
+        `UPDATE days
+     SET position = $1
+     WHERE day_id = $2
+     RETURNING *;`,
+        [el.position, el.id]
+      );
     });
 
     // Wait for all updates to complete
@@ -130,12 +141,12 @@ export async function addExercise(req: Request, res: Response) {
 
     // Perform updates
     const updatePromises = exercises.map(async (exerciseId: string) => {
-      return sql`INSERT INTO days_exercises (day_id, exercise_id, position)
-VALUES (
-    ${dayId},  
-    ${exerciseId},
-    0
-) RETURNING *;`;
+      return pool.query(
+        `INSERT INTO days_exercises (day_id, exercise_id, position)
+     VALUES ($1, $2, $3)
+     RETURNING *;`,
+        [dayId, exerciseId, 0]
+      );
     });
 
     const results = await Promise.all(updatePromises);
@@ -156,9 +167,13 @@ export async function deleteExerciseFormDay(req: Request, res: Response) {
         .status(400)
         .json({ error: 'invalid api request: exercise or day id is missing' });
     }
-    const deletedExercise = await sql`DELETE FROM days_exercises
-WHERE exercise_id = ${exercise_id} AND day_id = ${day_id}
-RETURNING *;`;
+    const deletedExercise = await pool.query(
+      `DELETE FROM days_exercises
+   WHERE exercise_id = $1 AND day_id = $2
+   RETURNING *;`,
+      [exercise_id, day_id]
+    );
+
     res.json({ deletedExercise: deletedExercise.rows });
   } catch (error) {
     res.status(500).json({ error: error.message });
