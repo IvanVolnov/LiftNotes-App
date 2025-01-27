@@ -1,11 +1,15 @@
-import { decodeJwt } from 'jose';
+import { JWTPayload, decodeJwt } from 'jose';
 
-export default function decodeJwtToken(token: string | undefined = '') {
+interface MyJWTPayload extends JWTPayload {
+  email?: string;
+  id?: string;
+}
+
+export default function decodeJwtToken(token: string): MyJWTPayload | null {
   try {
-    const payload = decodeJwt(token);
+    const payload = decodeJwt(token) as MyJWTPayload;
     return payload;
   } catch (error) {
-    // throw new Error(`Failed to decode jwt token:${error}`);
     return null;
   }
 }

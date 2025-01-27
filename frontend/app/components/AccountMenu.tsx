@@ -2,15 +2,19 @@
 import {
   Avatar,
   Box,
+  Divider,
   IconButton,
   ListItemIcon,
   Menu,
   MenuItem,
   Tooltip,
 } from '@mui/material';
+import ReplayIcon from '@mui/icons-material/Replay';
 import { logout } from '../lib/authActions';
 import { useState } from 'react';
 import { Logout } from '@mui/icons-material';
+import { useCookie } from '../hooks/useCookie';
+import decodeJwtToken from '../utils/decodeJwtToken';
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -22,6 +26,12 @@ export default function AccountMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const myCookie = useCookie('accessToken');
+  const decoded = myCookie ? decodeJwtToken(myCookie) : null;
+  const email = decoded?.email;
+  const id = decoded?.id;
+
   return (
     <>
       <Box>
@@ -34,7 +44,7 @@ export default function AccountMenu() {
             aria-haspopup='true'
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar />
+            <Avatar></Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -75,6 +85,8 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
+        <MenuItem disabled={true}>{email}</MenuItem>
+        <Divider />
         <MenuItem
           onClick={() => {
             logout();
@@ -84,6 +96,16 @@ export default function AccountMenu() {
             <Logout fontSize='small' />
           </ListItemIcon>
           Logout
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            logout();
+          }}
+        >
+          <ListItemIcon>
+            <ReplayIcon fontSize='small' />
+          </ListItemIcon>
+          Reset Demo Data
         </MenuItem>
       </Menu>
     </>
