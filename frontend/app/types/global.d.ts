@@ -1,13 +1,6 @@
 type Entity = 'workout' | 'day' | 'exercise' | 'result';
 type Operation = 'create' | 'edit' | 'delete' | 'manageList';
 
-type ExerciseType =
-  | 'no type'
-  | 'compound'
-  | 'cardio'
-  | 'isolation'
-  | 'stretching';
-
 interface Workout {
   user_id: string;
   workout_id: string;
@@ -43,6 +36,13 @@ interface ResultSet {
   isLastSet?: boolean;
   resultDate?: string;
 }
+
+type ExerciseType =
+  | 'no type'
+  | 'compound'
+  | 'cardio'
+  | 'isolation'
+  | 'stretching';
 
 interface ExternalLink {
   label: string;
