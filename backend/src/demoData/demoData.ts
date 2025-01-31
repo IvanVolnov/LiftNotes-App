@@ -189,7 +189,6 @@ export const workouts = [
 // Days Array
 // ===========================
 const days = [
-  // --- Days for Workout Variation 1 ---
   {
     dayId: 'e3239f69-840b-4d37-8210-107d8d66c1c2',
     dayName: 'Day 1',
@@ -205,7 +204,6 @@ const days = [
     workoutId: 'f7c40d36-2cb7-4c56-918f-adfb0f7aac7e',
   },
 
-  // --- Days for Workout Variation 2 ---
   {
     dayId: 'f9a3bf8f-4dca-4b77-97d2-9c45ec0fe104',
     dayName: 'Day 1',
@@ -228,7 +226,6 @@ const days = [
     workoutId: '3bfa882c-22e6-4ad0-8c3a-8ac79ff3d01b',
   },
 
-  // --- Days for Workout Variation 3 ---
   {
     dayId: '44fba5aa-782c-4eb9-b616-bcb72bb7a17d',
     dayName: 'Full-body exercises',

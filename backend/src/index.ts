@@ -10,6 +10,7 @@ import days from './routes/daysRoutes.js';
 import exercises from './routes/exercisesRoutes.js';
 import results from './routes/resultsRoutes.js';
 import pool from './db/db.js';
+import demo from './routes/demoDataRoutes.js';
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use('/api/workouts', workouts);
 app.use('/api/days', days);
 app.use('/api/exercises', exercises);
 app.use('/api/results', results);
+app.use('/api/demoAccount', demo);
 
 app.listen(PORT, () => console.log(`App listening on port ${PORT}!`));
 

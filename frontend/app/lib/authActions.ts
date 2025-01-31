@@ -100,3 +100,14 @@ export async function logout() {
   cookies().delete('accessToken');
   redirect('/');
 }
+
+export async function resetDemoData() {
+  try {
+    const data = await fetchApiData('demoAccount/reset', 'post', {
+      'Content-Type': 'application/json',
+    });
+  } catch (error) {
+    return { message: String(error) };
+  }
+  redirect('/account/workouts');
+}

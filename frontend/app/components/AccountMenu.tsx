@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from '@mui/material';
 import ReplayIcon from '@mui/icons-material/Replay';
-import { logout } from '../lib/authActions';
+import { logout, resetDemoData } from '../lib/authActions';
 import { useState } from 'react';
 import { Logout } from '@mui/icons-material';
 import { useCookie } from '../hooks/useCookie';
@@ -30,7 +30,6 @@ export default function AccountMenu() {
   const myCookie = useCookie('accessToken');
   const decoded = myCookie ? decodeJwtToken(myCookie) : null;
   const email = decoded?.email;
-  const id = decoded?.id;
 
   return (
     <>
@@ -87,6 +86,19 @@ export default function AccountMenu() {
       >
         <MenuItem disabled={true}>{email}</MenuItem>
         <Divider />
+
+        {email === 'demoaccount@demo.com' && (
+          <MenuItem
+            onClick={() => {
+              resetDemoData();
+            }}
+          >
+            <ListItemIcon>
+              <ReplayIcon fontSize='small' />
+            </ListItemIcon>
+            Reset Demo Data
+          </MenuItem>
+        )}
         <MenuItem
           onClick={() => {
             logout();
@@ -96,16 +108,6 @@ export default function AccountMenu() {
             <Logout fontSize='small' />
           </ListItemIcon>
           Logout
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            logout();
-          }}
-        >
-          <ListItemIcon>
-            <ReplayIcon fontSize='small' />
-          </ListItemIcon>
-          Reset Demo Data
         </MenuItem>
       </Menu>
     </>
