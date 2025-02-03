@@ -3,11 +3,10 @@ import ContentFooterBtn from '@/app/components/UI/Buttons/ContentFooterBtn';
 import ContentHeaderBtn from '@/app/components/UI/Buttons/ContentHeaderBtn';
 import ContentHeaderMenu from '@/app/components/UI/ContentHeaderMenu';
 import { getData } from '@/app/lib/getData';
-import extractUserId from '@/app/utils/extractUserId';
 import { Alert, Typography } from '@mui/material';
 
 interface CustomProps {
-  params: { slug: string };
+  params: { daySlug: string };
   searchParams: { name: string; description?: string };
 }
 
@@ -15,9 +14,8 @@ export default async function WorkoutPage({
   params,
   searchParams,
 }: CustomProps) {
-  const data: Exercise[] = await getData('exercise', params.slug);
-  const addExData: Exercise[] = await getData('exercise', params.slug, true);
-  const { cookie, userId } = extractUserId();
+  const data: Exercise[] = await getData('exercise', params.daySlug);
+  const addExData: Exercise[] = await getData('exercise', params.daySlug, true);
 
   return (
     <>
@@ -40,7 +38,7 @@ export default async function WorkoutPage({
         </Alert>
       ) : (
         <>
-          <ContentList data={data} cookie={cookie} mode='exercise' />
+          <ContentList data={data} mode='exercise' />
           <ContentFooterBtn>Manage exercises</ContentFooterBtn>
         </>
       )}

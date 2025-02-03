@@ -127,7 +127,7 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
             padding: '0px',
           }}
         >
-          <Typography variant='body1' mb={1} ml={2}>
+          <Typography variant='body1' mb={1} ml={2} mr={2}>
             {content?.description}
           </Typography>
           <Stack
@@ -137,6 +137,7 @@ export default function ExerciseContentBlock({ content }: CustomProps) {
             spacing={3}
             useFlexGap
             sx={{ flexWrap: 'wrap' }}
+            divider={<Divider orientation='vertical' flexItem />}
           >
             {content.exerciseExternalLinks?.map((el, i) => {
               return (

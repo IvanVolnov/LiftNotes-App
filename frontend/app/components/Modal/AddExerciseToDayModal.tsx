@@ -25,7 +25,7 @@ interface CustomProps {}
 export default function AddExerciseToDayModal({}: CustomProps) {
   const { mode, toggleModal } = useModalContext();
   const exerciseResults = mode.exerciseList;
-  const { slug } = useParams();
+  const { daySlug } = useParams();
 
   const router = useRouter();
 
@@ -50,7 +50,7 @@ export default function AddExerciseToDayModal({}: CustomProps) {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const exercises = checked.map((el) => el.id);
-    addExerciseToDay(exercises, slug as string);
+    addExerciseToDay(exercises, daySlug as string);
     router.refresh();
     handleClose();
   };

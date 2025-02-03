@@ -32,6 +32,7 @@ export default function AccountLayout({
               sx={{
                 bgcolor: 'secondaryBg.main',
                 minWidth: 'min(100vw, 44rem)',
+                maxWidth: '44rem',
                 borderRadius: '0.63rem',
               }}
             >

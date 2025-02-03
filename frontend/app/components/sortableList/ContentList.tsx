@@ -19,14 +19,15 @@ import { transformToContentArray } from '@/app/utils/transformToContent';
 import areArraysEqualUnordered from '@/app/utils/areArraysEqualUnordered';
 import ExerciseContentBlock from '../ContentBlock/EcerciseContentBlock';
 import { DRAG_AND_DROP_QUERY_DELAY } from '@/app/config/config';
+import { useParams } from 'next/navigation';
 
 interface CustomProps {
   data: Workout[] | Day[] | Exercise[];
-  cookie: string;
   mode: Entity;
 }
 
-export default function ContentList({ data, cookie, mode }: CustomProps) {
+export default function ContentList({ data, mode }: CustomProps) {
+  const { daySlug } = useParams();
   const { updateOptimisticData, optimisticData } = useOptimisticContext();
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -97,7 +98,8 @@ export default function ContentList({ data, cookie, mode }: CustomProps) {
       timerRef.current = setTimeout(() => {
         startTransition(async () => {
           try {
-            await changeContentPosition(newPositions, cookie, mode);
+            console.log(newPositions);
+            await changeContentPosition(newPositions, mode, daySlug as string);
           } catch (error) {
             throw new Error(`Error updating positions: ${error}`);
           }

@@ -1,4 +1,5 @@
 'use server';
+import extractUserId from '../utils/extractUserId';
 import fetchApiData from '../utils/fetchApiData';
 
 interface positionsObj {
@@ -8,9 +9,10 @@ interface positionsObj {
 
 export async function changeContentPosition(
   updatedPositions: positionsObj[],
-  cookie: string,
-  entity: Entity
+  entity: Entity,
+  dayId?: string
 ) {
+  const { cookie } = extractUserId();
   const data = await fetchApiData(
     `${entity}s/reorder`,
     'put',
@@ -18,7 +20,7 @@ export async function changeContentPosition(
       Authorization: `Bearer ${cookie}`,
       'Content-Type': 'application/json',
     },
-    { newPositions: updatedPositions }
+    { newPositions: updatedPositions, dayId }
   );
   return data.workouts;
 }

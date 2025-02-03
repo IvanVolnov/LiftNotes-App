@@ -43,7 +43,7 @@ export default function ContentHeaderBtn({
       color={checkIfDark ? 'primary' : 'secondary'}
       variant='outlined'
       size={'large'}
-      sx={{ textTransform: 'uppercase' }}
+      sx={{ textTransform: 'uppercase', flexShrink: '0' }}
       type='button'
       onClick={
         edit

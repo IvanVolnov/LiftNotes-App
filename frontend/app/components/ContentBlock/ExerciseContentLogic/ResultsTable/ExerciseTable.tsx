@@ -49,84 +49,78 @@ export default function ExerciseTable({ results }: CustomProps) {
   };
 
   return (
-    <>
-      <Typography variant='body1' mb={1} ml={2}>
-        progress history:{' '}
-      </Typography>
-      <TableContainer
-        component={Paper}
-        sx={{
-          backgroundColor: 'transparent',
-        }}
-      >
-        <Table size='small' aria-label='exercise results table'>
-          <TableHead>
+    <TableContainer
+      component={Paper}
+      sx={{
+        backgroundColor: 'transparent',
+      }}
+    >
+      <Table size='small' aria-label='exercise results table'>
+        <TableHead>
+          <TableRow>
+            <TableCell colSpan={5} sx={{ fontSize: '1rem', fontWeight: '300' }}>
+              progress history:
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>date</TableCell>
+            <TableCell padding='none' align='right'>
+              sets
+            </TableCell>
+            <TableCell padding='none' align='right'>
+              reps
+            </TableCell>
+            <TableCell padding='none' align='right'>
+              weight
+            </TableCell>
+            <TableCell>unit</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {(rowsPerPage > 0
+            ? fromattedResults.slice(
+                page * rowsPerPage,
+                page * rowsPerPage + rowsPerPage
+              )
+            : fromattedResults
+          ).map((result) => (
+            <SetsRow key={result.setId} set={result} />
+          ))}
+        </TableBody>
+        {fromattedResults.length > defaultRowsPerPage && (
+          <TableFooter>
             <TableRow>
-              <TableCell>date</TableCell>
-              <TableCell padding='none' align='right'>
-                sets
-              </TableCell>
-              <TableCell padding='none' align='right'>
-                reps
-              </TableCell>
-              <TableCell padding='none' align='right'>
-                weight
-              </TableCell>
-              <TableCell>unit</TableCell>
+              <TablePagination
+                sx={{
+                  gap: '1rem',
+                  '&  div': {
+                    paddingLeft: '0rem',
+                    marginLeft: '0.5rem',
+                    marginRight: '0.5rem',
+                  },
+                }}
+                labelRowsPerPage={'per page'}
+                rowsPerPageOptions={[3, 4, 6, 10, { label: 'All', value: -1 }]}
+                colSpan={5}
+                count={fromattedResults.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                slotProps={{
+                  select: {
+                    inputProps: {
+                      'aria-label': 'sets per page',
+                    },
+                    native: true,
+                  },
+                }}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+              />
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {(rowsPerPage > 0
-              ? fromattedResults.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
-              : fromattedResults
-            ).map((result) => (
-              <SetsRow key={result.setId} set={result} />
-            ))}
-          </TableBody>
-          {fromattedResults.length > defaultRowsPerPage && (
-            <TableFooter>
-              <TableRow>
-                <TablePagination
-                  sx={{
-                    gap: '1rem',
-                    '&  div': {
-                      paddingLeft: '0rem',
-                      marginLeft: '0.5rem',
-                      marginRight: '0.5rem',
-                    },
-                  }}
-                  labelRowsPerPage={'per page'}
-                  rowsPerPageOptions={[
-                    3,
-                    4,
-                    6,
-                    10,
-                    { label: 'All', value: -1 },
-                  ]}
-                  colSpan={5}
-                  count={fromattedResults.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  slotProps={{
-                    select: {
-                      inputProps: {
-                        'aria-label': 'sets per page',
-                      },
-                      native: true,
-                    },
-                  }}
-                  onPageChange={handleChangePage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                  ActionsComponent={TablePaginationActions}
-                />
-              </TableRow>
-            </TableFooter>
-          )}
-        </Table>
-      </TableContainer>
-    </>
+          </TableFooter>
+        )}
+      </Table>
+    </TableContainer>
   );
 }

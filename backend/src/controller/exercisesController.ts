@@ -204,7 +204,7 @@ export async function deleteExercise(req: Request, res: Response) {
 
 export async function reorderExercise(req: Request, res: Response) {
   try {
-    const { newPositions } = req.body;
+    const { newPositions, dayId } = req.body;
 
     if (!newPositions) {
       return res.status(400).json({
@@ -216,15 +216,20 @@ export async function reorderExercise(req: Request, res: Response) {
       position: number;
     };
 
-    // Perform updates
-    const updatePromises = newPositions.map(async (el: El) => {
-      return pool.query(
-        `UPDATE exercises
+    const updateQuery = dayId
+      ? `UPDATE days_exercises
+     SET position = $1
+     WHERE exercise_id = $2 AND day_id = $3
+     RETURNING *;`
+      : `UPDATE exercises
      SET position = $1
      WHERE exercise_id = $2
-     RETURNING *;`,
-        [el.position, el.id]
-      );
+     RETURNING *;`;
+
+    // Perform updates
+    const updatePromises = newPositions.map(async (el: El) => {
+      const params = dayId ? [el.position, el.id, dayId] : [el.position, el.id];
+      return pool.query(updateQuery, params);
     });
 
     // Wait for all updates to complete

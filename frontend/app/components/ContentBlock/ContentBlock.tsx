@@ -39,7 +39,7 @@ export default function ContentBlock({ content, mode }: CustomProps) {
           optimistic={content.optimistic}
         />
 
-        <CardContent>
+        <CardContent sx={{ maxWidth: '28rem', overflow: 'hidden' }}>
           <Typography gutterBottom variant='h5' component='div'>
             {content.name}
           </Typography>

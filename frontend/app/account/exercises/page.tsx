@@ -9,8 +9,6 @@ import { getData } from '@/app/lib/getData';
 export default async function Exercises() {
   const data: Exercise[] = await getData('exercise');
 
-  const { cookie } = extractUserId();
-
   return (
     <>
       <ContentHeaderMenu>
@@ -23,7 +21,7 @@ export default async function Exercises() {
         </Alert>
       ) : (
         <>
-          <ContentList data={data} cookie={cookie} mode='exercise' />
+          <ContentList data={data} mode='exercise' />
           <ContentFooterBtn>Manage exercises</ContentFooterBtn>
         </>
       )}
